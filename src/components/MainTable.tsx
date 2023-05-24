@@ -1,9 +1,14 @@
+import Link from "next/link"
+import { useRouter } from "next/router"
+
 interface Props {
 	// patientData is the object returned by the API
 	patientData: any
 }
 
 function MainTable({ patientData }: Props) {
+	const router = useRouter()
+
 	function TableRows() {
 		return patientData.map((obj: any, i: number) => {
 			let name: string
@@ -17,7 +22,13 @@ function MainTable({ patientData }: Props) {
 			}
 
 			return (
-				<tr key={i}>
+				<tr
+					key={i}
+					className="hover cursor-pointer"
+					onClick={() => {
+						router.push(`/PatientSummary/` + obj.resource.id)
+					}}
+				>
 					<td>{obj.resource.id}</td>
 					<td>{name}</td>
 					<td>
@@ -32,7 +43,7 @@ function MainTable({ patientData }: Props) {
 
 	return (
 		<div className="overflow-x-auto">
-			<table className="table w-full">
+			<table className="table w-full [&_tr.hover:hover_*]:!bg-slate-300">
 				<thead>
 					<tr>
 						<th>ID</th>

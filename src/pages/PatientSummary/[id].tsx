@@ -7,3 +7,5 @@ function PatientSummary() {
 		</div>
 	)
 }
+
+export default PatientSummary
