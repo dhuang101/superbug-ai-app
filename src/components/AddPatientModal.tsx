@@ -1,6 +1,8 @@
-import axios from "axios"
 import { MenuItem, TextField } from "@mui/material"
 import React, { ChangeEvent, FormEvent, useState } from "react"
+import { DatePicker, DateValidationError } from "@mui/x-date-pickers"
+import { PickerChangeHandlerContext } from "@mui/x-date-pickers/internals/hooks/usePicker/usePickerValue.types"
+import { AddPatient } from "../services/AddPatient"
 
 function AddPatientModal() {
 	const [visible, setVisible] = useState(false)
@@ -30,18 +32,67 @@ function AddPatientModal() {
 			...values,
 			[event.target.id]: event.target.value,
 		}))
-		console.log(values)
+	}
+
+	function handleDobChange(
+		value: DatePickerValues,
+		context: PickerChangeHandlerContext<DateValidationError>
+	): void {
+		if (context.validationError === null) {
+			setValues((values) => ({
+				...values,
+				dateOfBirth: value.$d.toISOString().substring(0, 10),
+			}))
+		}
 	}
 
 	function handleGenderChange(
 		event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	): void {
-		setValues((values) => ({ ...values, gender: event.target.value }))
+		setValues((values) => ({
+			...values,
+			gender: event.target.value,
+		}))
 	}
 
 	function handleSubmit(event: FormEvent<HTMLFormElement>): void {
 		event.preventDefault()
-		throw new Error("Function not implemented.")
+		// marshall form input into required FHIR format
+		let patientObj = {
+			name: [
+				{
+					use: "official",
+					family: values.lastName,
+					given: [values.firstName],
+				},
+			],
+			gender: values.gender.toLowerCase(),
+			birthDate: values.dateOfBirth,
+			resourceType: "Patient",
+			email: values.email,
+			address: [
+				{
+					use: "home",
+					line: [values.address],
+					city: values.city,
+					state: values.state,
+					postalCode: values.zipCode,
+					country: values.country,
+				},
+			],
+			telecom: [
+				{
+					system: "phone",
+					value: values.phoneNum,
+					use: "home",
+				},
+			],
+		}
+		console.log(patientObj)
+		// call API to post
+		AddPatient(patientObj).then((result) => {
+			console.log(result)
+		})
 	}
 
 	return (
@@ -104,19 +155,19 @@ function AddPatientModal() {
 								required
 								onChange={handleInputChange}
 								className="w-9/12"
+								type="email"
 								id="email"
 								label="Email"
 								variant="outlined"
 							/>
 
 							<div className="flex justify-between">
-								<TextField
-									required
-									onChange={handleInputChange}
+								<DatePicker
 									className="w-5/12"
-									id="dateOfBirth"
+									onChange={handleDobChange}
+									openTo="year"
+									format="DD/MM/YYYY"
 									label="Date of Birth"
-									variant="outlined"
 								/>
 								<TextField
 									required

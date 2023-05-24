@@ -1,8 +1,8 @@
 import axios from "axios";
 const baseUrl = "https://fhir.monash.edu/hapi-fhir-jpaserver/fhir";
 
-export async function getPatientList(currentPage: number, rowCount: number) {
-    const result: any = axios.get(
+export function getPatientList(currentPage: number, rowCount: number) {
+    const apiCall: Promise<any> = axios.get(
             "https://hapi.fhir.org/baseR4/Patient",
             {params: {
                 _sort: "_id",
@@ -17,11 +17,11 @@ export async function getPatientList(currentPage: number, rowCount: number) {
             console.log(error);
         });
 
-    return result;
+    return apiCall;
 }
 
 export function getPatientsByName(name: string, currentPage: number, rowCount: number) {
-    const result: any = axios.get(
+    const apiCall: Promise<any> = axios.get(
             "https://hapi.fhir.org/baseR4/Patient",
             {params: {
                 _sort: "_id",
@@ -37,11 +37,11 @@ export function getPatientsByName(name: string, currentPage: number, rowCount: n
             console.log(error);
         });
 
-    return result;
+    return apiCall;
 }
 
-export async function getPatientById(id: any, currentPage: number, rowCount: number) {
-    const result: any = axios.get(
+export function getPatientById(id: string, currentPage: number, rowCount: number) {
+    const apiCall: Promise<any> = axios.get(
             "https://hapi.fhir.org/baseR4/Patient",
             {params: {
                 _sort: "_id",
@@ -57,5 +57,5 @@ export async function getPatientById(id: any, currentPage: number, rowCount: num
             console.log(error);
         });
 
-    return result;
+    return apiCall;
 }

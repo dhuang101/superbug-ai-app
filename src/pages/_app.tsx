@@ -1,4 +1,6 @@
 import { ThemeProvider, createTheme } from "@mui/material"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import "../styles/globals.css"
 
 export default function MyApp({ Component, pageProps }) {
@@ -24,10 +26,12 @@ export default function MyApp({ Component, pageProps }) {
 	})
 
 	return (
-		<ThemeProvider theme={theme}>
-			<div data-theme="corporate">
-				<Component {...pageProps} />
-			</div>
-		</ThemeProvider>
+		<LocalizationProvider dateAdapter={AdapterDayjs}>
+			<ThemeProvider theme={theme}>
+				<div data-theme="corporate">
+					<Component {...pageProps} />
+				</div>
+			</ThemeProvider>
+		</LocalizationProvider>
 	)
 }
