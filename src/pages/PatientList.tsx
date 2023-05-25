@@ -8,7 +8,6 @@ import NavBar from "../components/NavBar"
 import Breadcrumbs from "../components/Breadcrumbs"
 import MainTable from "../components/MainTable"
 import { CircularProgress, TablePagination } from "@mui/material"
-import AddPatientModal from "../components/AddPatientModal"
 
 function PatientList() {
 	const [loading, setLoading] = useState(true)
@@ -117,7 +116,6 @@ function PatientList() {
 					<article className="text-3xl font-semibold">
 						Patient List
 					</article>
-					<AddPatientModal />
 				</div>
 				<div className="flex flex-row pt-3">
 					<input
