@@ -9,7 +9,7 @@ import Breadcrumbs from "../components/Breadcrumbs"
 import MainTable from "../components/MainTable"
 import { CircularProgress, TablePagination } from "@mui/material"
 
-function PatientList() {
+function PatientSearch() {
 	const [loading, setLoading] = useState(true)
 	const [patientData, setPatientData] = useState([])
 	const [searchInput, setSearchInput] = useState("")
@@ -157,4 +157,4 @@ function PatientList() {
 	)
 }
 
-export default PatientList
+export default PatientSearch

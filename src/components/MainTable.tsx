@@ -26,7 +26,7 @@ function MainTable({ patientData }: Props) {
 					key={i}
 					className="hover cursor-pointer"
 					onClick={() => {
-						router.push(`/PatientSummary/` + obj.resource.id)
+						router.push(`/PatientSearch/` + obj.resource.id)
 					}}
 				>
 					<td>{obj.resource.id}</td>

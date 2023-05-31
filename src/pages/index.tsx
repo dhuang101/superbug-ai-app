@@ -1,8 +1,8 @@
-import PatientList from "./PatientList"
+import PatientSearch from "./PatientSearch"
 
 // functionally just a wrapper that allows the / path to lead to the patient list
 function Home() {
-	return <PatientList />
+	return <PatientSearch />
 }
 
 export default Home
