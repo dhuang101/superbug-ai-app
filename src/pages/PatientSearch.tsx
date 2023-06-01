@@ -4,7 +4,6 @@ import {
 	getPatientById,
 	getPatientsByName,
 } from "../services/PatientSearch"
-import NavBar from "../components/NavBar"
 import Breadcrumbs from "../components/Breadcrumbs"
 import MainTable from "../components/MainTable"
 import { CircularProgress, TablePagination } from "@mui/material"
@@ -106,52 +105,49 @@ function PatientSearch() {
 	}
 
 	return (
-		<div className="flex flex-col min-h-screen min-w-screen items-center bg-gray-200">
-			<NavBar />
-			<div className="w-8/12">
-				<div className="pt-2 pb-4">
-					<Breadcrumbs />
+		<div className="w-8/12">
+			<div className="pt-2 pb-4">
+				<Breadcrumbs />
+			</div>
+			<div className="flex flex-row">
+				<article className="text-3xl font-semibold">
+					Patient List
+				</article>
+			</div>
+			<div className="flex flex-row pt-3">
+				<input
+					type="text"
+					placeholder="Search For ID/Name"
+					className="input input-bordered w-full max-w-sm"
+					onChange={handleInput}
+				/>
+				<button
+					className="ml-2 btn rounded btn-primary"
+					disabled={loading}
+					onClick={handleSearch}
+				>
+					Search
+				</button>
+			</div>
+			{loading ? (
+				<div className="flex items-center justify-center h-[68vh]">
+					<CircularProgress size={80} />
 				</div>
-				<div className="flex flex-row">
-					<article className="text-3xl font-semibold">
-						Patient List
-					</article>
+			) : (
+				<div className="pt-2">
+					<MainTable patientData={patientData} />
 				</div>
-				<div className="flex flex-row pt-3">
-					<input
-						type="text"
-						placeholder="Search For ID/Name"
-						className="input input-bordered w-full max-w-sm"
-						onChange={handleInput}
-					/>
-					<button
-						className="ml-2 btn rounded btn-primary"
-						disabled={loading}
-						onClick={handleSearch}
-					>
-						Search
-					</button>
-				</div>
-				{loading ? (
-					<div className="flex items-center justify-center h-[68vh]">
-						<CircularProgress size={80} />
-					</div>
-				) : (
-					<div className="pt-2">
-						<MainTable patientData={patientData} />
-					</div>
-				)}
-				<div className="pt-4 flex items-center justify-center text-center">
-					<TablePagination
-						hidden={loading}
-						component="div"
-						count={10000}
-						page={currentPage}
-						onPageChange={handleChangePage}
-						rowsPerPage={rowsPerPage}
-						onRowsPerPageChange={handleChangeRowsPerPage}
-					/>
-				</div>
+			)}
+			<div className="flex items-center justify-center text-center">
+				<TablePagination
+					hidden={loading}
+					component="div"
+					count={10000}
+					page={currentPage}
+					onPageChange={handleChangePage}
+					rowsPerPage={rowsPerPage}
+					onRowsPerPageChange={handleChangeRowsPerPage}
+				/>
 			</div>
 		</div>
 	)
