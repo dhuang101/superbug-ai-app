@@ -1,14 +1,18 @@
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, useEffect, useState, useContext } from "react"
 import {
 	getPatientList,
 	getPatientById,
 	getPatientsByName,
 } from "../services/PatientSearch"
+import ApiContext from "../contexts/ApiContext"
 import Breadcrumbs from "../components/Breadcrumbs"
 import MainTable from "../components/MainTable"
 import { CircularProgress, TablePagination } from "@mui/material"
 
 function PatientSearch() {
+	// global state container
+	const apiContext = useContext(ApiContext)
+	// component specific state
 	const [loading, setLoading] = useState(true)
 	const [patientData, setPatientData] = useState([])
 	const [searchInput, setSearchInput] = useState("")
@@ -23,7 +27,7 @@ function PatientSearch() {
 		setLoading(true)
 		// fetch patients
 		if (lastSearch === "list") {
-			getPatientList(currentPage, rowsPerPage)
+			getPatientList(apiContext.value, currentPage, rowsPerPage)
 				.then((result: any) => {
 					setPatientData(result)
 				})

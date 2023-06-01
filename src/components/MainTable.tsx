@@ -9,6 +9,14 @@ interface Props {
 function MainTable({ patientData }: Props) {
 	const router = useRouter()
 
+	function RouteToSummary(resource: { id: string }) {
+		window.sessionStorage.setItem(
+			"patientSummary",
+			JSON.stringify(resource)
+		)
+		router.push(`/PatientSearch/` + resource.id)
+	}
+
 	function TableRows() {
 		return patientData.map((obj: any, i: number) => {
 			let name: string
@@ -26,7 +34,7 @@ function MainTable({ patientData }: Props) {
 					key={i}
 					className="hover cursor-pointer"
 					onClick={() => {
-						router.push(`/PatientSearch/` + obj.resource.id)
+						RouteToSummary(obj.resource)
 					}}
 				>
 					<td>{obj.resource.id}</td>

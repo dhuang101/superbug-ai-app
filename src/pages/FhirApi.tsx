@@ -12,6 +12,11 @@ function FhirApi() {
 	}
 
 	function handleSubmit(): void {
+		if (currentInput === "") {
+			return
+		} else if (currentInput[currentInput.length - 1] !== "/") {
+			return
+		}
 		apiContext.setter(currentInput)
 		window.localStorage.setItem("currentApiUrl", currentInput)
 	}
@@ -32,12 +37,15 @@ function FhirApi() {
 					className="ml-2 btn rounded btn-primary"
 					onClick={handleSubmit}
 				>
-					Search
+					Submit
 				</button>
 			</div>
 
 			<article className="mt-6">
 				Current API: <b className="font-semibold">{apiContext.value}</b>
+			</article>
+			<article id="errors" className="pt-12 text-xl text-red-600">
+				ERROR AREA
 			</article>
 		</div>
 	)

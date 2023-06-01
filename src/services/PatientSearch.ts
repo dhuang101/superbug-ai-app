@@ -1,9 +1,10 @@
 import axios from "axios";
 const baseUrl = "https://fhir.monash.edu/hapi-fhir-jpaserver/fhir";
 
-export function getPatientList(currentPage: number, rowCount: number) {
+export function getPatientList(apiUrl: string, currentPage: number, rowCount: number) {
+    
     const apiCall: Promise<any> = axios.get(
-            "https://hapi.fhir.org/baseR4/Patient",
+            `${apiUrl}Patient`,
             {params: {
                 _sort: "_id",
                 _getpagesoffset: currentPage,
