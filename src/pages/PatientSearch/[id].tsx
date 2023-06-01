@@ -41,7 +41,18 @@ function PatientSummary() {
 				</button>
 			</div>
 			<div className="flex flex-col w-4/5 items-center justify-center">
-				<div className="w-11/12 h-[90%] bg-white rounded"></div>
+				<div className="flex flex-col w-11/12 h-[90%] bg-white rounded">
+					<div>
+						<div>ID: {patientData.id}</div>
+						<div>Name: {patientData.id}</div>
+						<div>Gender: {patientData.id}</div>
+						<div>Date of Birth: {patientData.id}</div>
+						<div>Phone Number: {patientData.id}</div>
+						<div>Address: {patientData.id}</div>
+						<div>Allergies: {patientData.id}</div>
+					</div>
+					<div>Medication History</div>
+				</div>
 			</div>
 			{/* <PatientDetails patientData={patientData} /> */}
 		</div>
