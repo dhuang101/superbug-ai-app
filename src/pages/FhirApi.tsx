@@ -20,7 +20,7 @@ function FhirApi() {
 				input.innerHTML = "Enter an API URL"
 			}
 			// throw error
-			throw new Error("Enter an API URL")
+			return
 		} else if (currentInput[currentInput.length - 1] !== "/") {
 			const input = document.getElementById(
 				"errors"
@@ -29,7 +29,7 @@ function FhirApi() {
 				input.innerHTML = "Error: Trailing forward slash required"
 			}
 			// throw error
-			throw new Error("Trailing forward slash required")
+			return
 		}
 		apiContext.setter(currentInput)
 		window.localStorage.setItem("currentApiUrl", currentInput)
@@ -60,7 +60,7 @@ function FhirApi() {
 			</article>
 			<article
 				id="errors"
-				className="pt-12 text-xl text-red-600"
+				className="pt-12 text-xl text-red-600 min-h-[76px]"
 			></article>
 		</div>
 	)
