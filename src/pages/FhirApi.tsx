@@ -13,9 +13,23 @@ function FhirApi() {
 
 	function handleSubmit(): void {
 		if (currentInput === "") {
-			return
+			const input = document.getElementById(
+				"errors"
+			) as HTMLElement | null
+			if (input !== null) {
+				input.innerHTML = "Enter an API URL"
+			}
+			// throw error
+			throw new Error("Enter an API URL")
 		} else if (currentInput[currentInput.length - 1] !== "/") {
-			return
+			const input = document.getElementById(
+				"errors"
+			) as HTMLElement | null
+			if (input !== null) {
+				input.innerHTML = "Error: Trailing forward slash required"
+			}
+			// throw error
+			throw new Error("Trailing forward slash required")
 		}
 		apiContext.setter(currentInput)
 		window.localStorage.setItem("currentApiUrl", currentInput)
@@ -44,9 +58,10 @@ function FhirApi() {
 			<article className="mt-6">
 				Current API: <b className="font-semibold">{apiContext.value}</b>
 			</article>
-			<article id="errors" className="pt-12 text-xl text-red-600">
-				ERROR AREA
-			</article>
+			<article
+				id="errors"
+				className="pt-12 text-xl text-red-600"
+			></article>
 		</div>
 	)
 }
