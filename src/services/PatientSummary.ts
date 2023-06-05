@@ -30,19 +30,21 @@ export function getDiaRptById(id: any) {
     return result;
 }
 
-export function getAllergyById(id: any) {
-    const result: any = axios
-        .get(
-            `https://hapi.fhir.org/baseR4/AllergyIntolerance?patient=${id}&_format=json&_pretty=true`
-        )
-        .then((res) => {
-            return res;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+export function getAllergyById(apiUrl: string, id: any) {
+    const apiCall: Promise<any> = axios.get(
+        `${apiUrl}AllergyIntolerance`,
+        {params: {
+            patient: id
+        }}
+    )
+    .then((res) => {
+        return res.data.entry;
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 
-    return result;
+    return apiCall;
 }
 
 export function getObservationById(id: any) {

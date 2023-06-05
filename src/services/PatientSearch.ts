@@ -21,9 +21,9 @@ export function getPatientList(apiUrl: string, currentPage: number, rowCount: nu
     return apiCall;
 }
 
-export function getPatientsByName(name: string, currentPage: number, rowCount: number) {
+export function getPatientsByName(apiUrl: string, name: string, currentPage: number, rowCount: number) {
     const apiCall: Promise<any> = axios.get(
-            "https://hapi.fhir.org/baseR4/Patient",
+        `${apiUrl}Patient`,
             {params: {
                 _sort: "_id",
                 _getpagesoffset: currentPage,
@@ -41,9 +41,9 @@ export function getPatientsByName(name: string, currentPage: number, rowCount: n
     return apiCall;
 }
 
-export function getPatientById(id: string, currentPage: number, rowCount: number) {
+export function getPatientById(apiUrl: string, id: string, currentPage: number, rowCount: number) {
     const apiCall: Promise<any> = axios.get(
-            "https://hapi.fhir.org/baseR4/Patient",
+            `${apiUrl}Patient`,
             {params: {
                 _sort: "_id",
                 _getpagesoffset: currentPage,
