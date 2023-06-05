@@ -35,7 +35,12 @@ function PatientSearch() {
 					setLoading(false)
 				})
 		} else if (lastSearch === "id") {
-			getPatientById(searchInput, currentPage, rowsPerPage)
+			getPatientById(
+				apiContext.value,
+				searchInput,
+				currentPage,
+				rowsPerPage
+			)
 				.then((result: any) => {
 					setPatientData(result)
 				})
@@ -43,7 +48,12 @@ function PatientSearch() {
 					setLoading(false)
 				})
 		} else if (lastSearch === "name") {
-			getPatientsByName(searchInput, currentPage, rowsPerPage)
+			getPatientsByName(
+				apiContext.value,
+				searchInput,
+				currentPage,
+				rowsPerPage
+			)
 				.then((result: any) => {
 					setPatientData(result)
 				})
@@ -69,7 +79,7 @@ function PatientSearch() {
 		// checks if the serach bar is an id or a name
 		if (searchInput.match(/^\d+$/)) {
 			// searches for id
-			getPatientById(searchInput, 0, rowsPerPage)
+			getPatientById(apiContext.value, searchInput, 0, rowsPerPage)
 				.then((result: any) => {
 					setPatientData(result)
 				})
@@ -80,7 +90,7 @@ function PatientSearch() {
 				})
 		} else {
 			// seraches for name
-			getPatientsByName(searchInput, 0, rowsPerPage)
+			getPatientsByName(apiContext.value, searchInput, 0, rowsPerPage)
 				.then((result: any) => {
 					setPatientData(result)
 				})

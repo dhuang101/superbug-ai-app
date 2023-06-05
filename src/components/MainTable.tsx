@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { useRouter } from "next/router"
 
 interface Props {
@@ -10,10 +9,6 @@ function MainTable({ patientData }: Props) {
 	const router = useRouter()
 
 	function RouteToSummary(resource: { id: string }) {
-		window.sessionStorage.setItem(
-			"patientSummary",
-			JSON.stringify(resource)
-		)
 		router.push(`/PatientSearch/` + resource.id)
 	}
 
