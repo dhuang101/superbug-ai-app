@@ -1,12 +1,7 @@
 import React, { ChangeEvent, useEffect, useState, useContext } from "react"
-import {
-	getPatientList,
-	getPatientById,
-	getPatientsByName,
-} from "../services/PatientSearch"
+import { getPatientById, getPatientsByName } from "../services/PatientSearch"
 import ApiContext from "../contexts/ApiContext"
-import Breadcrumbs from "../components/Breadcrumbs"
-import MainTable from "../components/SearchTable"
+import SearchTable from "../components/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
 
 function PatientSearch() {
@@ -18,7 +13,7 @@ function PatientSearch() {
 	const [searchInput, setSearchInput] = useState("")
 	const [currentPage, setCurrentPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
-	const [lastSearch, setLastSearch] = useState("list")
+	const [searchOption, setSearchOption] = useState("id")
 
 	// use effect controls which service is run based on the last search run
 	// also handles the pages and row per page change
@@ -28,15 +23,7 @@ function PatientSearch() {
 		// fetches patients on mount
 		// if forks to ensures the search function used is based on the last
 		// used function
-		if (lastSearch === "list") {
-			getPatientList(apiContext.value, currentPage, rowsPerPage)
-				.then((result: any) => {
-					setPatientData(result)
-				})
-				.then(() => {
-					setLoading(false)
-				})
-		} else if (lastSearch === "id") {
+		if (searchOption === "id") {
 			getPatientById(
 				apiContext.value,
 				searchInput,
@@ -49,7 +36,7 @@ function PatientSearch() {
 				.then(() => {
 					setLoading(false)
 				})
-		} else if (lastSearch === "name") {
+		} else if (searchOption === "name") {
 			getPatientsByName(
 				apiContext.value,
 				searchInput,
@@ -70,6 +57,10 @@ function PatientSearch() {
 		setSearchInput(event.target.value)
 	}
 
+	function handleSelect(event: ChangeEvent<HTMLSelectElement>): void {
+		setSearchOption(event.target.value)
+	}
+
 	// starts the search
 	function handleSearch() {
 		// does not search when search bar is empty
@@ -79,25 +70,23 @@ function PatientSearch() {
 		// sets loading flag
 		setLoading(true)
 		// checks if the serach bar is an id or a name
-		if (searchInput.match(/^\d+$/)) {
+		if (searchOption === "id") {
 			// searches for id
 			getPatientById(apiContext.value, searchInput, 0, rowsPerPage)
 				.then((result: any) => {
 					setPatientData(result)
 				})
 				.then(() => {
-					setLastSearch("id")
 					setCurrentPage(0)
 					setLoading(false)
 				})
-		} else {
+		} else if (searchOption === "name") {
 			// seraches for name
 			getPatientsByName(apiContext.value, searchInput, 0, rowsPerPage)
 				.then((result: any) => {
 					setPatientData(result)
 				})
 				.then(() => {
-					setLastSearch("name")
 					setCurrentPage(0)
 					setLoading(false)
 				})
@@ -122,18 +111,26 @@ function PatientSearch() {
 
 	return (
 		<div className="w-8/12">
-			<div className="pt-2 pb-4">
-				<Breadcrumbs />
-			</div>
-			<div className="flex flex-row">
+			<div className="pt-6 flex flex-row">
 				<article className="text-3xl font-semibold">
 					Patient List
 				</article>
 			</div>
-			<div className="flex flex-row pt-3">
+			<div className="py-3">
+				<select
+					className="select select-bordered select-sm max-w-xs"
+					onChange={handleSelect}
+				>
+					<option selected value={"id"}>
+						Search By ID
+					</option>
+					<option value={"name"}>Search By Name</option>
+				</select>
+			</div>
+			<div className="flex flex-row">
 				<input
 					type="text"
-					placeholder="Search For ID/Name"
+					placeholder="Enter Query"
 					className="input input-bordered w-full max-w-sm"
 					onChange={handleInput}
 				/>
@@ -149,22 +146,27 @@ function PatientSearch() {
 				<div className="flex items-center justify-center h-[68vh]">
 					<CircularProgress size={80} />
 				</div>
-			) : (
-				<div className="pt-2">
-					<MainTable patientData={patientData} />
+			) : patientData.length === 0 ? (
+				<div className="flex items-center justify-center h-[68vh] text-3xl">
+					No Results
 				</div>
+			) : (
+				<React.Fragment>
+					<div className="pt-2">
+						<SearchTable patientData={patientData} />
+					</div>
+					<div className="flex items-center justify-center text-center">
+						<TablePagination
+							component="div"
+							count={10000}
+							page={currentPage}
+							onPageChange={handleChangePage}
+							rowsPerPage={rowsPerPage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+						/>
+					</div>
+				</React.Fragment>
 			)}
-			<div className="flex items-center justify-center text-center">
-				<TablePagination
-					hidden={loading}
-					component="div"
-					count={10000}
-					page={currentPage}
-					onPageChange={handleChangePage}
-					rowsPerPage={rowsPerPage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/>
-			</div>
 		</div>
 	)
 }

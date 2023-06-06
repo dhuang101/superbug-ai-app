@@ -9,8 +9,10 @@ function MedicationHistory(props) {
 
 	return (
 		<React.Fragment>
-			{props.medicationData.Length === 0 ? (
-				<div></div>
+			{props.medicationData.length === 0 ? (
+				<div className="pl-16">
+					<article>No Medication Data</article>
+				</div>
 			) : (
 				<div className="flex justify-center">
 					<table className="table w-11/12 [&_tr.hover:hover_*]:!bg-slate-300">

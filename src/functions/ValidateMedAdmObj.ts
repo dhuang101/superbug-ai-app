@@ -1,6 +1,6 @@
 import { medAdInput } from "../types/ValidationTypes"
 
-export function ValidatePatientObj(obj: medAdInput) {
+export function ValidateMedAdmObj(obj: medAdInput) {
 	let validatedObj
 
 	if (!obj.hasOwnProperty("entry")) {

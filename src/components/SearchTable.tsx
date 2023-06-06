@@ -5,7 +5,7 @@ interface Props {
 	patientData: any
 }
 
-function MainTable({ patientData }: Props) {
+function SearchTable({ patientData }: Props) {
 	const router = useRouter()
 
 	function RouteToSummary(resource: { id: string }) {
@@ -63,4 +63,4 @@ function MainTable({ patientData }: Props) {
 	)
 }
 
-export default MainTable
+export default SearchTable

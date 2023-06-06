@@ -5,6 +5,7 @@ import { CircularProgress } from "@mui/material"
 import { patientValidated } from "../../types/ValidationTypes"
 import { getPatientById } from "../../services/PatientSearch"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
+import { ValidateMedAdmObj } from "../../functions/ValidateMedAdmObj"
 import { getAllergyById, getMedAdmById } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
 import PersonIcon from "@mui/icons-material/Person"
@@ -42,21 +43,15 @@ function PatientSummary() {
 		// splits the path to grab to id
 		let id = asPath.split("/")[2]
 		// chain of api calls to fetch required data
-		getPatientById(apiContext.value, id, 0, 1)
+		getPatientById(apiContext.value, id, 0, 1).then((result: any) => {
+			setPatientData(ValidatePatientObj(result[0].resource))
+		})
+		// getAllergyById(apiContext.value, id).then((result: any) => {
+		// 	setAllergyData(result)
+		// })
+		getMedAdmById(apiContext.value, id)
 			.then((result: any) => {
-				setPatientData(ValidatePatientObj(result[0].resource))
-			})
-			.then(() => {
-				getAllergyById(apiContext.value, id)
-			})
-			.then((result: any) => {
-				return
-			})
-			.then(() => {
-				getMedAdmById(apiContext.value, id)
-			})
-			.then((result: any) => {
-				setMedicationData(result.data.entry)
+				setMedicationData(ValidateMedAdmObj(result.data))
 			})
 			.then(() => {
 				setLoading(false)
@@ -96,19 +91,19 @@ function PatientSummary() {
 					) : (
 						<React.Fragment>
 							<div className="h-[35%]">
-								<article className="my-6 pl-16 text-xl">
+								<article className="my-6 pl-16 text-xl font-semibold">
 									{patientData.id}
 								</article>
 								<PatientDetails patientData={patientData} />
 							</div>
 							<div>
-								<article className="my-6 pl-16 text-xl">
+								<article className="my-6 pl-16 text-xl font-semibold">
 									Allergies
 								</article>
 								<AllergiesDetails allergyData={allergyData} />
 							</div>
 							<div>
-								<article className="my-6 pl-16 text-xl">
+								<article className="my-6 pl-16 text-xl font-semibold">
 									Medication History
 								</article>
 								<MedicationHistory
@@ -119,7 +114,6 @@ function PatientSummary() {
 					)}
 				</div>
 			</div>
-			{/* <PatientDetails patientData={patientData} /> */}
 		</div>
 	)
 }
