@@ -1,6 +1,6 @@
-import { useEffect } from "react"
+import React, { useEffect } from "react"
 
-function MedicationHistory() {
+function MedicationHistory(props) {
 	useEffect(() => {}, [])
 	// component that generates each row
 	function TableRows() {
@@ -8,21 +8,27 @@ function MedicationHistory() {
 	}
 
 	return (
-		<div className="flex justify-center">
-			<table className="table w-11/12 [&_tr.hover:hover_*]:!bg-slate-300">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Name</th>
-						<th>Category</th>
-						<th>Status</th>
-					</tr>
-				</thead>
-				<tbody>
-					<TableRows />
-				</tbody>
-			</table>
-		</div>
+		<React.Fragment>
+			{props.medicationData.Length === 0 ? (
+				<div></div>
+			) : (
+				<div className="flex justify-center">
+					<table className="table w-11/12 [&_tr.hover:hover_*]:!bg-slate-300">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Category</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<TableRows />
+						</tbody>
+					</table>
+				</div>
+			)}
+		</React.Fragment>
 	)
 }
 

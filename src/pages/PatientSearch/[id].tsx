@@ -103,13 +103,15 @@ function PatientSummary() {
 								<article className="my-6 pl-16 text-xl">
 									Allergies
 								</article>
-								<AllergiesDetails />
+								<AllergiesDetails allergyData={allergyData} />
 							</div>
 							<div>
 								<article className="my-6 pl-16 text-xl">
 									Medication History
 								</article>
-								<MedicationHistory />
+								<MedicationHistory
+									medicationData={medicationData}
+								/>
 							</div>
 						</React.Fragment>
 					)}
