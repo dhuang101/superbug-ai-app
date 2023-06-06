@@ -1,8 +1,9 @@
-function AllergiesDetails() {
+function AllergiesDetails(props) {
 	// component that generates each row
 	function TableRows() {
 		return <tr></tr>
 	}
+
 	return (
 		<div className="flex justify-center">
 			<table className="table w-11/12">
