@@ -1,7 +1,10 @@
+import React from "react"
 import { useState, useEffect, useContext } from "react"
 import { useRouter } from "next/router"
 import { CircularProgress } from "@mui/material"
+import { validatedObject, inputObject } from "../../types/PatientSummary"
 import { getPatientById } from "../../services/PatientSearch"
+import { getAllergyById } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
 import PersonIcon from "@mui/icons-material/Person"
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart"
@@ -9,8 +12,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import LoopIcon from "@mui/icons-material/Loop"
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety"
 import PatientDetails from "../../components/PatientSummary/PatientDetails"
-import React from "react"
-import { getAllergyById } from "../../services/PatientSummary"
+import MedicationHistory from "../../components/PatientSummary/MedicationHistory"
+import AllergiesDetails from "../../components/PatientSummary/AllergiesDetails"
 
 function PatientSummary() {
 	const { asPath } = useRouter()
@@ -26,6 +29,7 @@ function PatientSummary() {
 		address: "",
 	})
 	const [allergyData, setAllergyData] = useState({})
+	const [medicationData, setMedicationData] = useState({})
 	const [loading, setLoading] = useState(true)
 
 	function ValidateObject(obj: inputObject) {
@@ -138,17 +142,23 @@ function PatientSummary() {
 					) : (
 						<React.Fragment>
 							<div className="h-[35%]">
-								<article className="mt-6 pl-16 text-xl">
+								<article className="my-6 pl-16 text-xl">
 									{patientData.id}
 								</article>
 								<PatientDetails patientData={patientData} />
 							</div>
-							<article className="mt-6 pl-16 text-xl">
-								Allergies
-							</article>
-							<article className="mt-6 pl-16 text-xl">
-								Medication History
-							</article>
+							<div>
+								<article className="my-6 pl-16 text-xl">
+									Allergies
+								</article>
+								<AllergiesDetails />
+							</div>
+							<div>
+								<article className="my-6 pl-16 text-xl">
+									Medication History
+								</article>
+								<MedicationHistory />
+							</div>
 						</React.Fragment>
 					)}
 				</div>

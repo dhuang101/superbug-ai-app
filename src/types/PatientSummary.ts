@@ -1,4 +1,4 @@
-interface inputObject {
+export interface inputObject {
 	id: string
 	hasOwnProperty: (arg0: string) => any
 	name: { family: string; given: string[] }[]
@@ -9,7 +9,7 @@ interface inputObject {
 	meta: { lastUpdated: string }
 }
 
-interface validatedObject {
+export interface validatedObject {
 	id: string
 	name: string
 	gender: string

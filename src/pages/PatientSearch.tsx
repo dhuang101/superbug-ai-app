@@ -6,7 +6,7 @@ import {
 } from "../services/PatientSearch"
 import ApiContext from "../contexts/ApiContext"
 import Breadcrumbs from "../components/Breadcrumbs"
-import MainTable from "../components/MainTable"
+import MainTable from "../components/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
 
 function PatientSearch() {
