@@ -47,14 +47,16 @@ function PatientSummary() {
 				setPatientData(ValidatePatientObj(result[0].resource))
 			})
 			.then(() => {
-				getAllergyById(apiContext.value, id).then((result: any) => {
-					return
-				})
+				getAllergyById(apiContext.value, id)
+			})
+			.then((result: any) => {
+				return
 			})
 			.then(() => {
-				getMedAdmById(apiContext.value, id).then((result: any) => {
-					setMedicationData(result.data.entry)
-				})
+				getMedAdmById(apiContext.value, id)
+			})
+			.then((result: any) => {
+				setMedicationData(result.data.entry)
 			})
 			.then(() => {
 				setLoading(false)
