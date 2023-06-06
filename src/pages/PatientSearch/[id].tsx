@@ -53,7 +53,7 @@ function PatientSummary() {
 			})
 			.then(() => {
 				getMedAdmById(apiContext.value, id).then((result: any) => {
-					console.log(result)
+					setMedicationData(result.data.entry)
 				})
 			})
 			.then(() => {

@@ -18,3 +18,9 @@ export interface patientValidated {
 	lastUpdated: string
 	address: string
 }
+
+export interface medAdInput {}
+
+export interface patientValidated {
+	id: string
+}
