@@ -25,7 +25,9 @@ function PatientSearch() {
 	useEffect(() => {
 		// set loading flag
 		setLoading(true)
-		// fetch patients
+		// fetches patients on mount
+		// if forks to ensures the search function used is based on the last
+		// used function
 		if (lastSearch === "list") {
 			getPatientList(apiContext.value, currentPage, rowsPerPage)
 				.then((result: any) => {

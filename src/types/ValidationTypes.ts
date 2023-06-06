@@ -1,4 +1,4 @@
-export interface inputObject {
+export interface patientInput {
 	id: string
 	hasOwnProperty: (arg0: string) => any
 	name: { family: string; given: string[] }[]
@@ -9,7 +9,7 @@ export interface inputObject {
 	meta: { lastUpdated: string }
 }
 
-export interface validatedObject {
+export interface patientValidated {
 	id: string
 	name: string
 	gender: string

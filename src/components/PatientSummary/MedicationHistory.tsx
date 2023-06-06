@@ -4,7 +4,7 @@ function MedicationHistory() {
 	useEffect(() => {}, [])
 	// component that generates each row
 	function TableRows() {
-		return <div></div>
+		return <tr></tr>
 	}
 
 	return (

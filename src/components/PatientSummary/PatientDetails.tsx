@@ -1,7 +1,7 @@
-import { validatedObject } from "../../types/PatientSummary"
+import { patientValidated } from "../../types/ValidationTypes"
 
 interface Props {
-	patientData: validatedObject
+	patientData: patientValidated
 }
 
 function PatientDetails(props: any) {

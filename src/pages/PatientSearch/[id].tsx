@@ -2,9 +2,10 @@ import React from "react"
 import { useState, useEffect, useContext } from "react"
 import { useRouter } from "next/router"
 import { CircularProgress } from "@mui/material"
-import { validatedObject, inputObject } from "../../types/PatientSummary"
+import { patientValidated } from "../../types/ValidationTypes"
 import { getPatientById } from "../../services/PatientSearch"
-import { getAllergyById } from "../../services/PatientSummary"
+import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
+import { getAllergyById, getMedAdmById } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
 import PersonIcon from "@mui/icons-material/Person"
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart"
@@ -16,10 +17,14 @@ import MedicationHistory from "../../components/PatientSummary/MedicationHistory
 import AllergiesDetails from "../../components/PatientSummary/AllergiesDetails"
 
 function PatientSummary() {
+	// const for path param
+	// for some reason useParams() returns null
 	const { asPath } = useRouter()
+	// global state container
 	const apiContext = useContext(ApiContext)
 
-	const [patientData, setPatientData] = useState<validatedObject>({
+	// component state values
+	const [patientData, setPatientData] = useState<patientValidated>({
 		id: "",
 		name: "",
 		gender: "",
@@ -32,75 +37,22 @@ function PatientSummary() {
 	const [medicationData, setMedicationData] = useState({})
 	const [loading, setLoading] = useState(true)
 
-	function ValidateObject(obj: inputObject) {
-		let validatedObj = {
-			id: "",
-			name: "",
-			gender: "",
-			birthDate: "",
-			phoneNum: "",
-			lastUpdated: "",
-			address: "",
-		}
-
-		validatedObj.id = obj.id
-
-		if (obj.hasOwnProperty("name")) {
-			validatedObj.name = obj.name[0].given[0] + " " + obj.name[0].family
-		} else {
-			validatedObj.name = "Not Given"
-		}
-
-		if (obj.hasOwnProperty("gender")) {
-			validatedObj.gender =
-				obj.gender[0].toUpperCase() + obj.gender.substring(1)
-		} else {
-			validatedObj.name = "Not Given"
-		}
-
-		if (obj.hasOwnProperty("birthDate")) {
-			validatedObj.birthDate = new Date(obj.birthDate).toDateString()
-		} else {
-			validatedObj.birthDate = "Not Given"
-		}
-
-		if (obj.hasOwnProperty("telecom")) {
-			validatedObj.phoneNum = obj.telecom[0].value
-		} else {
-			validatedObj.birthDate = "Not Given"
-		}
-
-		if (obj.hasOwnProperty("address")) {
-			let addressList = obj.address[0]
-			validatedObj.address =
-				addressList.line[0] +
-				", " +
-				addressList.city +
-				", " +
-				addressList.state +
-				", " +
-				addressList.postalCode +
-				", " +
-				addressList.country
-		} else {
-			validatedObj.address = "No Value"
-		}
-
-		validatedObj.lastUpdated = new Date(obj.meta.lastUpdated).toDateString()
-
-		return validatedObj
-	}
-
+	// runs on component mount
 	useEffect(() => {
-		// this is used to fetch the id in the URL
-		// for some reason useParams() returns null
+		// splits the path to grab to id
 		let id = asPath.split("/")[2]
+		// chain of api calls to fetch required data
 		getPatientById(apiContext.value, id, 0, 1)
 			.then((result: any) => {
-				setPatientData(ValidateObject(result[0].resource))
+				setPatientData(ValidatePatientObj(result[0].resource))
 			})
 			.then(() => {
 				getAllergyById(apiContext.value, id).then((result: any) => {
+					return
+				})
+			})
+			.then(() => {
+				getMedAdmById(apiContext.value, id).then((result: any) => {
 					console.log(result)
 				})
 			})
