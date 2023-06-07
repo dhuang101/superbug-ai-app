@@ -26,7 +26,7 @@ function PatientSearch() {
 		if (searchOption === "id") {
 			getPatientById(
 				apiContext.value,
-				searchInput,
+				"e5c6bf5f-772f-4fee-8d72-4d05bca3027d",
 				currentPage,
 				rowsPerPage
 			)

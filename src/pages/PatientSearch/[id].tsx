@@ -5,7 +5,7 @@ import { CircularProgress } from "@mui/material"
 import { patientValidated } from "../../types/ValidationTypes"
 import { getPatientById } from "../../services/PatientSearch"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
-import { ValidateMedAdmObj } from "../../functions/ValidateMedAdmObj"
+import { ValidateMedAdm } from "../../functions/ValidateMedAdm"
 import { getAllergyById, getMedAdmById } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
 import PersonIcon from "@mui/icons-material/Person"
@@ -39,7 +39,9 @@ function PatientSummary() {
 	})
 	const [allergyData, setAllergyData] = useState({})
 	const [medicationData, setMedicationData] = useState({})
-	const [loadComplete, setLoadComplete] = useState([false, false, false])
+	const [fetchedPat, setFetchedPat] = useState(false)
+	const [fetchedMed, setFetchedMed] = useState(false)
+	const [fetchedAl, setFetchedAl] = useState(false)
 
 	// runs on component mount
 	useEffect(() => {
@@ -51,10 +53,15 @@ function PatientSummary() {
 				setPatientData(ValidatePatientObj(result[0].resource))
 			})
 			.then(() => {
-				// copies and mutates array for state
-				let copyArray = loadComplete.slice()
-				copyArray[0] = true
-				setLoadComplete(copyArray)
+				setFetchedPat(true)
+			})
+
+		getMedAdmById(apiContext.value, id)
+			.then((result: any) => {
+				setMedicationData(ValidateMedAdm(result.data))
+			})
+			.then(() => {
+				setFetchedMed(true)
 			})
 
 		getAllergyById(apiContext.value, id)
@@ -62,19 +69,7 @@ function PatientSummary() {
 				setAllergyData(result)
 			})
 			.then(() => {
-				let copyArray = loadComplete.slice()
-				copyArray[1] = true
-				setLoadComplete(copyArray)
-			})
-
-		getMedAdmById(apiContext.value, id)
-			.then((result: any) => {
-				setMedicationData(ValidateMedAdmObj(result.data))
-			})
-			.then(() => {
-				let copyArray = loadComplete.slice()
-				copyArray[2] = true
-				setLoadComplete(copyArray)
+				setFetchedAl(true)
 			})
 	}, [])
 
@@ -104,7 +99,7 @@ function PatientSummary() {
 			</div>
 			<div className="flex flex-col w-4/5 items-center justify-center">
 				<div className="flex flex-col w-11/12 h-[90%] bg-white rounded">
-					{loadComplete.every(Boolean) ? (
+					{[fetchedPat, fetchedMed, fetchedAl].every(Boolean) ? (
 						<React.Fragment>
 							<div className="h-[35%]">
 								<article className="my-6 pl-16 text-xl font-semibold">

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react"
 
 function MedicationHistory(props) {
-	useEffect(() => {
-		console.log(props.medicationData)
-	}, [])
+	// useEffect(() => {
+	// 	console.log(props.medicationData)
+	// }, [])
 	// component that generates each row
 	function TableRows() {
 		return <tr></tr>
