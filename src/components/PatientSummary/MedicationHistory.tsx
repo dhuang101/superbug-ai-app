@@ -1,7 +1,9 @@
 import React, { useEffect } from "react"
 
 function MedicationHistory(props) {
-	useEffect(() => {}, [])
+	useEffect(() => {
+		console.log(props.medicationData)
+	}, [])
 	// component that generates each row
 	function TableRows() {
 		return <tr></tr>
@@ -11,7 +13,7 @@ function MedicationHistory(props) {
 		<React.Fragment>
 			{props.medicationData.length === 0 ? (
 				<div className="pl-16">
-					<article>No Medication Data</article>
+					<article>No Medication History</article>
 				</div>
 			) : (
 				<div className="flex justify-center">

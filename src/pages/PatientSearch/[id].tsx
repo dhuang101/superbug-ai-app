@@ -17,6 +17,8 @@ import PatientDetails from "../../components/PatientSummary/PatientDetails"
 import MedicationHistory from "../../components/PatientSummary/MedicationHistory"
 import AllergiesDetails from "../../components/PatientSummary/AllergiesDetails"
 
+// e5c6bf5f-772f-4fee-8d72-4d05bca3027d
+
 function PatientSummary() {
 	// const for path param
 	// for some reason useParams() returns null
@@ -36,25 +38,42 @@ function PatientSummary() {
 	})
 	const [allergyData, setAllergyData] = useState({})
 	const [medicationData, setMedicationData] = useState({})
-	const [loading, setLoading] = useState(true)
+	const [loadComplete, setLoadComplete] = useState([false, false, false])
 
 	// runs on component mount
 	useEffect(() => {
 		// splits the path to grab to id
 		let id = asPath.split("/")[2]
 		// chain of api calls to fetch required data
-		getPatientById(apiContext.value, id, 0, 1).then((result: any) => {
-			setPatientData(ValidatePatientObj(result[0].resource))
-		})
-		// getAllergyById(apiContext.value, id).then((result: any) => {
-		// 	setAllergyData(result)
-		// })
+		getPatientById(apiContext.value, id, 0, 1)
+			.then((result: any) => {
+				setPatientData(ValidatePatientObj(result[0].resource))
+			})
+			.then(() => {
+				// copies and mutates array for state
+				let copyArray = loadComplete.slice()
+				copyArray[0] = true
+				setLoadComplete(copyArray)
+			})
+
+		getAllergyById(apiContext.value, id)
+			.then((result: any) => {
+				setAllergyData(result)
+			})
+			.then(() => {
+				let copyArray = loadComplete.slice()
+				copyArray[1] = true
+				setLoadComplete(copyArray)
+			})
+
 		getMedAdmById(apiContext.value, id)
 			.then((result: any) => {
 				setMedicationData(ValidateMedAdmObj(result.data))
 			})
 			.then(() => {
-				setLoading(false)
+				let copyArray = loadComplete.slice()
+				copyArray[2] = true
+				setLoadComplete(copyArray)
 			})
 	}, [])
 
@@ -84,11 +103,7 @@ function PatientSummary() {
 			</div>
 			<div className="flex flex-col w-4/5 items-center justify-center">
 				<div className="flex flex-col w-11/12 h-[90%] bg-white rounded">
-					{loading ? (
-						<div className="flex items-center justify-center h-full">
-							<CircularProgress size={80} />
-						</div>
-					) : (
+					{loadComplete.every(Boolean) ? (
 						<React.Fragment>
 							<div className="h-[35%]">
 								<article className="my-6 pl-16 text-xl font-semibold">
@@ -96,12 +111,7 @@ function PatientSummary() {
 								</article>
 								<PatientDetails patientData={patientData} />
 							</div>
-							<div>
-								<article className="my-6 pl-16 text-xl font-semibold">
-									Allergies
-								</article>
-								<AllergiesDetails allergyData={allergyData} />
-							</div>
+
 							<div>
 								<article className="my-6 pl-16 text-xl font-semibold">
 									Medication History
@@ -110,7 +120,17 @@ function PatientSummary() {
 									medicationData={medicationData}
 								/>
 							</div>
+							<div>
+								<article className="my-6 pl-16 text-xl font-semibold">
+									Allergies
+								</article>
+								<AllergiesDetails allergyData={allergyData} />
+							</div>
 						</React.Fragment>
+					) : (
+						<div className="flex items-center justify-center h-full">
+							<CircularProgress size={80} />
+						</div>
 					)}
 				</div>
 			</div>
