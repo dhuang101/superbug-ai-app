@@ -5,7 +5,6 @@ import { CircularProgress } from "@mui/material"
 import { patientValidated } from "../../types/ValidationTypes"
 import { getPatientById } from "../../services/PatientSearch"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
-import { ValidateMedAdm } from "../../functions/ValidateMedAdm"
 import { getAllergyById, getMedAdmById } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
 import PersonIcon from "@mui/icons-material/Person"
@@ -72,6 +71,22 @@ function PatientSummary() {
 				setFetchedAl(true)
 			})
 	}, [])
+
+	function ValidateMedAdm(list: any): React.SetStateAction<{}> {
+		let validatedList = []
+
+		console.log(list)
+
+		if (!list.hasOwnProperty("entry")) {
+			return validatedList
+		} else {
+			list.entry.forEach((obj) => {
+				let validatedObj = {}
+			})
+		}
+
+		return validatedList
+	}
 
 	return (
 		<div className="flex grow w-full">
