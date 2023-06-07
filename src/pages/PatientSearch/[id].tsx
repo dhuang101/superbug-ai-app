@@ -18,6 +18,7 @@ import MedicationHistory from "../../components/PatientSummary/MedicationHistory
 import AllergiesDetails from "../../components/PatientSummary/AllergiesDetails"
 
 // e5c6bf5f-772f-4fee-8d72-4d05bca3027d
+//
 
 function PatientSummary() {
 	// const for path param
