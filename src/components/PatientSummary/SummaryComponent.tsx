@@ -6,9 +6,9 @@ import { getPatientById } from "../../services/PatientSearch"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
 import { getAllergyById, getMedAdmById } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
-import PatientDetails from "./PatientDetails"
-import MedicationHistory from "./MedicationHistory"
-import AllergiesDetails from "./AllergiesDetails"
+import PatientDetails from "./SubComponents/PatientDetails"
+import MedicationHistory from "./SubComponents/MedicationHistory"
+import AllergiesDetails from "./SubComponents/AllergiesDetails"
 
 function SummaryComponent() {
 	// const for path param
