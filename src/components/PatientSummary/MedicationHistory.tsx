@@ -1,12 +1,22 @@
 import React, { useEffect } from "react"
 
 function MedicationHistory(props) {
-	// useEffect(() => {
-	// 	console.log(props.medicationData)
-	// }, [])
+	useEffect(() => {
+		console.log(props.medicationData)
+	}, [])
+
 	// component that generates each row
 	function TableRows() {
-		return <tr></tr>
+		return props.medicationData.map((obj: any, i: number) => {
+			return (
+				<tr key={i} className="hover cursor-pointer">
+					<td>{obj.id}</td>
+					<td>{obj.name}</td>
+					<td>{obj.category}</td>
+					<td>{obj.status}</td>
+				</tr>
+			)
+		})
 	}
 
 	return (
