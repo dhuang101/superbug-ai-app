@@ -80,8 +80,6 @@ function SummaryComponent() {
 					status: "",
 				}
 
-				console.log(obj)
-
 				// ID
 				validatedObj.id = obj.resource.id
 				// Name
