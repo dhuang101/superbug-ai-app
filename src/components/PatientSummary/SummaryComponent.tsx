@@ -4,7 +4,7 @@ import { CircularProgress } from "@mui/material"
 import { patientValidated } from "../../types/ValidationTypes"
 import { getPatientById } from "../../services/PatientSearch"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
-import { getAllergyById, getMedAdmById } from "../../services/PatientSummary"
+import { getAllergyById, getMedReqById } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
 import PatientDetails from "./SubComponents/PatientDetails"
 import MedicationHistory from "./SubComponents/MedicationHistory"
@@ -47,7 +47,7 @@ function SummaryComponent() {
 				setFetchedPat(true)
 			})
 
-		getMedAdmById(apiContext.value, id)
+		getMedReqById(apiContext.value, id)
 			.then((result: any) => {
 				setMedicationData(ValidateMedAdm(result.data))
 			})
@@ -100,20 +100,20 @@ function SummaryComponent() {
 		<React.Fragment>
 			{[fetchedPat, fetchedMed, fetchedAl].every(Boolean) ? (
 				<React.Fragment>
-					<div className="h-[35%]">
-						<article className="my-6 pl-16 text-xl font-semibold">
+					<div className="flex flex-col min-h-[250px]">
+						<article className="mb-6 pl-16 text-xl font-semibold">
 							{patientData.id}
 						</article>
 						<PatientDetails patientData={patientData} />
 					</div>
 
-					<div>
+					<div className="flex flex-col">
 						<article className="my-6 pl-16 text-xl font-semibold">
 							Medication History
 						</article>
 						<MedicationHistory medicationData={medicationData} />
 					</div>
-					<div>
+					<div className="flex flex-col">
 						<article className="my-6 pl-16 text-xl font-semibold">
 							Allergies
 						</article>
