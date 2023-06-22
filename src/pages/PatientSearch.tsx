@@ -121,7 +121,7 @@ function PatientSearch() {
 				<select
 					className="select select-bordered select-sm max-w-xs"
 					onChange={handleSelect}
-					value={"id"}
+					value={searchOption}
 				>
 					<option value={"id"}>Search By ID</option>
 					<option value={"name"}>Search By Name</option>

@@ -8,9 +8,7 @@ import NavBar from "../components/NavBar"
 
 export default function MyApp({ Component, pageProps }) {
 	// global state wrapper for the api url
-	const [apiUrl, setApiUrl] = useState(
-		"https://fhir.collablynk.com/edifecs/fhir/R4/"
-	)
+	const [apiUrl, setApiUrl] = useState("http://localhost:8080/fhir/")
 	const contextWrapper = { value: apiUrl, setter: setApiUrl }
 
 	useEffect(() => {
