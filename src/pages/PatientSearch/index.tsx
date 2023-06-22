@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState, useContext } from "react"
-import { getPatientById, getPatientsByName } from "../services/PatientSearch"
-import ApiContext from "../contexts/ApiContext"
-import SearchTable from "../components/SearchTable"
+import { getPatientById, getPatientsByName } from "../../services/PatientSearch"
+import ApiContext from "../../contexts/ApiContext"
+import SearchTable from "../../components/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
 
 function PatientSearch() {
@@ -152,7 +152,7 @@ function PatientSearch() {
 				</div>
 			) : (
 				<React.Fragment>
-					<div className="pt-2">
+					<div className="pt-2 ">
 						<SearchTable patientData={patientData} />
 					</div>
 					<div className="flex items-center justify-center text-center">
