@@ -1,8 +1,8 @@
 import axios from "axios"
 
-export function getMedAdmById(apiUrl: string, id: any) {
+export function getMedReqById(apiUrl: string, id: any) {
 	const apiCall: Promise<any> = axios
-		.get(`${apiUrl}MedicationAdministration`, { params: { patient: id } })
+		.get(`${apiUrl}MedicationRequest`, { params: { patient: id } })
 		.then((res) => {
 			return res
 		})
