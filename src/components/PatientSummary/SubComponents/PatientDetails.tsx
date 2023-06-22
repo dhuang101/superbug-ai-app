@@ -6,7 +6,7 @@
 
 function PatientDetails(props: any) {
 	return (
-		<div className="mx-6 grow">
+		<div className="w-11/12 grow">
 			<div className="h-1/3 flex items-center">
 				<article className="flex h-full w-2/12 pl-4 items-center border-solid border-2 border-slate-200 bg-slate-100">
 					Name
