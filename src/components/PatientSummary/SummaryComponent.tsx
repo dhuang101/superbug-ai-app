@@ -4,6 +4,7 @@ import { CircularProgress } from "@mui/material"
 import { patientValidated } from "../../types/ValidationTypes"
 import { getPatientById } from "../../services/PatientSearch"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
+import { ValidateMedReq } from "../../functions/ValidateMedReq"
 import { getAllergyById, getMedReqById } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
 import PatientDetails from "./SubComponents/PatientDetails"
@@ -49,7 +50,7 @@ function SummaryComponent() {
 
 		getMedReqById(apiContext.value, id)
 			.then((result: any) => {
-				setMedicationData(ValidateMedAdm(result.data))
+				setMedicationData(ValidateMedReq(result))
 			})
 			.then(() => {
 				setFetchedMed(true)
@@ -63,38 +64,6 @@ function SummaryComponent() {
 				setFetchedAl(true)
 			})
 	}, [])
-
-	function ValidateMedAdm(list: any): React.SetStateAction<{}> {
-		let validatedList = []
-
-		// check if any entries are returned
-		if (!list.hasOwnProperty("entry")) {
-			return validatedList
-		} else {
-			list.entry.forEach((obj) => {
-				// set base object
-				let validatedObj = {
-					id: "",
-					name: "",
-					category: "",
-					status: "",
-				}
-
-				// ID
-				validatedObj.id = obj.resource.id
-				// Name
-				if (obj.resource.hasOwnProperty("medicationCodeableConcept")) {
-					validatedObj.name =
-						obj.resource.medicationCodeableConcept.text
-				}
-
-				// push new obj to the list
-				validatedList.push(validatedObj)
-			})
-		}
-
-		return validatedList
-	}
 
 	return (
 		<React.Fragment>

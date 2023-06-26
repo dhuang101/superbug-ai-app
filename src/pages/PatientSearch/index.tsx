@@ -31,7 +31,6 @@ function PatientSearch() {
 				rowsPerPage
 			)
 				.then((result: any) => {
-					console.log(result)
 					setPatientData(result)
 				})
 				.then(() => {

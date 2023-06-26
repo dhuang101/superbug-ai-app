@@ -4,7 +4,7 @@ export function getMedReqById(apiUrl: string, id: any) {
 	const apiCall: Promise<any> = axios
 		.get(`${apiUrl}MedicationRequest`, { params: { patient: id } })
 		.then((res) => {
-			return res
+			return res.data
 		})
 		.catch((error) => {
 			console.log(error)

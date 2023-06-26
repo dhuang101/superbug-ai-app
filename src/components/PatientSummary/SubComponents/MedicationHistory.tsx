@@ -12,7 +12,6 @@ function MedicationHistory(props) {
 				<tr key={i} className="hover cursor-pointer">
 					<td>{obj.id}</td>
 					<td>{obj.name}</td>
-					<td>{obj.category}</td>
 					<td>{obj.status}</td>
 				</tr>
 			)
@@ -32,7 +31,6 @@ function MedicationHistory(props) {
 							<tr>
 								<th>ID</th>
 								<th>Name</th>
-								<th>Category</th>
 								<th>Status</th>
 							</tr>
 						</thead>
