@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useEffect, useState, useContext } from "react"
+import React, {
+	ChangeEvent,
+	KeyboardEvent,
+	useEffect,
+	useState,
+	useContext,
+} from "react"
 import { getPatientById, getPatientsByName } from "../../services/PatientSearch"
 import ApiContext from "../../contexts/ApiContext"
 import SearchTable from "../../components/SearchTable"
@@ -59,6 +65,13 @@ function PatientSearch() {
 
 	function handleSelect(event: ChangeEvent<HTMLSelectElement>): void {
 		setSearchOption(event.target.value)
+	}
+
+	function handleKeyDown(event: KeyboardEvent) {
+		console.log(event)
+		if (event.key === "Enter") {
+			handleSearch()
+		}
 	}
 
 	// starts the search
@@ -131,6 +144,7 @@ function PatientSearch() {
 					type="text"
 					placeholder="Enter Query"
 					className="input input-bordered w-full max-w-sm"
+					onKeyDown={handleKeyDown}
 					onChange={handleInput}
 				/>
 				<button
