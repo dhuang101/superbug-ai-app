@@ -15,7 +15,7 @@ function AllergiesDetails(props: any) {
 		<React.Fragment>
 			{props.allergyData.length === 0 ? (
 				<div className="pl-16">
-					<article>No Medication History</article>
+					<article>No Allergies History</article>
 				</div>
 			) : (
 				<div className="flex justify-center">

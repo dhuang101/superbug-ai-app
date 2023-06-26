@@ -9,17 +9,31 @@ import { getPatientById, getPatientsByName } from "../../services/PatientSearch"
 import ApiContext from "../../contexts/ApiContext"
 import SearchTable from "../../components/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
+import { getResourceCount } from "../../services/ServerSummary"
 
 function PatientSearch() {
 	// global state container
 	const apiContext = useContext(ApiContext)
 	// component specific state
 	const [loading, setLoading] = useState(true)
+	const [patientCount, setPatientCount] = useState(0)
 	const [patientData, setPatientData] = useState([])
 	const [searchInput, setSearchInput] = useState("")
 	const [currentPage, setCurrentPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 	const [searchOption, setSearchOption] = useState("id")
+
+	// use effect runs only once on component initialisation
+	useEffect(() => {
+		// fetches server meta data for display
+		getResourceCount(apiContext.value).then((result: any) => {
+			result.forEach((obj) => {
+				if (obj.name === "Patient") {
+					setPatientCount(obj.valueInteger)
+				}
+			})
+		})
+	}, [])
 
 	// use effect controls which service is run based on the last search run
 	// also handles the pages and row per page change
@@ -170,7 +184,7 @@ function PatientSearch() {
 					<div className="flex items-center justify-center text-center">
 						<TablePagination
 							component="div"
-							count={10000}
+							count={patientCount}
 							page={currentPage}
 							onPageChange={handleChangePage}
 							rowsPerPage={rowsPerPage}
