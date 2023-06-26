@@ -111,7 +111,7 @@ function PatientSummary() {
 				</button>
 			</div>
 			<div className="flex flex-col w-4/5 items-center overflow-y-auto">
-				<div className="flex flex-col w-11/12 py-6 my-8 bg-white rounded">
+				<div className="flex flex-col w-11/12 py-6 my-8 min-h-[90%] bg-white rounded">
 					<DisplayHandler />
 				</div>
 			</div>
