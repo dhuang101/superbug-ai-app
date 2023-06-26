@@ -30,7 +30,7 @@ function SummaryComponent() {
 	})
 
 	const [allergyData, setAllergyData] = useState([])
-	const [medicationData, setMedicationData] = useState([])
+	const [medicationData, setMedicationData] = useState<medAdValidated[]>([])
 	const [fetchedPat, setFetchedPat] = useState(false)
 	const [fetchedMed, setFetchedMed] = useState(false)
 	const [fetchedAl, setFetchedAl] = useState(false)

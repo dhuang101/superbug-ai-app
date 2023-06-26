@@ -10,7 +10,7 @@ export function ValidateMedReq(list: {
 			status: string
 		}
 	}[]
-}): React.SetStateAction<{}> {
+}): React.SetStateAction<medAdValidated[]> {
 	let validatedList: medAdValidated[] = []
 
 	// check if any entries are returned
