@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import { useRouter } from "next/router"
 import { CircularProgress } from "@mui/material"
-import { patientValidated } from "../../types/ValidationTypes"
+import { medAdValidated, patientValidated } from "../../types/ValidationTypes"
 import { getPatientById } from "../../services/PatientSearch"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
 import { ValidateMedReq } from "../../functions/ValidateMedReq"
@@ -30,7 +30,11 @@ function SummaryComponent() {
 	})
 
 	const [allergyData, setAllergyData] = useState({})
-	const [medicationData, setMedicationData] = useState({})
+	const [medicationData, setMedicationData] = useState<medAdValidated>({
+		id: "",
+		name: "",
+		status: "",
+	})
 	const [fetchedPat, setFetchedPat] = useState(false)
 	const [fetchedMed, setFetchedMed] = useState(false)
 	const [fetchedAl, setFetchedAl] = useState(false)

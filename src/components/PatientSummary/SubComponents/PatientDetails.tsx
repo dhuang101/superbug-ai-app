@@ -1,10 +1,10 @@
-// import { patientValidated } from "../../types/ValidationTypes"
+import { patientValidated } from "../../../types/ValidationTypes"
 
-// interface Props {
-// 	patientData: patientValidated
-// }
+interface Props {
+	patientData: patientValidated
+}
 
-function PatientDetails(props: any) {
+function PatientDetails(props: Props) {
 	return (
 		<div className="w-11/12 grow">
 			<div className="h-1/3 flex items-center">

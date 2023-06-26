@@ -1,4 +1,4 @@
-function AllergiesDetails(props) {
+function AllergiesDetails(props: any) {
 	// component that generates each row
 	function TableRows() {
 		return <tr></tr>

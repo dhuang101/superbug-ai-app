@@ -1,21 +1,26 @@
-import React, { useEffect } from "react"
+import React from "react"
+import { medAdValidated } from "../../../types/ValidationTypes"
 
-function MedicationHistory(props) {
-	// useEffect(() => {
-	// 	console.log(props.medicationData)
-	// }, [])
+interface Props {
+	medicationData: medAdValidated[]
+}
 
+function MedicationHistory(props: Props) {
 	// component that generates each row
 	function TableRows() {
-		return props.medicationData.map((obj: any, i: number) => {
-			return (
-				<tr key={i} className="hover cursor-pointer">
-					<td>{obj.id}</td>
-					<td>{obj.name}</td>
-					<td>{obj.status}</td>
-				</tr>
-			)
-		})
+		return (
+			<React.Fragment>
+				{props.medicationData.map((obj: any, i: number) => {
+					return (
+						<tr key={i} className="hover cursor-pointer">
+							<td>{obj.id}</td>
+							<td>{obj.name}</td>
+							<td>{obj.status}</td>
+						</tr>
+					)
+				})}
+			</React.Fragment>
+		)
 	}
 
 	return (

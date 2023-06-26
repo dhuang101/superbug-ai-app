@@ -21,6 +21,8 @@ export interface patientValidated {
 
 export interface medAdInput {}
 
-export interface patientValidated {
+export interface medAdValidated {
 	id: string
+	name: string
+	status: string
 }
