@@ -36,7 +36,8 @@ export function getAllergyById(apiUrl: string, id: any) {
 			},
 		})
 		.then((res) => {
-			return res.data.entry
+			return []
+			// return res.data.entry
 		})
 		.catch((error) => {
 			console.log(error)

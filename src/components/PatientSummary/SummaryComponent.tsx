@@ -29,12 +29,8 @@ function SummaryComponent() {
 		address: "",
 	})
 
-	const [allergyData, setAllergyData] = useState({})
-	const [medicationData, setMedicationData] = useState<medAdValidated>({
-		id: "",
-		name: "",
-		status: "",
-	})
+	const [allergyData, setAllergyData] = useState([])
+	const [medicationData, setMedicationData] = useState([])
 	const [fetchedPat, setFetchedPat] = useState(false)
 	const [fetchedMed, setFetchedMed] = useState(false)
 	const [fetchedAl, setFetchedAl] = useState(false)

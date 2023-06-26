@@ -68,7 +68,6 @@ function PatientSearch() {
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
-		console.log(event)
 		if (event.key === "Enter") {
 			handleSearch()
 		}

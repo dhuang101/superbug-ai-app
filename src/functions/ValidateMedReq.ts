@@ -1,6 +1,16 @@
 import { medAdValidated } from "../types/ValidationTypes"
 
-export function ValidateMedReq(list: any): React.SetStateAction<{}> {
+export function ValidateMedReq(list: {
+	hasOwnProperty: (arg0: string) => any
+	entry: {
+		resource: {
+			id: string
+			hasOwnProperty: (arg0: string) => any
+			medicationCodeableConcept: { text: string }
+			status: string
+		}
+	}[]
+}): React.SetStateAction<{}> {
 	let validatedList: medAdValidated[] = []
 
 	// check if any entries are returned
