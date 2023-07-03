@@ -70,20 +70,20 @@ function SummaryComponent() {
 			{[fetchedPat, fetchedMed, fetchedAl].every(Boolean) ? (
 				<React.Fragment>
 					<div className="flex flex-col min-h-[250px] items-center">
-						<article className="mb-6 pl-16 text-xl font-semibold">
+						<article className="mb-6 text-xl font-semibold">
 							{patientData.id}
 						</article>
 						<PatientDetails patientData={patientData} />
 					</div>
 
 					<div className="flex flex-col">
-						<article className="my-6 pl-16 text-xl font-semibold">
+						<article className="my-6 text-xl font-semibold">
 							Medication History
 						</article>
 						<MedicationHistory medicationData={medicationData} />
 					</div>
 					<div className="flex flex-col">
-						<article className="my-6 pl-16 text-xl font-semibold">
+						<article className="my-6 text-xl font-semibold">
 							Allergies
 						</article>
 						<AllergiesDetails allergyData={allergyData} />

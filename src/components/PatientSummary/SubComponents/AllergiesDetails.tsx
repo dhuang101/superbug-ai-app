@@ -14,12 +14,12 @@ function AllergiesDetails(props: any) {
 	return (
 		<React.Fragment>
 			{props.allergyData.length === 0 ? (
-				<div className="pl-16">
+				<div className="">
 					<article>No Allergies History</article>
 				</div>
 			) : (
 				<div className="flex justify-center">
-					<table className="table w-11/12">
+					<table className="table w-full">
 						<thead>
 							<tr>
 								<th>ID</th>

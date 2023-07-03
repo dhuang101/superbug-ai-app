@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 import SummaryComponent from "../../components/PatientSummary/SummaryComponent"
-import LengthOfStay from "../../components/LengthOfStay"
-import UnplannedAd from "../../components/UnplannedAd"
-import IcuAd from "../../components/IcuAd"
-import Mortality from "../../components/Mortality"
+import LengthOfStay from "../../components/AiModel/LengthOfStay"
+import UnplannedAd from "../../components/AiModel/UnplannedAd"
+import IcuAd from "../../components/AiModel/IcuAd"
+import Mortality from "../../components/AiModel/Mortality"
 import PersonIcon from "@mui/icons-material/Person"
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
@@ -55,7 +55,7 @@ function PatientSummary() {
 
 	return (
 		<div className="flex grow w-full">
-			<div className="flex flex-col grow items-center bg-base-100">
+			<div className="flex flex-col w-1/5 items-center bg-base-100">
 				<button
 					id="button0"
 					value={0}
@@ -111,7 +111,7 @@ function PatientSummary() {
 				</button>
 			</div>
 			<div className="flex flex-col w-4/5 items-center overflow-y-auto">
-				<div className="flex flex-col w-11/12 py-6 my-8 min-h-[90%] bg-white rounded">
+				<div className="flex flex-col w-10/12 py-6 px-12 my-8 min-h-[90%] bg-white rounded">
 					<DisplayHandler />
 				</div>
 			</div>
