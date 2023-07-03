@@ -42,7 +42,9 @@ function SummaryComponent() {
 		// chain of api calls to fetch required data
 		getPatientById(apiContext.value, id, 0, 1)
 			.then((result: any) => {
-				setPatientData(ValidatePatientObj(result[0].resource))
+				if (result.length > 0) {
+					setPatientData(ValidatePatientObj(result[0].resource))
+				}
 			})
 			.then(() => {
 				setFetchedPat(true)
