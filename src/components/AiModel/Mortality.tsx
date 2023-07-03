@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import React, { useEffect, useState, useContext, ChangeEvent } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { getEncForPatient, getObsForEnc } from "../../services/PatientSummary"
-import LineGraph from "./SubComponents/LineGraphNoZoom"
+import LineGraph from "./SubComponents/LineGraph"
 
 function Mortality() {
 	// const for path param
