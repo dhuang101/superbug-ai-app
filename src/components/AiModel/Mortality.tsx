@@ -7,8 +7,7 @@ import LineGraph from "./SubComponents/LineGraph"
 
 function Mortality() {
 	// const for path param
-	// for some reason useParams() returns null
-	const { asPath } = useRouter()
+	const router = useRouter()
 	// global state container
 	const apiContext = useContext(ApiContext)
 
@@ -21,7 +20,7 @@ function Mortality() {
 	// on mount grabs encounters related to patient
 	useEffect(() => {
 		// splits the path to grab to id
-		let id = asPath.split("/")[2]
+		let id = router.query.id as string
 		// grab list of encounters
 		getEncForPatient(apiContext.value, id, "inpatient")
 			.then((result: any) => {
@@ -112,7 +111,7 @@ function Mortality() {
 							Predicted Mortality Rate
 						</article>
 						<select
-							className="select select-bordered max-w-sm"
+							className="select select-bordered max-w-sm ml-20"
 							onChange={handleSelect}
 							value={selectedEnc}
 						>

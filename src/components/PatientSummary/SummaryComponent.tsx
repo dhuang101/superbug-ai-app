@@ -13,8 +13,7 @@ import AllergiesDetails from "./SubComponents/AllergiesDetails"
 
 function SummaryComponent() {
 	// const for path param
-	// for some reason useParams() returns null
-	const { asPath } = useRouter()
+	const router = useRouter()
 	// global state container
 	const apiContext = useContext(ApiContext)
 
@@ -38,7 +37,7 @@ function SummaryComponent() {
 	// runs on component mount
 	useEffect(() => {
 		// splits the path to grab to id
-		let id = asPath.split("/")[2]
+		let id = router.query.id as string
 		// chain of api calls to fetch required data
 		getPatientById(apiContext.value, id, 0, 1)
 			.then((result: any) => {
