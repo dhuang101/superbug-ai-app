@@ -10,13 +10,16 @@ import {
 	YAxis,
 } from "recharts"
 
+// reducer used to handle complex state for the line graph
 const initialState = {
-	data: [],
-	slicedData: [],
+	data: [], // the original fetched data
+	slicedData: [], // the data that is used to draw the graph
+	// 2 values saved to state to allow the data to be sliced for zooming
 	limit1: null,
 	limit2: null,
 }
 
+// state logic
 const reducer = (state, action) => {
 	switch (action.type) {
 		case "INITIALISE":
@@ -67,10 +70,6 @@ function LineGraph(props: any) {
 	useEffect(() => {
 		dispatch({ type: "INITIALISE", data: props.data })
 	}, [props])
-
-	// useEffect(() => {
-	// 	console.log(graphState)
-	// }, [graphState])
 
 	return (
 		<React.Fragment>

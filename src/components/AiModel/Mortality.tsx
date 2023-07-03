@@ -30,6 +30,8 @@ function Mortality() {
 			.then(setLoading(false))
 	}, [])
 
+	// once a valid encounter is selected grabs the
+	// corresponding observations
 	useEffect(() => {
 		if (selectedEnc !== "") {
 			getObsForEnc(
@@ -42,10 +44,7 @@ function Mortality() {
 		}
 	}, [selectedEnc])
 
-	function handleSelect(event: ChangeEvent<HTMLSelectElement>): void {
-		setSelectedEnc(event.target.value)
-	}
-
+	// organises data from the fetched observations
 	function marshallData(data: any) {
 		return data.map((obj: any) => {
 			return {
@@ -54,6 +53,10 @@ function Mortality() {
 				unit: obj.resource.valueQuantity.unit,
 			}
 		})
+	}
+
+	function handleSelect(event: ChangeEvent<HTMLSelectElement>): void {
+		setSelectedEnc(event.target.value)
 	}
 
 	// generates the options for the select
