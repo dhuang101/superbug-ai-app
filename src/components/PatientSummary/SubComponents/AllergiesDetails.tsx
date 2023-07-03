@@ -1,7 +1,6 @@
 import React from "react"
 
 function AllergiesDetails(props: any) {
-	console.log(props)
 	// component that generates each row
 	function TableRows() {
 		return (
