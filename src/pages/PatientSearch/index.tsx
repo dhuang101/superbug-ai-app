@@ -21,7 +21,7 @@ function PatientSearch() {
 	const [searchInput, setSearchInput] = useState("")
 	const [currentPage, setCurrentPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
-	const [searchOption, setSearchOption] = useState("id")
+	const [searchOption, setSearchOption] = useState("name")
 
 	// use effect runs only once on component initialisation
 	useEffect(() => {
@@ -148,8 +148,8 @@ function PatientSearch() {
 					onChange={handleSelect}
 					value={searchOption}
 				>
-					<option value={"id"}>Search By ID</option>
 					<option value={"name"}>Search By Name</option>
+					<option value={"id"}>Search By ID</option>
 				</select>
 			</div>
 			<div className="flex flex-row">
