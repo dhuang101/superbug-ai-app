@@ -41,7 +41,11 @@ export function getEncForPatient(
 			params: { subject: patientId, class: className },
 		})
 		.then((res) => {
-			return res.data.entry
+			if (res.data.hasOwnProperty("entry")) {
+				return res.data.entry
+			} else {
+				return []
+			}
 		})
 		.catch((error) => {
 			console.log(error)
@@ -50,7 +54,7 @@ export function getEncForPatient(
 	return result
 }
 
-export function getObservationById(id: any) {
+export function getObsForEnc(id: any) {
 	const result: any = axios
 		.get(
 			`https://hapi.fhir.org/baseR4/Observation?patient=${id}&_pretty=true&_count=36`
