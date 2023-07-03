@@ -2,8 +2,8 @@ import { CircularProgress } from "@mui/material"
 import { useRouter } from "next/router"
 import React, { useEffect, useState, useContext, ChangeEvent } from "react"
 import ApiContext from "../../contexts/ApiContext"
-import { getEncForPatient } from "../../services/PatientSummary"
-import { CartesianGrid, LineChart, XAxis, YAxis } from "recharts"
+import { getEncForPatient, getObsForEnc } from "../../services/PatientSummary"
+import LineGraph from "./SubComponents/LineGraphNoZoom"
 
 function Mortality() {
 	// const for path param
@@ -26,20 +26,35 @@ function Mortality() {
 		getEncForPatient(apiContext.value, id, "inpatient")
 			.then((result: any) => {
 				setEncounters(result)
-				console.log(result)
 			})
 			.then(setLoading(false))
 	}, [])
 
 	useEffect(() => {
-		console.log(selectedEnc)
+		if (selectedEnc !== "") {
+			getObsForEnc(
+				apiContext.value,
+				encounters[selectedEnc].resource.id,
+				"Patient Mortality Rate"
+			).then((result: any) => {
+				setData(marshallData(result))
+			})
+		}
 	}, [selectedEnc])
 
 	function handleSelect(event: ChangeEvent<HTMLSelectElement>): void {
 		setSelectedEnc(event.target.value)
 	}
 
-	function marshallData() {}
+	function marshallData(data: any) {
+		return data.map((obj: any) => {
+			return {
+				issued: obj.resource.issued,
+				value: obj.resource.valueQuantity.value,
+				unit: obj.resource.valueQuantity.unit,
+			}
+		})
+	}
 
 	// generates the options for the select
 	function SelectOptions() {
@@ -89,7 +104,7 @@ function Mortality() {
 				</div>
 			) : (
 				<React.Fragment>
-					<div className="flex flex-col">
+					<div className="flex flex-col min-h-full">
 						<article className="mb-6 text-xl font-semibold text-center">
 							Predicted Mortality Rate
 						</article>
@@ -100,19 +115,9 @@ function Mortality() {
 						>
 							<SelectOptions />
 						</select>
-						<LineChart
-							width={600}
-							height={300}
-							margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-							data={data}
-						>
-							<CartesianGrid
-								stroke="#ccc"
-								strokeDasharray="5 5"
-							/>
-							<XAxis dataKey="name" />
-							<YAxis />
-						</LineChart>
+						<div className="h-1/2 mt-4">
+							<LineGraph data={data} />
+						</div>
 					</div>
 				</React.Fragment>
 			)}
