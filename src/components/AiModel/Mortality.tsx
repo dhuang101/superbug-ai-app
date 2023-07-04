@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext, ChangeEvent } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { getEncForPatient, getObsForEnc } from "../../services/PatientSummary"
 import LineGraph from "./SubComponents/LineGraph"
+import EncSelect from "./SubComponents/EncSelect"
 
 function Mortality() {
 	// const for path param
@@ -54,46 +55,6 @@ function Mortality() {
 		})
 	}
 
-	function handleSelect(event: ChangeEvent<HTMLSelectElement>): void {
-		setSelectedEnc(event.target.value)
-	}
-
-	// generates the options for the select
-	function SelectOptions() {
-		return (
-			<React.Fragment>
-				<option disabled value={""}>
-					Encounter Selection
-				</option>
-				{encounters.map((obj: any, i: number) => {
-					let display =
-						new Date(obj.resource.period.start).toLocaleString(
-							"en-AU",
-							{
-								timeZone:
-									Intl.DateTimeFormat().resolvedOptions()
-										.timeZone,
-							}
-						) +
-						" - " +
-						new Date(obj.resource.period.end).toLocaleString(
-							"en-AU",
-							{
-								timeZone:
-									Intl.DateTimeFormat().resolvedOptions()
-										.timeZone,
-							}
-						)
-					return (
-						<option value={i} key={i}>
-							{display}
-						</option>
-					)
-				})}
-			</React.Fragment>
-		)
-	}
-
 	return (
 		<React.Fragment>
 			{loading ? (
@@ -110,13 +71,11 @@ function Mortality() {
 						<article className="mb-6 text-xl font-semibold text-center">
 							Predicted Mortality Rate
 						</article>
-						<select
-							className="select select-bordered max-w-sm ml-20"
-							onChange={handleSelect}
-							value={selectedEnc}
-						>
-							<SelectOptions />
-						</select>
+						<EncSelect
+							encounters={encounters}
+							selectedEnc={selectedEnc}
+							setSelectedEnc={setSelectedEnc}
+						/>
 						<div className="h-1/2 mt-4">
 							<LineGraph data={data} />
 						</div>
