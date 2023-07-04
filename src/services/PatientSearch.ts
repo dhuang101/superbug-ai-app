@@ -1,5 +1,4 @@
 import axios from "axios"
-const baseUrl = "https://fhir.monash.edu/hapi-fhir-jpaserver/fhir"
 
 export function getPatientsByName(
 	apiUrl: string,
@@ -11,12 +10,13 @@ export function getPatientsByName(
 		.get(`${apiUrl}Patient`, {
 			params: {
 				_sort: "_id",
-				_getpagesoffset: currentPage,
+				_getpagesoffset: currentPage * 10,
 				_count: rowCount,
 				name: name,
 			},
 		})
 		.then((res) => {
+			console.log(res)
 			if (res.data.hasOwnProperty("entry")) {
 				return res.data.entry
 			} else {
@@ -40,7 +40,7 @@ export function getPatientById(
 		.get(`${apiUrl}Patient`, {
 			params: {
 				_sort: "_id",
-				_getpagesoffset: currentPage,
+				_getpagesoffset: currentPage * 10,
 				_count: rowCount,
 				_id: id,
 			},
@@ -51,6 +51,19 @@ export function getPatientById(
 			} else {
 				return []
 			}
+		})
+		.catch((error) => {
+			console.log(error)
+		})
+
+	return apiCall
+}
+
+export function baseApiCall(apiUrl: string) {
+	const apiCall: Promise<any> = axios
+		.get(apiUrl)
+		.then((res) => {
+			return res
 		})
 		.catch((error) => {
 			console.log(error)

@@ -87,6 +87,23 @@ function PatientSearch() {
 		}
 	}
 
+	// handles change of row count
+	function handleChangeRowsPerPage(
+		event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	): void {
+		setCurrentPage(0)
+		setRowsPerPage(parseInt(event.target.value)) // calls useEffect
+	}
+
+	// handles change of page
+	function handleChangePage(
+		event: React.MouseEvent<HTMLButtonElement>,
+		page: number
+	): void {
+		setCurrentPage(page) // calls useEffect
+		window.scrollTo(0, 0)
+	}
+
 	// starts the search
 	function handleSearch() {
 		// does not search when search bar is empty
@@ -117,23 +134,6 @@ function PatientSearch() {
 					setLoading(false)
 				})
 		}
-	}
-
-	// handles change of row count
-	function handleChangeRowsPerPage(
-		event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	): void {
-		setCurrentPage(0)
-		setRowsPerPage(parseInt(event.target.value)) // calls useEffect
-	}
-
-	// handles change of page
-	function handleChangePage(
-		event: React.MouseEvent<HTMLButtonElement>,
-		page: number
-	): void {
-		setCurrentPage(page) // calls useEffect
-		window.scrollTo(0, 0)
 	}
 
 	return (
