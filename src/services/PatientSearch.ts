@@ -10,7 +10,7 @@ export function getPatientsByName(
 		.get(`${apiUrl}Patient`, {
 			params: {
 				_sort: "_id",
-				_getpagesoffset: currentPage * 10,
+				_getpagesoffset: currentPage * rowCount,
 				_count: rowCount,
 				name: name,
 			},
@@ -39,7 +39,7 @@ export function getPatientById(
 		.get(`${apiUrl}Patient`, {
 			params: {
 				_sort: "_id",
-				_getpagesoffset: currentPage * 10,
+				_getpagesoffset: currentPage * rowCount,
 				_count: rowCount,
 				_id: id,
 			},
