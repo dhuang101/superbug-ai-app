@@ -16,7 +16,6 @@ export function getPatientsByName(
 			},
 		})
 		.then((res) => {
-			console.log(res)
 			if (res.data.hasOwnProperty("entry")) {
 				return res.data.entry
 			} else {
