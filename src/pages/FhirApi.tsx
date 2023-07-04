@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useContext } from "react"
+import { KeyboardEvent, ChangeEvent, useState, useContext } from "react"
 import ApiContext from "../contexts/ApiContext"
 
 // page which will allow the user to set the api url used
@@ -9,6 +9,12 @@ function FhirApi() {
 
 	function handleInput(event: ChangeEvent<HTMLInputElement>): void {
 		setCurrentInput(event.target.value)
+	}
+
+	function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+		if (event.key === "Enter") {
+			handleSubmit()
+		}
 	}
 
 	function handleSubmit(): void {
@@ -40,11 +46,12 @@ function FhirApi() {
 			<article className="text-3xl font-semibold text-center">
 				Adjust FHIR API
 			</article>
-			<div className="flex flex-row justify-center pt-3 w-full">
+			<div className="flex flex-row justify-center mt-3 w-full">
 				<input
 					type="text"
 					placeholder="https://"
 					className="input input-bordered w-full max-w-sm"
+					onKeyDown={handleKeyDown}
 					onChange={handleInput}
 				/>
 				<button

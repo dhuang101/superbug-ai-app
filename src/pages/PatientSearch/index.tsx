@@ -81,7 +81,7 @@ function PatientSearch() {
 		setSearchOption(event.target.value)
 	}
 
-	function handleKeyDown(event: KeyboardEvent) {
+	function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
 		if (event.key === "Enter") {
 			handleSearch()
 		}
@@ -123,6 +123,7 @@ function PatientSearch() {
 	function handleChangeRowsPerPage(
 		event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	): void {
+		setCurrentPage(0)
 		setRowsPerPage(parseInt(event.target.value)) // calls useEffect
 	}
 
@@ -136,13 +137,13 @@ function PatientSearch() {
 	}
 
 	return (
-		<div className="w-8/12">
-			<div className="pt-6 flex flex-row">
+		<div className="w-8/12 grow">
+			<div className="mt-6">
 				<article className="text-3xl font-semibold">
 					Patient List
 				</article>
 			</div>
-			<div className="py-3">
+			<div className="my-3">
 				<select
 					className="select select-bordered select-sm max-w-xs"
 					onChange={handleSelect}
@@ -178,10 +179,10 @@ function PatientSearch() {
 				</div>
 			) : (
 				<React.Fragment>
-					<div className="pt-2 ">
+					<div className="mt-2">
 						<SearchTable patientData={patientData} />
 					</div>
-					<div className="flex items-center justify-center text-center">
+					<div className="flex items-center justify-center text-center grow">
 						<TablePagination
 							component="div"
 							count={patientCount}
