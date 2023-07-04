@@ -175,7 +175,7 @@ function LineGraph(props: any) {
 									)
 								}}
 							/>
-							<YAxis unit={"%"} />
+							<YAxis unit={"%"} domain={[0, 100]} />
 							{graphState.limit1 !== null &&
 							graphState.limit2 !== null ? (
 								<ReferenceArea
