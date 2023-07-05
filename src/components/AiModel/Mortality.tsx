@@ -77,7 +77,7 @@ function Mortality() {
 							setSelectedEnc={setSelectedEnc}
 						/>
 						<div className="h-1/2 mt-4">
-							<LineGraph data={data} />
+							<LineGraph data={data} tooltip="Mortality Rate" />
 						</div>
 					</div>
 				</React.Fragment>

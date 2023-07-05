@@ -77,7 +77,7 @@ function LengthOfStay() {
 							setSelectedEnc={setSelectedEnc}
 						/>
 						<div className="h-1/2 mt-4">
-							<LineGraph data={data} />
+							<LineGraph data={data} tooltip="Length of Stay" />
 						</div>
 					</div>
 				</React.Fragment>

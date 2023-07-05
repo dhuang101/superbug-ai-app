@@ -154,7 +154,7 @@ function LineGraph(props: any) {
 								}}
 								formatter={(value) => [
 									value + "%",
-									"Mortality Rate",
+									props.tooltip,
 								]}
 							/>
 							<CartesianGrid

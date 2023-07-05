@@ -77,7 +77,7 @@ function IcuAd() {
 							setSelectedEnc={setSelectedEnc}
 						/>
 						<div className="h-1/2 mt-4">
-							<LineGraph data={data} />
+							<LineGraph data={data} tooltip="ICU Admission" />
 						</div>
 					</div>
 				</React.Fragment>
