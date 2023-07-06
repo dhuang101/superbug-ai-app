@@ -1,9 +1,9 @@
 import React, { ChangeEvent } from "react"
 
 function EncSelect(props: {
-	setSelectedEnc: (arg0: string) => void
 	encounters: any[]
 	selectedEnc: string | number | readonly string[]
+	setSelectedEnc: (arg0: string) => void
 }) {
 	function handleSelect(event: ChangeEvent<HTMLSelectElement>): void {
 		props.setSelectedEnc(event.target.value)
