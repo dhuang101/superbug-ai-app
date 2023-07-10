@@ -24,7 +24,8 @@ function PatientSummary() {
 
 	const [encounters, setEncounters] = useState([])
 	const [naviValue, setNaviValue] = useState(0)
-	const [lastButton, setLastButton] = useState<HTMLButtonElement>()
+	// const [lastButton, setLastButton] = useState<HTMLButtonElement>()
+	const lastButton = useRef<HTMLButtonElement>()
 	const lastEncounter = useRef("")
 
 	useEffect(() => {
@@ -41,7 +42,9 @@ function PatientSummary() {
 			"button0"
 		) as HTMLButtonElement
 		buttonElement.disabled = true
-		setLastButton(document.getElementById("button0") as HTMLButtonElement)
+		lastButton.current = document.getElementById(
+			"button0"
+		) as HTMLButtonElement
 	}, [])
 
 	function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
@@ -52,14 +55,14 @@ function PatientSummary() {
 		clickedElement.classList.remove("hover:bg-gray-300")
 		clickedElement.disabled = true
 		// alter CSS on previously clicked button
-		lastButton.classList.remove("text-blue-500")
-		lastButton.classList.remove("bg-blue-100")
-		lastButton.classList.add("hover:bg-gray-300")
-		lastButton.disabled = false
+		lastButton.current.classList.remove("text-blue-500")
+		lastButton.current.classList.remove("bg-blue-100")
+		lastButton.current.classList.add("hover:bg-gray-300")
+		lastButton.current.disabled = false
 		// change displayed component
 		setNaviValue(parseInt(clickedElement.value))
 		// save last pressed button
-		setLastButton(clickedElement)
+		lastButton.current = clickedElement
 	}
 
 	function DisplayHandler() {
