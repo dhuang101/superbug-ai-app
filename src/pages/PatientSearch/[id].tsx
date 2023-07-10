@@ -31,11 +31,11 @@ function PatientSummary() {
 		// splits the path to grab to id
 		let id = router.query.id as string
 		// grab list of encounters
-		getEncForPatient(apiContext.value, id, "inpatient")
-			.then((result: any) => {
+		getEncForPatient(apiContext.value, id, "inpatient").then(
+			(result: any) => {
 				setEncounters(result)
-			})
-			.then(console.log(encounters))
+			}
+		)
 
 		let buttonElement = document.getElementById(
 			"button0"
