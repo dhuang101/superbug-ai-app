@@ -24,7 +24,7 @@ function PatientSummary() {
 
 	const [encounters, setEncounters] = useState([])
 	const [naviValue, setNaviValue] = useState(0)
-	const [lastButton, setLastButton] = useState<any>()
+	const [lastButton, setLastButton] = useState<HTMLButtonElement>()
 	const lastEncounter = useRef("")
 
 	useEffect(() => {
@@ -41,7 +41,7 @@ function PatientSummary() {
 			"button0"
 		) as HTMLButtonElement
 		buttonElement.disabled = true
-		setLastButton(document.getElementById("button0"))
+		setLastButton(document.getElementById("button0") as HTMLButtonElement)
 	}, [])
 
 	function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
@@ -59,7 +59,7 @@ function PatientSummary() {
 		// change displayed component
 		setNaviValue(parseInt(clickedElement.value))
 		// save last pressed button
-		setLastButton(event.target)
+		setLastButton(clickedElement)
 	}
 
 	function DisplayHandler() {
