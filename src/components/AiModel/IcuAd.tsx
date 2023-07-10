@@ -1,34 +1,19 @@
-import { CircularProgress } from "@mui/material"
-import { useRouter } from "next/router"
-import React, { useEffect, useState, useContext, ChangeEvent } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import ApiContext from "../../contexts/ApiContext"
-import { getEncForPatient, getObsForEnc } from "../../services/PatientSummary"
+import { getObsForEnc } from "../../services/PatientSummary"
 import LineGraph from "./SubComponents/LineGraph"
 import EncSelect from "./SubComponents/EncSelect"
 
-function IcuAd() {
-	// const for path param
-	const router = useRouter()
+function IcuAd(props: {
+	encounters: any[]
+	lastEncounter: { current: React.SetStateAction<string> }
+}) {
 	// global state container
 	const apiContext = useContext(ApiContext)
 
 	// state variables
-	const [loading, setLoading] = useState(true)
-	const [encounters, setEncounters] = useState([])
 	const [selectedEnc, setSelectedEnc] = useState("")
 	const [data, setData] = useState([])
-
-	// on mount grabs encounters related to patient
-	useEffect(() => {
-		// splits the path to grab to id
-		let id = router.query.id as string
-		// grab list of encounters
-		getEncForPatient(apiContext.value, id, "inpatient")
-			.then((result: any) => {
-				setEncounters(result)
-			})
-			.then(setLoading(false))
-	}, [])
 
 	// once a valid encounter is selected grabs the
 	// corresponding observations
@@ -36,13 +21,21 @@ function IcuAd() {
 		if (selectedEnc !== "") {
 			getObsForEnc(
 				apiContext.value,
-				encounters[selectedEnc].resource.id,
+				props.encounters[selectedEnc].resource.id,
 				"ICU Admission"
 			).then((result: any) => {
 				setData(marshallData(result))
 			})
 		}
+
+		return () => {
+			props.lastEncounter.current = selectedEnc
+		}
 	}, [selectedEnc])
+
+	useEffect(() => {
+		setSelectedEnc(props.lastEncounter.current)
+	}, [])
 
 	// organises data from the fetched observations
 	function marshallData(data: any) {
@@ -57,11 +50,7 @@ function IcuAd() {
 
 	return (
 		<React.Fragment>
-			{loading ? (
-				<div className="flex items-center justify-center h-full">
-					<CircularProgress size={80} />
-				</div>
-			) : encounters.length === 0 ? (
+			{props.encounters.length === 0 ? (
 				<div className="flex items-center justify-center h-[68vh] text-3xl">
 					No Recorded Encounters
 				</div>
@@ -72,7 +61,7 @@ function IcuAd() {
 							ICU Admission
 						</article>
 						<EncSelect
-							encounters={encounters}
+							encounters={props.encounters}
 							selectedEnc={selectedEnc}
 							setSelectedEnc={setSelectedEnc}
 						/>

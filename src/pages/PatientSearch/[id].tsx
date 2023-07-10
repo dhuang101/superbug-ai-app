@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
+import { useRouter } from "next/router"
+import { getEncForPatient } from "../../services/PatientSummary"
+import ApiContext from "../../contexts/ApiContext"
 import SummaryComponent from "../../components/PatientSummary/SummaryComponent"
 import LengthOfStay from "../../components/AiModel/LengthOfStay"
 import UnplannedAd from "../../components/AiModel/UnplannedAd"
@@ -14,10 +17,26 @@ import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety"
 // gregg
 
 function PatientSummary() {
+	// const for path param
+	const router = useRouter()
+	// global state container
+	const apiContext = useContext(ApiContext)
+
+	const [encounters, setEncounters] = useState([])
 	const [naviValue, setNaviValue] = useState(0)
 	const [lastButton, setLastButton] = useState<any>()
+	const lastEncounter = useRef("")
 
 	useEffect(() => {
+		// splits the path to grab to id
+		let id = router.query.id as string
+		// grab list of encounters
+		getEncForPatient(apiContext.value, id, "inpatient")
+			.then((result: any) => {
+				setEncounters(result)
+			})
+			.then(console.log(encounters))
+
 		let buttonElement = document.getElementById(
 			"button0"
 		) as HTMLButtonElement
@@ -46,10 +65,16 @@ function PatientSummary() {
 	function DisplayHandler() {
 		let componentList = [
 			<SummaryComponent />,
-			<Mortality />,
-			<LengthOfStay />,
-			<UnplannedAd />,
-			<IcuAd />,
+			<Mortality encounters={encounters} lastEncounter={lastEncounter} />,
+			<LengthOfStay
+				encounters={encounters}
+				lastEncounter={lastEncounter}
+			/>,
+			<UnplannedAd
+				encounters={encounters}
+				lastEncounter={lastEncounter}
+			/>,
+			<IcuAd encounters={encounters} lastEncounter={lastEncounter} />,
 		]
 		return componentList[naviValue]
 	}
