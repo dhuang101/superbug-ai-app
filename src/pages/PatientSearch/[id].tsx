@@ -38,6 +38,7 @@ function PatientSummary() {
 			}
 		)
 
+		// set button element for side menu
 		let buttonElement = document.getElementById(
 			"button0"
 		) as HTMLButtonElement
@@ -140,7 +141,7 @@ function PatientSummary() {
 				</button>
 			</div>
 			<div className="flex flex-col w-4/5 items-center overflow-y-auto">
-				<div className="flex flex-col w-10/12 py-6 px-12 my-8 min-h-[90%] bg-white rounded">
+				<div className="flex flex-col w-10/12 py-6 px-12 my-8 h-full min-h-[90%] bg-white rounded">
 					<DisplayHandler />
 				</div>
 			</div>
