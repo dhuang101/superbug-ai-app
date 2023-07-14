@@ -92,7 +92,7 @@ function PatientSummary() {
 					onClick={handleClick}
 					className="flex justify-start items-center mt-2 h-11 w-11/12 rounded bg-blue-100 text-blue-500"
 				>
-					<PersonIcon className="w-1/6 pointer-events-none" />
+					<PersonIcon className="mx-2 pointer-events-none" />
 					<article className="pointer-events-none">
 						Patient Summary
 					</article>
@@ -103,7 +103,7 @@ function PatientSummary() {
 					onClick={handleClick}
 					className="flex justify-start items-center mt-2 h-11 w-11/12 rounded hover:bg-gray-300"
 				>
-					<MonitorHeartIcon className="w-1/6 pointer-events-none" />
+					<MonitorHeartIcon className="mx-2 pointer-events-none" />
 					<article className="pointer-events-none">Mortality</article>
 				</button>
 				<button
@@ -112,7 +112,7 @@ function PatientSummary() {
 					onClick={handleClick}
 					className="flex justify-start items-center mt-2 h-11 w-11/12 rounded hover:bg-gray-300"
 				>
-					<CalendarMonthIcon className="w-1/6 pointer-events-none" />
+					<CalendarMonthIcon className="mx-2 pointer-events-none" />
 					<article className="pointer-events-none">
 						Length of Stay
 					</article>
@@ -123,7 +123,7 @@ function PatientSummary() {
 					onClick={handleClick}
 					className="flex justify-start items-center mt-2 h-11 w-11/12 rounded hover:bg-gray-300"
 				>
-					<LoopIcon className="w-1/6 pointer-events-none" />
+					<LoopIcon className="mx-2 pointer-events-none" />
 					<article className="pointer-events-none">
 						Unplanned Readmission
 					</article>
@@ -134,7 +134,7 @@ function PatientSummary() {
 					onClick={handleClick}
 					className="flex justify-start items-center mt-2 h-11 w-11/12 rounded hover:bg-gray-300"
 				>
-					<HealthAndSafetyIcon className="w-1/6 pointer-events-none" />
+					<HealthAndSafetyIcon className="mx-2 pointer-events-none" />
 					<article className="pointer-events-none">
 						ICU Admission
 					</article>
