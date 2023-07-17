@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react"
 import { useRouter } from "next/router"
 import { CircularProgress } from "@mui/material"
 import { medAdValidated, patientValidated } from "../../types/ValidationTypes"
-import { getPatientById } from "../../services/PatientSearch"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
 import { ValidateMedReq } from "../../functions/ValidateMedReq"
 import { getAllergyById, getMedReqById } from "../../services/PatientSummary"
@@ -10,6 +9,7 @@ import ApiContext from "../../contexts/ApiContext"
 import PatientDetails from "./SubComponents/PatientDetails"
 import MedicationHistory from "./SubComponents/MedicationHistory"
 import AllergiesDetails from "./SubComponents/AllergiesDetails"
+import axios from "axios"
 
 function SummaryComponent() {
 	// const for path param
@@ -39,7 +39,15 @@ function SummaryComponent() {
 		// splits the path to grab to id
 		let id = router.query.id as string
 		// chain of api calls to fetch required data
-		getPatientById(apiContext.value, id, 0, 1)
+		axios
+			.get("/api/getPatientsById", {
+				params: {
+					apiUrl: apiContext.value,
+					name: id,
+					currentPage: 0,
+					rowsPerPage: 1,
+				},
+			})
 			.then((result: any) => {
 				if (result.length > 0) {
 					setPatientData(ValidatePatientObj(result[0].resource))
