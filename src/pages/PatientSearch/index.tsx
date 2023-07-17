@@ -6,7 +6,6 @@ import React, {
 	useContext,
 } from "react"
 import axios from "axios"
-import { getPatientById, getPatientsByName } from "../../services/PatientSearch"
 import ApiContext from "../../contexts/ApiContext"
 import SearchTable from "../../components/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
@@ -45,14 +44,17 @@ function PatientSearch() {
 		// if forks to ensures the search function used is based on the last
 		// used function
 		if (searchOption === "id") {
-			getPatientById(
-				apiContext.value,
-				searchInput,
-				currentPage,
-				rowsPerPage
-			)
+			axios
+				.get("/api/getPatientsById", {
+					params: {
+						apiUrl: apiContext.value,
+						name: searchInput,
+						currentPage: currentPage,
+						rowsPerPage: rowsPerPage,
+					},
+				})
 				.then((result: any) => {
-					setPatientData(result)
+					setPatientData(result.data)
 				})
 				.then(() => {
 					setLoading(false)
@@ -68,24 +70,11 @@ function PatientSearch() {
 					},
 				})
 				.then((result: any) => {
-					// console.log(result)
 					setPatientData(result.data)
 				})
 				.then(() => {
 					setLoading(false)
 				})
-			// getPatientsByName(
-			// 	apiContext.value,
-			// 	searchInput,
-			// 	currentPage,
-			// 	rowsPerPage
-			// )
-			// 	.then((result: any) => {
-			// 		setPatientData(result)
-			// 	})
-			// 	.then(() => {
-			// 		setLoading(false)
-			// 	})
 		}
 	}, [currentPage, rowsPerPage])
 
@@ -132,9 +121,17 @@ function PatientSearch() {
 		// checks if the serach bar is an id or a name
 		if (searchOption === "id") {
 			// searches for id
-			getPatientById(apiContext.value, searchInput, 0, rowsPerPage)
+			axios
+				.get("/api/getPatientsByName", {
+					params: {
+						apiUrl: apiContext.value,
+						name: searchInput,
+						currentPage: 0,
+						rowsPerPage: rowsPerPage,
+					},
+				})
 				.then((result: any) => {
-					setPatientData(result)
+					setPatientData(result.data)
 				})
 				.then(() => {
 					setCurrentPage(0)
@@ -142,9 +139,17 @@ function PatientSearch() {
 				})
 		} else if (searchOption === "name") {
 			// seraches for name
-			getPatientsByName(apiContext.value, searchInput, 0, rowsPerPage)
+			axios
+				.get("/api/getPatientsByName", {
+					params: {
+						apiUrl: apiContext.value,
+						name: searchInput,
+						currentPage: 0,
+						rowsPerPage: rowsPerPage,
+					},
+				})
 				.then((result: any) => {
-					setPatientData(result)
+					setPatientData(result.data)
 				})
 				.then(() => {
 					setCurrentPage(0)
