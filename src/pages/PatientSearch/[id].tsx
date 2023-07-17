@@ -12,6 +12,11 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import LoopIcon from "@mui/icons-material/Loop"
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety"
+import { GetServerSideProps } from "next"
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	return { props: { nothing: "nothing" } }
+}
 
 // 6f7acde5-db81-4361-82cf-886893a3280c
 // gregg
