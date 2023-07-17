@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export function getPatientById(
+function getPatientById(
 	apiUrl: string,
 	id: string,
 	currentPage: number,
