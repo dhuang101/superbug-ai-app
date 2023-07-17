@@ -50,7 +50,7 @@ function PatientSearch() {
 		// used function
 		if (searchOption === "id") {
 			axios
-				.get("/api/getPatientsById", {
+				.get("/api/patient/search/id", {
 					params: {
 						apiUrl: apiContext.value,
 						name: searchInput,
@@ -66,7 +66,7 @@ function PatientSearch() {
 				})
 		} else if (searchOption === "name") {
 			axios
-				.get("/api/getPatientsByName", {
+				.get("/api/patient/search/name", {
 					params: {
 						apiUrl: apiContext.value,
 						name: searchInput,
@@ -127,7 +127,7 @@ function PatientSearch() {
 		if (searchOption === "id") {
 			// searches for id
 			axios
-				.get("/api/getPatientsByName", {
+				.get("/api/patient/search/id", {
 					params: {
 						apiUrl: apiContext.value,
 						name: searchInput,
@@ -145,7 +145,7 @@ function PatientSearch() {
 		} else if (searchOption === "name") {
 			// seraches for name
 			axios
-				.get("/api/getPatientsByName", {
+				.get("/api/patient/search/name", {
 					params: {
 						apiUrl: apiContext.value,
 						name: searchInput,
