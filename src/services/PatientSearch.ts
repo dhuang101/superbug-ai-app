@@ -57,16 +57,3 @@ export function getPatientById(
 
 	return apiCall
 }
-
-export function baseApiCall(apiUrl: string) {
-	const apiCall: Promise<any> = axios
-		.get(apiUrl)
-		.then((res) => {
-			return res
-		})
-		.catch((error) => {
-			console.log(error)
-		})
-
-	return apiCall
-}

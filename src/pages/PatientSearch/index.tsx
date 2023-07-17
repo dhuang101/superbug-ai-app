@@ -5,6 +5,7 @@ import React, {
 	useState,
 	useContext,
 } from "react"
+import axios from "axios"
 import { getPatientById, getPatientsByName } from "../../services/PatientSearch"
 import ApiContext from "../../contexts/ApiContext"
 import SearchTable from "../../components/SearchTable"
@@ -57,18 +58,34 @@ function PatientSearch() {
 					setLoading(false)
 				})
 		} else if (searchOption === "name") {
-			getPatientsByName(
-				apiContext.value,
-				searchInput,
-				currentPage,
-				rowsPerPage
-			)
+			axios
+				.get("/api/getPatientsByName", {
+					params: {
+						apiUrl: apiContext.value,
+						name: searchInput,
+						currentPage: currentPage,
+						rowsPerPage: rowsPerPage,
+					},
+				})
 				.then((result: any) => {
-					setPatientData(result)
+					// console.log(result)
+					setPatientData(result.data)
 				})
 				.then(() => {
 					setLoading(false)
 				})
+			// getPatientsByName(
+			// 	apiContext.value,
+			// 	searchInput,
+			// 	currentPage,
+			// 	rowsPerPage
+			// )
+			// 	.then((result: any) => {
+			// 		setPatientData(result)
+			// 	})
+			// 	.then(() => {
+			// 		setLoading(false)
+			// 	})
 		}
 	}, [currentPage, rowsPerPage])
 
