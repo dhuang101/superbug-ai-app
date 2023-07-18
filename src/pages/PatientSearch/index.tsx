@@ -9,7 +9,6 @@ import axios from "axios"
 import ApiContext from "../../contexts/ApiContext"
 import SearchTable from "../../components/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
-import { getResourceCount } from "../../services/ServerSummary"
 import { GetServerSideProps } from "next"
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -31,13 +30,19 @@ function PatientSearch() {
 	// use effect runs only once on component initialisation
 	useEffect(() => {
 		// fetches server meta data for display
-		getResourceCount(apiContext.value).then((result: any) => {
-			result.forEach((obj) => {
-				if (obj.name === "Patient") {
-					setPatientCount(obj.valueInteger)
-				}
+		axios
+			.get("/api/server/resourcecount", {
+				params: {
+					apiUrl: apiContext.value,
+				},
 			})
-		})
+			.then((result: any) => {
+				result.data.forEach((obj) => {
+					if (obj.name === "Patient") {
+						setPatientCount(obj.valueInteger)
+					}
+				})
+			})
 	}, [])
 
 	// use effect controls which service is run based on the last search run
