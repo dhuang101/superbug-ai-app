@@ -18,25 +18,21 @@ function FhirApi() {
 	}
 
 	function handleSubmit(): void {
+		const error = document.getElementById("errors") as HTMLElement | null
 		if (currentInput === "") {
-			const input = document.getElementById(
-				"errors"
-			) as HTMLElement | null
-			if (input !== null) {
-				input.innerHTML = "Enter an API URL"
+			if (error !== null) {
+				error.innerHTML = "Enter an API URL"
 			}
 			// throw error
 			return
 		} else if (currentInput[currentInput.length - 1] !== "/") {
-			const input = document.getElementById(
-				"errors"
-			) as HTMLElement | null
-			if (input !== null) {
-				input.innerHTML = "Error: Trailing forward slash required"
+			if (error !== null) {
+				error.innerHTML = "Error: Trailing forward slash required"
 			}
 			// throw error
 			return
 		}
+		error.innerHTML = ""
 		apiContext.setter(currentInput)
 		window.localStorage.setItem("currentApiUrl", currentInput)
 	}
@@ -44,13 +40,14 @@ function FhirApi() {
 	return (
 		<div className="flex flex-col grow justify-center items-center w-3/5">
 			<article className="text-3xl font-semibold text-center">
-				Adjust FHIR API
+				Change FHIR API
 			</article>
 			<div className="flex flex-row justify-center mt-3 w-full">
 				<input
 					type="text"
 					placeholder="https://"
 					className="input input-bordered w-full max-w-sm"
+					autoComplete="on"
 					onKeyDown={handleKeyDown}
 					onChange={handleInput}
 				/>
