@@ -1,6 +1,6 @@
+import axios from "axios"
 import React, { useEffect, useState, useContext } from "react"
 import ApiContext from "../../contexts/ApiContext"
-import { getObsForEnc } from "../../services/PatientSummary"
 import LineGraph from "./SubComponents/LineGraph"
 import EncSelect from "./SubComponents/EncSelect"
 
@@ -19,13 +19,17 @@ function Mortality(props: {
 	// corresponding observations
 	useEffect(() => {
 		if (selectedEnc !== "") {
-			getObsForEnc(
-				apiContext.value,
-				props.encounters[selectedEnc].resource.id,
-				"Patient Mortality Rate"
-			).then((result: any) => {
-				setData(marshallData(result))
-			})
+			axios
+				.get("/api/observation/byencounter", {
+					params: {
+						apiUrl: apiContext.value,
+						encId: props.encounters[selectedEnc].resource.id,
+						code: "Patient Mortality Rate",
+					},
+				})
+				.then((result: any) => {
+					setData(marshallData(result.data))
+				})
 		}
 
 		return () => {
@@ -39,6 +43,7 @@ function Mortality(props: {
 
 	// organises data from the fetched observations
 	function marshallData(data: any) {
+		console.log(data)
 		return data.map((obj: any) => {
 			return {
 				issued: obj.resource.issued,

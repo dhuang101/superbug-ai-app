@@ -1,6 +1,6 @@
+import axios from "axios"
 import React, { useEffect, useState, useContext } from "react"
 import ApiContext from "../../contexts/ApiContext"
-import { getObsForEnc } from "../../services/PatientSummary"
 import LineGraph from "./SubComponents/LineGraph"
 import EncSelect from "./SubComponents/EncSelect"
 
@@ -19,13 +19,17 @@ function UnplannedAd(props: {
 	// corresponding observations
 	useEffect(() => {
 		if (selectedEnc !== "") {
-			getObsForEnc(
-				apiContext.value,
-				props.encounters[selectedEnc].resource.id,
-				"Unplanned Readmission"
-			).then((result: any) => {
-				setData(marshallData(result))
-			})
+			axios
+				.get("/api/observation/byencounter", {
+					params: {
+						apiUrl: apiContext.value,
+						encId: props.encounters[selectedEnc].resource.id,
+						code: "Unplanned Readmission",
+					},
+				})
+				.then((result: any) => {
+					setData(marshallData(result.data))
+				})
 		}
 
 		return () => {

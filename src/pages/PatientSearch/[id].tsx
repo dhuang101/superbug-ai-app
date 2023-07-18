@@ -1,6 +1,7 @@
+import axios from "axios"
+import { GetServerSideProps } from "next"
 import React, { useState, useEffect, useContext, useRef } from "react"
 import { useRouter } from "next/router"
-import { getEncForPatient } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
 import SummaryComponent from "../../components/PatientSummary/SummaryComponent"
 import LengthOfStay from "../../components/AiModel/LengthOfStay"
@@ -12,7 +13,6 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import LoopIcon from "@mui/icons-material/Loop"
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety"
-import { GetServerSideProps } from "next"
 
 export const getServerSideProps: GetServerSideProps = async () => {
 	return { props: { nothing: "nothing" } }
@@ -37,11 +37,17 @@ function PatientSummary() {
 		// splits the path to grab to id
 		let id = router.query.id as string
 		// grab list of encounters
-		getEncForPatient(apiContext.value, id, "inpatient").then(
-			(result: any) => {
-				setEncounters(result)
-			}
-		)
+		axios
+			.get("/api/patient/summary/encounters", {
+				params: {
+					apiUrl: apiContext.value,
+					patientId: id,
+					className: "inpatient",
+				},
+			})
+			.then((result: any) => {
+				setEncounters(result.data)
+			})
 
 		// set button element for side menu
 		let buttonElement = document.getElementById(

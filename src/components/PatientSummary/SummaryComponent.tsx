@@ -4,7 +4,6 @@ import { CircularProgress } from "@mui/material"
 import { medAdValidated, patientValidated } from "../../types/ValidationTypes"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
 import { ValidateMedReq } from "../../functions/ValidateMedReq"
-import { getAllergyById, getMedReqById } from "../../services/PatientSummary"
 import ApiContext from "../../contexts/ApiContext"
 import PatientDetails from "./SubComponents/PatientDetails"
 import MedicationHistory from "./SubComponents/MedicationHistory"
@@ -40,7 +39,7 @@ function SummaryComponent() {
 		let id = router.query.id as string
 		// chain of api calls to fetch required data
 		axios
-			.get("/api/getPatientsById", {
+			.get("/api/patient/search/id", {
 				params: {
 					apiUrl: apiContext.value,
 					name: id,
@@ -49,25 +48,37 @@ function SummaryComponent() {
 				},
 			})
 			.then((result: any) => {
-				if (result.length > 0) {
-					setPatientData(ValidatePatientObj(result[0].resource))
+				if (result.data.length > 0) {
+					setPatientData(ValidatePatientObj(result.data[0].resource))
 				}
 			})
 			.then(() => {
 				setFetchedPat(true)
 			})
 
-		getMedReqById(apiContext.value, id)
+		axios
+			.get("/api/patient/summary/medreq", {
+				params: {
+					apiUrl: apiContext.value,
+					id: id,
+				},
+			})
 			.then((result: any) => {
-				setMedicationData(ValidateMedReq(result))
+				setMedicationData(ValidateMedReq(result.data))
 			})
 			.then(() => {
 				setFetchedMed(true)
 			})
 
-		getAllergyById(apiContext.value, id)
+		axios
+			.get("/api/patient/summary/allergy", {
+				params: {
+					apiUrl: apiContext.value,
+					id: id,
+				},
+			})
 			.then((result: any) => {
-				setAllergyData(result)
+				setAllergyData(result.data)
 			})
 			.then(() => {
 				setFetchedAl(true)
