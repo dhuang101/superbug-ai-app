@@ -58,7 +58,7 @@ function PatientSearch() {
 				.get("/api/patient/search/id", {
 					params: {
 						apiUrl: apiContext.value,
-						name: searchInput,
+						id: searchInput,
 						currentPage: currentPage,
 						rowsPerPage: rowsPerPage,
 					},
@@ -135,7 +135,7 @@ function PatientSearch() {
 				.get("/api/patient/search/id", {
 					params: {
 						apiUrl: apiContext.value,
-						name: searchInput,
+						id: searchInput,
 						currentPage: 0,
 						rowsPerPage: rowsPerPage,
 					},
