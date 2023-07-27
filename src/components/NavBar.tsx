@@ -2,7 +2,7 @@ import Link from "next/link"
 
 function NavBar() {
 	return (
-		<div className="navbar bg-slate-900">
+		<div className="navbar min-h-[6%] bg-slate-900">
 			<div className="flex-1">
 				<Link href={"/"}>
 					<div className="btn btn-ghost normal-case text-xl text-white">
