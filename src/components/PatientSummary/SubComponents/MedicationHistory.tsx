@@ -12,7 +12,7 @@ function MedicationHistory(props: Props) {
 			<React.Fragment>
 				{props.medicationData.map((obj: any, i: number) => {
 					return (
-						<tr key={i} className="hover cursor-pointer">
+						<tr key={i} className="hover">
 							<td>{obj.id}</td>
 							<td>{obj.name}</td>
 							<td>{obj.status}</td>
