@@ -6,8 +6,8 @@ function getGroupedCondCount(apiUrl: string, start: Date, end: Date) {
 			params: { start: start, end: end },
 		})
 		.then((res) => {
-			if (res.data.hasOwnProperty("entry")) {
-				return res.data.entry
+			if (res.hasOwnProperty("data")) {
+				return res.data
 			} else {
 				return []
 			}
