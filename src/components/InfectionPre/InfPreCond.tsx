@@ -1,9 +1,8 @@
 import axios from "axios"
-import React, { useState, useEffect, useContext, useRef } from "react"
-import { useRouter } from "next/router"
+import React, { useState, useEffect, useContext } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { DatePicker } from "@mui/x-date-pickers"
-import { group } from "console"
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 
 function InfPreCond() {
 	// global state container
@@ -17,6 +16,8 @@ function InfPreCond() {
 		// TODO: error checking
 		// start is greater than start
 		// end is greater than now
+		// one value entered but not the other
+
 		// grab list of encounters
 		axios
 			.get("/api/condition/groupedCount", {
@@ -36,15 +37,19 @@ function InfPreCond() {
 	}, [groupedConds])
 
 	function handleStartChange(event) {
-		const offset = event.$d.getTimezoneOffset()
-		event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
-		setStartDate(event.$d.toISOString().split("T")[0])
+		if (!isNaN(event.$d.getTime())) {
+			const offset = event.$d.getTimezoneOffset()
+			event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
+			setStartDate(event.$d.toISOString().split("T")[0])
+		}
 	}
 
 	function handleEndChange(event) {
-		const offset = event.$d.getTimezoneOffset()
-		event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
-		setEndDate(event.$d.toISOString().split("T")[0])
+		if (!isNaN(event.$d.getTime())) {
+			const offset = event.$d.getTimezoneOffset()
+			event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
+			setEndDate(event.$d.toISOString().split("T")[0])
+		}
 	}
 
 	return (
@@ -73,6 +78,12 @@ function InfPreCond() {
 						format="DD/MM/YYYY"
 						label="End"
 					/>
+				</div>
+				<div
+					className="tooltip tooltip-accent ml-4 flex"
+					data-tip="Search with no dates entered to fetch all conditions. This is a heavy process and can be slow!"
+				>
+					<InfoOutlinedIcon className="my-auto" />
 				</div>
 				<div className="ml-auto">
 					<button

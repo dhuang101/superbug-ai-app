@@ -95,7 +95,7 @@ function LineGraph(props: any) {
 							className="tooltip tooltip-accent ml-4"
 							data-tip="Click and drag on the graph to zoom into the highlighted section"
 						>
-							<InfoOutlinedIcon className=" mb-1" />
+							<InfoOutlinedIcon className="mb-1" />
 						</div>
 					</div>
 
