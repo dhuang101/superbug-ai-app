@@ -91,20 +91,20 @@ function SummaryComponent() {
 		<React.Fragment>
 			{[fetchedPat, fetchedMed, fetchedAl].every(Boolean) ? (
 				<React.Fragment>
-					<div className="flex flex-col min-h-[250px] items-center">
+					<div className="flex flex-col min-h-[26vh] items-center">
 						<article className="mb-6 text-xl font-semibold">
 							{patientData.id}
 						</article>
 						<PatientDetails patientData={patientData} />
 					</div>
 
-					<div className="flex flex-col">
+					<div className="flex flex-col min-h-[26vh]">
 						<article className="my-6 text-xl font-semibold">
 							Medication History
 						</article>
 						<MedicationHistory medicationData={medicationData} />
 					</div>
-					<div className="flex flex-col">
+					<div className="flex flex-col min-h-[26vh]">
 						<article className="my-6 text-xl font-semibold">
 							Allergies
 						</article>
@@ -112,7 +112,7 @@ function SummaryComponent() {
 					</div>
 				</React.Fragment>
 			) : (
-				<div className="flex items-center justify-center h-[75vh]">
+				<div className="flex items-center justify-center h-[78vh]">
 					<CircularProgress size={80} />
 				</div>
 			)}
