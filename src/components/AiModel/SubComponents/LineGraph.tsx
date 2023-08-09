@@ -80,17 +80,25 @@ function LineGraph(props: any) {
 				</div>
 			) : (
 				<div className="h-full">
-					<button
-						className="btn btn-sm rounded btn-primary mb-2 ml-20"
-						onClick={() => {
-							dispatch({
-								type: "RESET_GRAPH",
-							})
-						}}
-					>
-						Zoom Out
-					</button>
-					<InfoOutlinedIcon />
+					<div className="mb-2">
+						<button
+							className="btn btn-sm rounded btn-primary ml-20"
+							onClick={() => {
+								dispatch({
+									type: "RESET_GRAPH",
+								})
+							}}
+						>
+							Zoom Out
+						</button>
+						<div
+							className="tooltip tooltip-accent ml-4"
+							data-tip="Click and drag on the graph to zoom into the highlighted section"
+						>
+							<InfoOutlinedIcon className=" mb-1" />
+						</div>
+					</div>
+
 					<ResponsiveContainer width={"100%"} height={"100%"}>
 						<LineChart
 							data={graphState.slicedData}
