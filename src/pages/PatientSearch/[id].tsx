@@ -95,7 +95,7 @@ function PatientSummary() {
 	}
 
 	return (
-		<div className="flex h-[93%] w-full">
+		<div className="flex h-full w-full">
 			<div className="flex flex-col w-1/5 items-center bg-base-100">
 				<button
 					id="button0"
@@ -152,7 +152,7 @@ function PatientSummary() {
 				</button>
 			</div>
 			<div className="flex flex-col w-4/5 items-center overflow-y-auto">
-				<div className="flex flex-col w-10/12 py-6 px-12 my-8 min-h-[90%] bg-white rounded">
+				<div className="flex flex-col w-10/12 py-6 px-12 my-8 min-h-fit bg-white rounded">
 					<DisplayHandler />
 				</div>
 			</div>

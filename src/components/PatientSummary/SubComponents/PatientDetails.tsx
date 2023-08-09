@@ -6,7 +6,7 @@ interface Props {
 
 function PatientDetails(props: Props) {
 	return (
-		<div className="w-full grow">
+		<div className="w-full h-full">
 			<div className="h-1/3 flex items-center">
 				<article className="flex h-full w-2/12 px-4 items-center border-solid border-2 border-slate-200 bg-slate-100">
 					Name

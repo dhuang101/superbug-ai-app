@@ -45,9 +45,11 @@ export default function MyApp({ Component, pageProps }) {
 			<ThemeProvider theme={theme}>
 				<div data-theme="corporate">
 					<ApiContext.Provider value={contextWrapper}>
-						<div className="flex flex-col h-screen min-w-screen items-center bg-gray-200">
+						<div className="flex flex-col h-screen min-w-screen">
 							<NavBar />
-							<Component {...pageProps} />
+							<div className="flex flex-col h-[92%] overflow-auto w-full items-center bg-gray-200">
+								<Component {...pageProps} />
+							</div>
 						</div>
 					</ApiContext.Provider>
 				</div>

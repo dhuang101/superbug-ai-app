@@ -30,8 +30,8 @@ function MedicationHistory(props: Props) {
 					<article>No Medication History</article>
 				</div>
 			) : (
-				<div className="flex justify-center">
-					<table className="table w-full [&_tr.hover:hover_*]:!bg-slate-300">
+				<div className="flex justify-center ">
+					<table className="table w-full [&_tr.hover:hover_*]:!bg-slate-300 overflow-x-auto">
 						<thead>
 							<tr>
 								<th>ID</th>
