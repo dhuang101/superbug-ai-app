@@ -55,7 +55,7 @@ function LengthOfStay(props: {
 	return (
 		<React.Fragment>
 			{props.encounters.length === 0 ? (
-				<div className="flex items-center justify-center h-[68vh] text-3xl">
+				<div className="flex items-center justify-center h-[78vh] text-3xl">
 					No Recorded Encounters
 				</div>
 			) : (
