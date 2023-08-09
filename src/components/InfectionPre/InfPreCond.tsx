@@ -10,10 +10,13 @@ function InfPreCond() {
 	const apiContext = useContext(ApiContext)
 
 	const [groupedConds, setGroupedConds] = useState()
-	const [startDate, setStartDate] = useState("2012-09-18")
-	const [endDate, setEndDate] = useState("2012-09-18")
+	const [startDate, setStartDate] = useState(null)
+	const [endDate, setEndDate] = useState(null)
 
-	useEffect(() => {
+	function executeSearch() {
+		// TODO: error checking
+		// start is greater than start
+		// end is greater than now
 		// grab list of encounters
 		axios
 			.get("/api/condition/groupedCount", {
@@ -26,7 +29,7 @@ function InfPreCond() {
 			.then((result: any) => {
 				setGroupedConds(result.data)
 			})
-	}, [])
+	}
 
 	useEffect(() => {
 		console.log(groupedConds)
@@ -70,6 +73,14 @@ function InfPreCond() {
 						format="DD/MM/YYYY"
 						label="End"
 					/>
+				</div>
+				<div className="ml-auto">
+					<button
+						className="btn btn-sm rounded btn-primary h-full"
+						onClick={executeSearch}
+					>
+						Search
+					</button>
 				</div>
 			</div>
 		</div>
