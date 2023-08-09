@@ -60,7 +60,7 @@ function LengthOfStay(props: {
 				</div>
 			) : (
 				<React.Fragment>
-					<div className="flex flex-col min-h-full">
+					<div className="flex flex-col min-h-[78vh]">
 						<article className="mb-6 text-xl font-semibold text-center">
 							Length of Stay
 						</article>
@@ -69,7 +69,7 @@ function LengthOfStay(props: {
 							selectedEnc={selectedEnc}
 							setSelectedEnc={setSelectedEnc}
 						/>
-						<div className="h-1/2 mt-4">
+						<div className="h-3/4 mt-4">
 							<LineGraph data={data} tooltip="Length of Stay" />
 						</div>
 					</div>

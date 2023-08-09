@@ -9,6 +9,7 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts"
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 
 // reducer used to handle complex state for the line graph
 const initialState = {
@@ -89,6 +90,7 @@ function LineGraph(props: any) {
 					>
 						Zoom Out
 					</button>
+					<InfoOutlinedIcon />
 					<ResponsiveContainer width={"100%"} height={"100%"}>
 						<LineChart
 							data={graphState.slicedData}
