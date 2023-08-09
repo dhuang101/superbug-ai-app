@@ -3,12 +3,15 @@ import React, { useState, useEffect, useContext, useRef } from "react"
 import { useRouter } from "next/router"
 import ApiContext from "../../contexts/ApiContext"
 import { DatePicker } from "@mui/x-date-pickers"
+import { group } from "console"
 
 function InfPreCond() {
 	// global state container
 	const apiContext = useContext(ApiContext)
 
 	const [groupedConds, setGroupedConds] = useState()
+	const [startDate, setStartDate] = useState("2012-09-18")
+	const [endDate, setEndDate] = useState("2012-09-18")
 
 	useEffect(() => {
 		// grab list of encounters
@@ -16,6 +19,8 @@ function InfPreCond() {
 			.get("/api/condition/groupedCount", {
 				params: {
 					apiUrl: apiContext.value,
+					start: startDate,
+					end: endDate,
 				},
 			})
 			.then((result: any) => {
@@ -23,22 +28,20 @@ function InfPreCond() {
 			})
 	}, [])
 
-	function handleStartChange() {
-		return
+	useEffect(() => {
+		console.log(groupedConds)
+	}, [groupedConds])
+
+	function handleStartChange(event) {
+		const offset = event.$d.getTimezoneOffset()
+		event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
+		setStartDate(event.$d.toISOString().split("T")[0])
 	}
 
-	function handleEndChange() {
-		return
-	}
-
-	function fieldElement() {
-		return (
-			<input
-				type="text"
-				placeholder="Type here"
-				className="input input-bordered input-primary w-full max-w-xs"
-			/>
-		)
+	function handleEndChange(event) {
+		const offset = event.$d.getTimezoneOffset()
+		event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
+		setEndDate(event.$d.toISOString().split("T")[0])
 	}
 
 	return (
@@ -56,7 +59,7 @@ function InfPreCond() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-5xl font-thin text-stone-400">
+				<article className="mx-4 text-3xl font-thin text-stone-400">
 					-
 				</article>
 				<div className="w-1/5">
