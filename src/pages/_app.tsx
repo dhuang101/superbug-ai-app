@@ -43,7 +43,7 @@ export default function MyApp({ Component, pageProps }) {
 	return (
 		<LocalizationProvider dateAdapter={AdapterDayjs}>
 			<ThemeProvider theme={theme}>
-				<div data-theme="lightMode">
+				<div data-theme="business">
 					<ApiContext.Provider value={contextWrapper}>
 						<div className="flex flex-col h-screen min-w-screen">
 							<NavBar />

@@ -18,6 +18,25 @@ function StyledDatePicker(props) {
 				styleOverrides: {
 					root: {
 						color: "hsl(var(--bc))",
+						"&.Mui-focused": {
+							color: "hsl(var(--pf))",
+						},
+					},
+				},
+			},
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						color: "hsl(var(--bc))",
+					},
+				},
+			},
+			MuiOutlinedInput: {
+				styleOverrides: {
+					root: {
+						"& fieldset": {
+							borderColor: "hsl(var(--p))",
+						},
 					},
 				},
 			},
@@ -34,9 +53,6 @@ function StyledDatePicker(props) {
 				label={props.label}
 				sx={{
 					"& .MuiOutlinedInput-root": {
-						"& fieldset": {
-							borderColor: "hsl(var(--p))",
-						},
 						"&:hover fieldset": {
 							borderColor: "hsl(var(--s))",
 						},
