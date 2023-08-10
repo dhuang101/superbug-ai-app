@@ -2,10 +2,10 @@ import Link from "next/link"
 
 function NavBar() {
 	return (
-		<div className="navbar h-[7%] bg-slate-900">
+		<div className="navbar h-[7%] bg-primary">
 			<div className="flex-1">
 				<Link href={"/"}>
-					<div className="btn btn-ghost normal-case text-xl text-white">
+					<div className="btn btn-ghost normal-case text-xl text-primary-content">
 						Superbug AI
 					</div>
 				</Link>

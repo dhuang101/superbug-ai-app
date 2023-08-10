@@ -2,6 +2,7 @@ import axios from "axios"
 import React, { useState, useEffect, useContext } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { DatePicker } from "@mui/x-date-pickers"
+import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 
 function InfPreCond() {
@@ -95,7 +96,21 @@ function InfPreCond() {
 					</button>
 				</div>
 			</div>
-			<div></div>
+			{loading === true ? (
+				<div className="flex justify-center items-center h-[90%]">
+					<CircularProgress size={80} />
+				</div>
+			) : (
+				<React.Fragment>
+					<div className="flex justify-around mt-3 h-1/5">
+						<div className="bg-primary rounded-lg drop-shadow-lg h-full aspect-square text-center">
+							<article>TEST</article>
+							<article>6</article>
+						</div>
+					</div>
+					<div></div>
+				</React.Fragment>
+			)}
 		</div>
 	)
 }

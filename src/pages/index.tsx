@@ -21,7 +21,7 @@ function Home() {
 			<div className="flex mt-20 justify-around text-lg text-center">
 				<Link
 					href="/PatientSearch"
-					className="flex flex-col items-center w-[96px] rounded hover:bg-slate-400"
+					className="flex flex-col items-center w-[96px] rounded hover:bg-base-300"
 				>
 					<PersonSearchIcon sx={{ fontSize: 56 }} />
 					<article>
@@ -32,7 +32,7 @@ function Home() {
 				</Link>
 				<Link
 					href="/InfectionPrevention"
-					className="flex flex-col items-center w-[96px] rounded hover:bg-slate-400"
+					className="flex flex-col items-center w-[96px] rounded hover:bg-base-300"
 				>
 					<BiotechIcon sx={{ fontSize: 56 }} />
 					<article>
@@ -43,7 +43,7 @@ function Home() {
 				</Link>
 				<Link
 					href="/FhirApi"
-					className="flex flex-col items-center w-[96px] rounded hover:bg-slate-400"
+					className="flex flex-col items-center w-[96px] rounded hover:bg-base-300"
 				>
 					<ApiIcon sx={{ fontSize: 56 }} />
 					<article>

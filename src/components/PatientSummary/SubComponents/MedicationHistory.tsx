@@ -31,12 +31,12 @@ function MedicationHistory(props: Props) {
 				</div>
 			) : (
 				<div className="flex justify-center ">
-					<table className="table w-full [&_tr.hover:hover_*]:!bg-slate-300 overflow-x-auto">
+					<table className="table w-full [&_tr.hover:hover_*]:!bg-accent overflow-x-auto">
 						<thead>
 							<tr>
-								<th>ID</th>
-								<th>Name</th>
-								<th>Status</th>
+								<th className="bg-base-300">ID</th>
+								<th className="bg-base-300">Name</th>
+								<th className="bg-base-300">Status</th>
 							</tr>
 						</thead>
 						<tbody>
