@@ -6,6 +6,7 @@ module.exports = {
 	darkMode: "class",
 	daisyui: {
 		themes: [
+			"dracula",
 			{
 				lightMode: {
 					primary: "#4b6bfb",

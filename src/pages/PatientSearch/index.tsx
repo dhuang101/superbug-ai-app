@@ -216,6 +216,7 @@ function PatientSearch() {
 					</div>
 					<div className="flex items-center justify-center text-center mt-2">
 						<TablePagination
+							className="text-base-content"
 							component="div"
 							count={patientCount}
 							page={currentPage}

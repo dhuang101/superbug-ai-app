@@ -5,6 +5,7 @@ import { DatePicker } from "@mui/x-date-pickers"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import InfPreTable from "./SubComponents/InfPreTable"
+import StyledDatePicker from "../StyledDatePicker"
 
 function InfPreCond() {
 	// global state container
@@ -68,11 +69,8 @@ function InfPreCond() {
 			</article>
 			<div className="flex">
 				<div className="w-1/5">
-					<DatePicker
-						slotProps={{ textField: { size: "small" } }}
+					<StyledDatePicker
 						onChange={handleStartChange}
-						openTo="year"
-						format="DD/MM/YYYY"
 						label="Start"
 					/>
 				</div>
@@ -80,13 +78,7 @@ function InfPreCond() {
 					-
 				</article>
 				<div className="w-1/5">
-					<DatePicker
-						slotProps={{ textField: { size: "small" } }}
-						onChange={handleEndChange}
-						openTo="year"
-						format="DD/MM/YYYY"
-						label="End"
-					/>
+					<StyledDatePicker onChange={handleEndChange} label="End" />
 				</div>
 				<div
 					className="tooltip tooltip-accent ml-4 flex"
@@ -113,7 +105,9 @@ function InfPreCond() {
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
-					<article>Perform a Search First</article>
+					<article className="text-3xl">
+						Perform a Search First
+					</article>
 				</div>
 			)}
 		</div>
