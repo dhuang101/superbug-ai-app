@@ -11,7 +11,7 @@ function Home() {
 	const apiContext = useContext(ApiContext)
 
 	return (
-		<div className="flex flex-col grow justify-center w-3/5">
+		<div className="flex flex-col h-full justify-center w-3/5">
 			<article className="text-7xl font-semibold text-center">
 				Superbug AI
 			</article>

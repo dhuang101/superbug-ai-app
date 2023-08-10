@@ -31,7 +31,7 @@ function InfectionPrevention() {
 	}
 
 	return (
-		<div className="flex flex-col w-8/12 grow">
+		<div className="flex flex-col w-8/12 h-full">
 			<div className="mt-6">
 				<article className="text-3xl font-semibold">
 					Infection Prevention
@@ -63,7 +63,7 @@ function InfectionPrevention() {
 					Locations
 				</button>
 			</div>
-			<div className="flex grow py-6 px-12 my-8 bg-white rounded">
+			<div className="flex h-full py-6 px-12 my-8 bg-white rounded">
 				<DisplayHandler />
 			</div>
 		</div>

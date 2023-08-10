@@ -8,6 +8,7 @@ function InfPreCond() {
 	// global state container
 	const apiContext = useContext(ApiContext)
 
+	const [loading, setLoading] = useState()
 	const [groupedConds, setGroupedConds] = useState()
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
@@ -53,7 +54,7 @@ function InfPreCond() {
 	}
 
 	return (
-		<div className="flex flex-col grow">
+		<div className="flex flex-col w-full">
 			<article className="mb-4 text-xl font-normal">
 				Enter Date Range
 			</article>
@@ -94,6 +95,7 @@ function InfPreCond() {
 					</button>
 				</div>
 			</div>
+			<div></div>
 		</div>
 	)
 }

@@ -169,7 +169,7 @@ function PatientSearch() {
 	}
 
 	return (
-		<div className="w-8/12 grow">
+		<div className="w-8/12 h-full">
 			<div className="mt-6">
 				<article className="text-3xl font-semibold">
 					Patient List
@@ -214,7 +214,7 @@ function PatientSearch() {
 					<div className="mt-2">
 						<SearchTable patientData={patientData} />
 					</div>
-					<div className="flex items-center justify-center text-center grow">
+					<div className="flex items-center justify-center text-center mt-2">
 						<TablePagination
 							component="div"
 							count={patientCount}

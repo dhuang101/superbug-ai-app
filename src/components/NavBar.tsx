@@ -10,11 +10,6 @@ function NavBar() {
 					</div>
 				</Link>
 			</div>
-			{/* <div className="flex-2">
-				<div className="btn btn-ghost normal-case text-xl text-white">
-					<Link href={"/"}>Patient Search</Link>
-				</div>
-			</div> */}
 		</div>
 	)
 }
