@@ -36,14 +36,15 @@ function InfPreCond() {
 			})
 	}
 
+	// side effect only renders the table once the results are set
 	useEffect(() => {
 		if (groupedConds != null) {
 			setLoading(false)
 		}
-		console.log(groupedConds)
 	}, [groupedConds])
 
-	function handleStartChange(event) {
+	// event handler for the start date selector
+	function handleStartChange(event: { $d: Date }) {
 		if (!isNaN(event.$d.getTime())) {
 			const offset = event.$d.getTimezoneOffset()
 			event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
@@ -51,7 +52,8 @@ function InfPreCond() {
 		}
 	}
 
-	function handleEndChange(event) {
+	// event handler for the end date selector
+	function handleEndChange(event: { $d: Date }) {
 		if (!isNaN(event.$d.getTime())) {
 			const offset = event.$d.getTimezoneOffset()
 			event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
