@@ -4,17 +4,19 @@ import ApiContext from "../../contexts/ApiContext"
 import { DatePicker } from "@mui/x-date-pickers"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
+import InfPreTable from "./SubComponents/InfPreTable"
 
 function InfPreCond() {
 	// global state container
 	const apiContext = useContext(ApiContext)
 
-	const [loading, setLoading] = useState()
-	const [groupedConds, setGroupedConds] = useState()
+	const [loading, setLoading] = useState(false)
+	const [groupedConds, setGroupedConds] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
 
 	function executeSearch() {
+		setLoading(true)
 		// TODO: error checking
 		// start is greater than start
 		// end is greater than now
@@ -30,11 +32,14 @@ function InfPreCond() {
 				},
 			})
 			.then((result: any) => {
-				setGroupedConds(result.data)
+				setGroupedConds(result.data.parameter)
 			})
 	}
 
 	useEffect(() => {
+		if (groupedConds != null) {
+			setLoading(false)
+		}
 		console.log(groupedConds)
 	}, [groupedConds])
 
@@ -55,7 +60,7 @@ function InfPreCond() {
 	}
 
 	return (
-		<div className="flex flex-col w-full">
+		<div className="flex flex-col w-full min-h-[70vh]">
 			<article className="mb-4 text-xl font-normal">
 				Enter Date Range
 			</article>
@@ -69,7 +74,7 @@ function InfPreCond() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-3xl font-thin text-stone-400">
+				<article className="mx-4 text-3xl font-thin text-base-300">
 					-
 				</article>
 				<div className="w-1/5">
@@ -100,16 +105,14 @@ function InfPreCond() {
 				<div className="flex justify-center items-center h-[90%]">
 					<CircularProgress size={80} />
 				</div>
+			) : groupedConds != null ? (
+				<div className="mt-4">
+					<InfPreTable name="Condition" searchData={groupedConds} />
+				</div>
 			) : (
-				<React.Fragment>
-					<div className="flex justify-around mt-3 h-1/5">
-						<div className="bg-primary rounded-lg drop-shadow-lg h-full aspect-square text-center">
-							<article>TEST</article>
-							<article>6</article>
-						</div>
-					</div>
-					<div></div>
-				</React.Fragment>
+				<div className="flex justify-center items-center h-[90%]">
+					<article>Perform a Search First</article>
+				</div>
 			)}
 		</div>
 	)

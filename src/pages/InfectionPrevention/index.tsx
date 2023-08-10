@@ -63,7 +63,7 @@ function InfectionPrevention() {
 					Locations
 				</button>
 			</div>
-			<div className="flex h-full py-6 px-12 my-8 bg-base-100 rounded">
+			<div className="flex min-h-fit py-6 px-12 my-8 bg-base-100 rounded">
 				<DisplayHandler />
 			</div>
 		</div>
