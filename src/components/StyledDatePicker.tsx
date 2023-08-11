@@ -120,12 +120,13 @@ function StyledDatePicker(props) {
 		},
 	})
 
-	function WrappedPopper() {
-		return (
-			<div data-theme="corporate">
-				<Popper />
-			</div>
-		)
+	// function that correctly places the popper in order to theme it
+	function PopperWrap() {
+		if (typeof document !== "undefined") {
+			return document.getElementById("themeWrapper")
+		} else {
+			return document.body
+		}
 	}
 
 	return (
@@ -134,7 +135,7 @@ function StyledDatePicker(props) {
 				slotProps={{
 					textField: { size: "small" },
 					popper: {
-						container: document.getElementById("themeWrapper"),
+						container: PopperWrap,
 					},
 				}}
 				onChange={props.onChange}
