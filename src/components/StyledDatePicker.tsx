@@ -1,3 +1,6 @@
+// MUI custom styles doesn't contain full typescript support so we ignore
+// @ts-nocheck
+
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import React from "react"
@@ -5,6 +8,7 @@ import React from "react"
 function StyledDatePicker(props) {
 	const theme = createTheme({
 		components: {
+			// calendar icon
 			MuiSvgIcon: {
 				styleOverrides: {
 					root: {
@@ -15,6 +19,7 @@ function StyledDatePicker(props) {
 					},
 				},
 			},
+			// form label text
 			MuiFormLabel: {
 				styleOverrides: {
 					root: {
@@ -28,7 +33,7 @@ function StyledDatePicker(props) {
 					},
 				},
 			},
-			// place holder text
+			// place holder date text
 			MuiInputBase: {
 				styleOverrides: {
 					root: {
@@ -103,7 +108,6 @@ function StyledDatePicker(props) {
 					weekDayLabel: { color: "hsl(var(--bc))" },
 				},
 			},
-			// selected day button
 		},
 	})
 
