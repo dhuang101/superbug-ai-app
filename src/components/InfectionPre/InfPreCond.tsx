@@ -11,29 +11,47 @@ function InfPreCond() {
 	const apiContext = useContext(ApiContext)
 
 	const [loading, setLoading] = useState(false)
+	const [errorMessage, setErrorMessage] = useState("")
 	const [groupedConds, setGroupedConds] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
 
 	function executeSearch() {
-		setLoading(true)
-		// TODO: error checking
-		// start is greater than start
-		// end is greater than now
+		// error checking
 		// one value entered but not the other
-
-		// grab list of encounters
-		axios
-			.get("/api/condition/groupedCount", {
-				params: {
-					apiUrl: apiContext.value,
-					start: startDate,
-					end: endDate,
-				},
-			})
-			.then((result: any) => {
-				setGroupedConds(result.data.parameter)
-			})
+		if (
+			(startDate === null && endDate !== null) ||
+			(startDate !== null && endDate === null)
+		) {
+			setErrorMessage("Error: Both or none of the dates must be entered!")
+			return
+		}
+		// start is greater than end
+		else if (startDate > endDate) {
+			setErrorMessage(
+				"Error: The start date is greater than the end date!"
+			)
+			return
+		}
+		// end is greater than now
+		else if (endDate > new Date(Date.now()).toISOString().split("T")[0]) {
+			setErrorMessage("Error: The end date is greater than today's date!")
+			return
+		} else {
+			setLoading(true)
+			// grab list of encounters
+			axios
+				.get("/api/condition/groupedCount", {
+					params: {
+						apiUrl: apiContext.value,
+						start: startDate,
+						end: endDate,
+					},
+				})
+				.then((result: any) => {
+					setGroupedConds(result.data.parameter)
+				})
+		}
 	}
 
 	// side effect only renders the table once the results are set
@@ -45,19 +63,29 @@ function InfPreCond() {
 
 	// event handler for the start date selector
 	function handleStartChange(event: { $d: Date }) {
+		if (event === null) {
+			return
+		}
 		if (!isNaN(event.$d.getTime())) {
 			const offset = event.$d.getTimezoneOffset()
-			event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
-			setStartDate(event.$d.toISOString().split("T")[0])
+			let adjustedISODate = new Date(
+				event.$d.getTime() - offset * 60 * 1000
+			)
+			setStartDate(adjustedISODate.toISOString().split("T")[0])
 		}
 	}
 
 	// event handler for the end date selector
 	function handleEndChange(event: { $d: Date }) {
+		if (event === null) {
+			return
+		}
 		if (!isNaN(event.$d.getTime())) {
 			const offset = event.$d.getTimezoneOffset()
-			event.$d = new Date(event.$d.getTime() - offset * 60 * 1000)
-			setEndDate(event.$d.toISOString().split("T")[0])
+			let adjustedISODate = new Date(
+				event.$d.getTime() - offset * 60 * 1000
+			)
+			setEndDate(adjustedISODate.toISOString().split("T")[0])
 		}
 	}
 
@@ -73,7 +101,7 @@ function InfPreCond() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-3xl font-thin text-base-300">
+				<article className="mx-4 text-3xl font-thin text-neutral">
 					-
 				</article>
 				<div className="w-1/5">
@@ -94,12 +122,15 @@ function InfPreCond() {
 					</button>
 				</div>
 			</div>
+			<article className="my-2 pl-8 h-6 text-error font-semibold">
+				{errorMessage}
+			</article>
 			{loading === true ? (
 				<div className="flex justify-center items-center h-[90%]">
 					<CircularProgress size={80} />
 				</div>
 			) : groupedConds != null ? (
-				<div className="mt-4">
+				<div>
 					<InfPreTable name="Condition" searchData={groupedConds} />
 				</div>
 			) : (
