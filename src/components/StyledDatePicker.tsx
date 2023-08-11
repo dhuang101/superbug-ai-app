@@ -1,9 +1,10 @@
 // MUI custom styles doesn't contain full typescript support so we ignore
 // @ts-nocheck
 
+import React from "react"
+import Popper from "@mui/material"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
-import React from "react"
 
 function StyledDatePicker(props) {
 	const theme = createTheme({
@@ -76,6 +77,10 @@ function StyledDatePicker(props) {
 							backgroundColor: "hsl(var(--sf))",
 							color: "hsl(var(--sc))",
 						},
+						"&.Mui-selected:focus": {
+							backgroundColor: "hsl(var(--s))",
+							color: "hsl(var(--sc))",
+						},
 					},
 				},
 			},
@@ -96,6 +101,10 @@ function StyledDatePicker(props) {
 							backgroundColor: "hsl(var(--sf))",
 							color: "hsl(var(--sc))",
 						},
+						"&.Mui-selected:focus": {
+							backgroundColor: "hsl(var(--s))",
+							color: "hsl(var(--sc))",
+						},
 						"&:not(.Mui-selected)": {
 							borderColor: "hsl(var(--nc))",
 						},
@@ -111,10 +120,23 @@ function StyledDatePicker(props) {
 		},
 	})
 
+	function WrappedPopper() {
+		return (
+			<div data-theme="corporate">
+				<Popper />
+			</div>
+		)
+	}
+
 	return (
 		<ThemeProvider theme={theme}>
 			<DatePicker
-				slotProps={{ textField: { size: "small" } }}
+				slotProps={{
+					textField: { size: "small" },
+					popper: {
+						container: document.getElementById("themeWrapper"),
+					},
+				}}
 				onChange={props.onChange}
 				openTo="year"
 				format="DD/MM/YYYY"

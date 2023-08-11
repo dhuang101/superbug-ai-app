@@ -46,7 +46,7 @@ function SearchTable({ patientData }: Props) {
 
 	return (
 		<div className="overflow-x-auto">
-			<table className="table w-full [&_tr.hover:hover_*]:!bg-accent">
+			<table className="table w-full [&_tr.hover:hover_*]:!bg-accent text-lg">
 				<thead>
 					<tr>
 						<th className="bg-base-300">ID</th>

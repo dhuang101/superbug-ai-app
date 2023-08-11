@@ -1,4 +1,3 @@
-import { ThemeProvider, createTheme } from "@mui/material"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import "../styles/globals.css"
@@ -18,42 +17,18 @@ export default function MyApp({ Component, pageProps }) {
 		}
 	}, [])
 
-	// global theme
-	const theme = createTheme({
-		typography: {
-			fontFamily: [
-				"ui-sans-serif",
-				"system-ui",
-				"-apple-system",
-				"BlinkMacSystemFont",
-				"Segoe UI",
-				"Roboto",
-				"Helvetica Neue",
-				"Arial",
-				"Noto Sans",
-				"sans-serif",
-				"Apple Color Emoji",
-				"Segoe UI Emoji",
-				"Segoe UI Symbol",
-				"Noto Color Emoji",
-			].join(","),
-		},
-	})
-
 	return (
 		<LocalizationProvider dateAdapter={AdapterDayjs}>
-			<ThemeProvider theme={theme}>
-				<div data-theme="business">
-					<ApiContext.Provider value={contextWrapper}>
-						<div className="flex flex-col h-screen min-w-screen">
-							<NavBar />
-							<div className="flex flex-col h-[93%] overflow-auto w-full items-center bg-base-200">
-								<Component {...pageProps} />
-							</div>
+			<div data-theme="corporate" id="themeWrapper">
+				<ApiContext.Provider value={contextWrapper}>
+					<div className="flex flex-col h-screen min-w-screen">
+						<NavBar />
+						<div className="flex flex-col h-[93%] overflow-auto w-full items-center bg-base-200">
+							<Component {...pageProps} />
 						</div>
-					</ApiContext.Provider>
-				</div>
-			</ThemeProvider>
+					</div>
+				</ApiContext.Provider>
+			</div>
 		</LocalizationProvider>
 	)
 }
