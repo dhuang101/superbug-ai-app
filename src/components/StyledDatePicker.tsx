@@ -91,6 +91,9 @@ function StyledDatePicker(props) {
 							backgroundColor: "hsl(var(--sf))",
 							color: "hsl(var(--sc))",
 						},
+						"&:not(.Mui-selected)": {
+							borderColor: "hsl(var(--nc))",
+						},
 					},
 				},
 			},
