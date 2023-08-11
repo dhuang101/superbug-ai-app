@@ -2,7 +2,7 @@ import { ThemeProvider, createTheme } from "@mui/material"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import "../styles/globals.css"
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import ApiContext from "../contexts/ApiContext"
 import NavBar from "../components/NavBar"
 
