@@ -4,7 +4,7 @@ import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import InfPreTable from "./SubComponents/InfPreTable"
-import StyledDatePicker from "../StyledDatePicker"
+import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
 function InfPreCond() {
 	// global state container
