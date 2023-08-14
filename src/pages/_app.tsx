@@ -25,8 +25,8 @@ export default function MyApp({ Component, pageProps }) {
 		if (currentTheme !== null) {
 			setTheme(currentTheme)
 		} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-			setTheme("business")
-			window.localStorage.setItem("theme", "business")
+			setTheme("darkMode")
+			window.localStorage.setItem("theme", "darkMode")
 		} else {
 			setTheme("lightMode")
 			window.localStorage.setItem("theme", "lightMode")

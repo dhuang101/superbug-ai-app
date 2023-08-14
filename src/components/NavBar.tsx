@@ -4,12 +4,12 @@ import DarkModeIcon from "@mui/icons-material/DarkMode"
 
 function NavBar(props) {
 	function ToggleTheme() {
-		if (props.theme === "business") {
+		if (props.theme === "darkMode") {
 			props.setTheme("lightMode")
 			window.localStorage.setItem("theme", "lightMode")
 		} else {
-			props.setTheme("business")
-			window.localStorage.setItem("theme", "business")
+			props.setTheme("darkMode")
+			window.localStorage.setItem("theme", "darkMode")
 		}
 	}
 
