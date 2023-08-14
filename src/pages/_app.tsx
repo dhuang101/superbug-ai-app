@@ -11,7 +11,7 @@ export default function MyApp({ Component, pageProps }) {
 	const contextWrapper = { value: apiUrl, setter: setApiUrl }
 
 	// state for the theme
-	const [theme, setTheme] = useState("business")
+	const [theme, setTheme] = useState(null)
 
 	useEffect(() => {
 		// reload api url from local storage if previously set
@@ -33,7 +33,9 @@ export default function MyApp({ Component, pageProps }) {
 		}
 	}, [])
 
-	return (
+	return theme === null ? (
+		<div className="min-h-screen min-w-screen bg-slate-400" />
+	) : (
 		<LocalizationProvider dateAdapter={AdapterDayjs}>
 			<div data-theme={theme} className="font-sans" id="themeWrapper">
 				<ApiContext.Provider value={contextWrapper}>
