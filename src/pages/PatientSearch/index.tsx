@@ -216,13 +216,25 @@ function PatientSearch() {
 					</div>
 					<div className="flex items-center justify-center text-center mt-2">
 						<TablePagination
-							className="text-base-content"
 							component="div"
 							count={patientCount}
 							page={currentPage}
 							onPageChange={handleChangePage}
 							rowsPerPage={rowsPerPage}
 							onRowsPerPageChange={handleChangeRowsPerPage}
+							sx={{
+								"& .MuiToolbar-root": {
+									color: "hsl(var(--bc))",
+								},
+								"& .MuiSelect-icon": {
+									color: "hsl(var(--bc))",
+								},
+								"& .MuiButtonBase-root": {
+									"&.Mui-disabled": {
+										color: "hsl(var(--disabled))",
+									},
+								},
+							}}
 						/>
 					</div>
 				</React.Fragment>

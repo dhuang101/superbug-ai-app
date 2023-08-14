@@ -1,8 +1,24 @@
 /** @type {import('tailwindcss').Config} */
+// this function handles the opacity of color
+function WithOpacityValue(variable) {
+	return ({ opacityValue }) => {
+		if (opacityValue === undefined) {
+			return `hsl(var(${variable}))`
+		}
+		return `hsl(var(${variable}) / ${opacityValue})`
+	}
+}
 
 module.exports = {
 	content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
 	plugins: [require("daisyui")],
+	theme: {
+		extend: {
+			colors: {
+				disabled: WithOpacityValue("--disabled"),
+			},
+		},
+	},
 	daisyui: {
 		themes: [
 			{
@@ -31,6 +47,7 @@ module.exports = {
 					"warning-content": "#382800",
 					error: "#f87272",
 					"error-content": "#470000",
+					"--disabled": "0 0% 69%",
 				},
 				darkMode: {
 					primary: "#1c4f82",
@@ -57,6 +74,7 @@ module.exports = {
 					"warning-content": "#2B2317",
 					error: "#ab3d30",
 					"error-content": "#F3D8D2",
+					"--disabled": "0 0% 28%",
 				},
 			},
 		],
