@@ -38,6 +38,7 @@ function InfPreCond() {
 			setErrorMessage("Error: The end date is greater than today's date!")
 			return
 		} else {
+			setErrorMessage("")
 			setLoading(true)
 			// grab list of encounters
 			axios
@@ -49,7 +50,11 @@ function InfPreCond() {
 					},
 				})
 				.then((result: any) => {
-					setGroupedConds(result.data.parameter)
+					if (result.data.hasOwnProperty("parameter")) {
+						setGroupedConds(result.data.parameter)
+					} else {
+						setGroupedConds([])
+					}
 				})
 		}
 	}

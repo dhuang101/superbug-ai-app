@@ -25,8 +25,8 @@ function InfPreTable(props: Props) {
 	return (
 		<React.Fragment>
 			{props.searchData.length === 0 ? (
-				<div>
-					<article>No Results Found</article>
+				<div className="flex justify-center items-center h-[55vh]">
+					<article className="text-3xl">No Results Found</article>
 				</div>
 			) : (
 				<div className="flex justify-center">
