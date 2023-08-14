@@ -38,7 +38,6 @@ function SummaryComponent() {
 		// splits the path to grab to id
 		let id = router.query.id as string
 		// chain of api calls to fetch required data
-		console.log(id)
 		axios
 			.get("/api/patient/search/id", {
 				params: {
@@ -49,7 +48,6 @@ function SummaryComponent() {
 				},
 			})
 			.then((result: any) => {
-				console.log(result)
 				if (result.data.length > 0) {
 					setPatientData(ValidatePatientObj(result.data[0].resource))
 				}
@@ -91,20 +89,20 @@ function SummaryComponent() {
 		<React.Fragment>
 			{[fetchedPat, fetchedMed, fetchedAl].every(Boolean) ? (
 				<React.Fragment>
-					<div className="flex flex-col min-h-[250px] items-center">
+					<div className="flex flex-col min-h-[26vh] items-center">
 						<article className="mb-6 text-xl font-semibold">
 							{patientData.id}
 						</article>
 						<PatientDetails patientData={patientData} />
 					</div>
 
-					<div className="flex flex-col">
+					<div className="flex flex-col min-h-[26vh]">
 						<article className="my-6 text-xl font-semibold">
 							Medication History
 						</article>
 						<MedicationHistory medicationData={medicationData} />
 					</div>
-					<div className="flex flex-col">
+					<div className="flex flex-col min-h-[26vh]">
 						<article className="my-6 text-xl font-semibold">
 							Allergies
 						</article>
@@ -112,7 +110,7 @@ function SummaryComponent() {
 					</div>
 				</React.Fragment>
 			) : (
-				<div className="flex items-center justify-center h-full">
+				<div className="flex items-center justify-center h-[78vh]">
 					<CircularProgress size={80} />
 				</div>
 			)}

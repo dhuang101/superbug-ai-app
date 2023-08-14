@@ -38,7 +38,7 @@ function FhirApi() {
 	}
 
 	return (
-		<div className="flex flex-col grow justify-center items-center w-3/5">
+		<div className="flex flex-col h-full justify-center items-center w-3/5">
 			<article className="text-3xl font-semibold text-center">
 				Change FHIR API
 			</article>

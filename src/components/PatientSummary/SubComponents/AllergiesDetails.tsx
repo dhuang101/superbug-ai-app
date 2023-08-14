@@ -21,10 +21,10 @@ function AllergiesDetails(props: any) {
 					<table className="table w-full">
 						<thead>
 							<tr>
-								<th>ID</th>
-								<th>Name</th>
-								<th>Gender</th>
-								<th>DoB</th>
+								<th className="bg-base-300">ID</th>
+								<th className="bg-base-300">Name</th>
+								<th className="bg-base-300">Gender</th>
+								<th className="bg-base-300">DoB</th>
 							</tr>
 						</thead>
 						<tbody>

@@ -1,21 +1,20 @@
 import React from "react"
-import { medAdValidated } from "../../../types/ValidationTypes"
 
 interface Props {
-	medicationData: medAdValidated[]
+	searchData: any
+	name: string
 }
 
-function MedicationHistory(props: Props) {
+function InfPreTable(props: Props) {
 	// component that generates each row
 	function TableRows() {
 		return (
 			<React.Fragment>
-				{props.medicationData.map((obj: any, i: number) => {
+				{props.searchData.map((obj: any, i: number) => {
 					return (
 						<tr key={i} className="hover">
-							<td>{obj.id}</td>
 							<td>{obj.name}</td>
-							<td>{obj.status}</td>
+							<td>{obj.valueQuantity.value}</td>
 						</tr>
 					)
 				})}
@@ -25,18 +24,19 @@ function MedicationHistory(props: Props) {
 
 	return (
 		<React.Fragment>
-			{props.medicationData.length === 0 ? (
-				<div>
-					<article>No Medication History</article>
+			{props.searchData.length === 0 ? (
+				<div className="flex justify-center items-center h-[55vh]">
+					<article className="text-3xl">No Results Found</article>
 				</div>
 			) : (
 				<div className="flex justify-center">
 					<table className="table w-full [&_tr.hover:hover_*]:!bg-accent overflow-x-auto">
 						<thead>
 							<tr>
-								<th className="bg-base-300">ID</th>
-								<th className="bg-base-300">Name</th>
-								<th className="bg-base-300">Status</th>
+								<th className="bg-base-300">
+									{props.name + " Name"}
+								</th>
+								<th className="bg-base-300">Count</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -49,4 +49,4 @@ function MedicationHistory(props: Props) {
 	)
 }
 
-export default MedicationHistory
+export default InfPreTable

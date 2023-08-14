@@ -1,20 +1,34 @@
 import Link from "next/link"
+import LightModeIcon from "@mui/icons-material/LightMode"
+import DarkModeIcon from "@mui/icons-material/DarkMode"
 
-function NavBar() {
+function NavBar(props) {
+	function ToggleTheme() {
+		if (props.theme === "darkMode") {
+			props.setTheme("lightMode")
+			window.localStorage.setItem("theme", "lightMode")
+		} else {
+			props.setTheme("darkMode")
+			window.localStorage.setItem("theme", "darkMode")
+		}
+	}
+
 	return (
-		<div className="navbar min-h-[6%] bg-slate-900">
+		<div className="navbar h-[7%] bg-primary">
 			<div className="flex-1">
 				<Link href={"/"}>
-					<div className="btn btn-ghost normal-case text-xl text-white">
+					<div className="btn btn-ghost normal-case rounded-xl text-xl text-primary-content">
 						Superbug AI
 					</div>
 				</Link>
 			</div>
-			{/* <div className="flex-2">
-				<div className="btn btn-ghost normal-case text-xl text-white">
-					<Link href={"/"}>Patient Search</Link>
-				</div>
-			</div> */}
+			<div className="btn btn-ghost rounded-xl" onClick={ToggleTheme}>
+				{props.theme === "lightMode" ? (
+					<LightModeIcon className="text-2xl text-primary-content" />
+				) : (
+					<DarkModeIcon className="text-2xl text-primary-content" />
+				)}
+			</div>
 		</div>
 	)
 }

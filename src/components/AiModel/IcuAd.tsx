@@ -55,12 +55,12 @@ function IcuAd(props: {
 	return (
 		<React.Fragment>
 			{props.encounters.length === 0 ? (
-				<div className="flex items-center justify-center h-[68vh] text-3xl">
+				<div className="flex items-center justify-center h-[78vh] text-3xl">
 					No Recorded Encounters
 				</div>
 			) : (
 				<React.Fragment>
-					<div className="flex flex-col min-h-full">
+					<div className="flex flex-col min-h-[78vh]">
 						<article className="mb-6 text-xl font-semibold text-center">
 							ICU Admission
 						</article>
@@ -69,7 +69,7 @@ function IcuAd(props: {
 							selectedEnc={selectedEnc}
 							setSelectedEnc={setSelectedEnc}
 						/>
-						<div className="h-1/2 mt-4">
+						<div className="h-3/4 mt-4">
 							<LineGraph data={data} tooltip="ICU Admission" />
 						</div>
 					</div>
