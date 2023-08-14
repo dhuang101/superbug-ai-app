@@ -43,7 +43,6 @@ function Mortality(props: {
 
 	// organises data from the fetched observations
 	function marshallData(data: any) {
-		console.log(data)
 		return data.map((obj: any) => {
 			return {
 				issued: obj.resource.issued,

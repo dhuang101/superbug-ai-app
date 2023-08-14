@@ -5,8 +5,6 @@ module.exports = {
 	plugins: [require("daisyui")],
 	daisyui: {
 		themes: [
-			"business",
-			"corporate",
 			{
 				lightMode: {
 					primary: "#4b6bfb",
@@ -48,8 +46,8 @@ module.exports = {
 					"neutral-focus": "#14171A",
 					"neutral-content": "#CDCED0",
 					"base-100": "#212121",
-					"base-200": "#0F0F0F",
-					"base-300": "#0F0F0F",
+					"base-200": "#1D1D1D",
+					"base-300": "#000000",
 					"base-content": "#CCCCCC",
 					info: "#0092d6",
 					"info-content": "#D9E8F7",

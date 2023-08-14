@@ -38,7 +38,6 @@ function SummaryComponent() {
 		// splits the path to grab to id
 		let id = router.query.id as string
 		// chain of api calls to fetch required data
-		console.log(id)
 		axios
 			.get("/api/patient/search/id", {
 				params: {
@@ -49,7 +48,6 @@ function SummaryComponent() {
 				},
 			})
 			.then((result: any) => {
-				console.log(result)
 				if (result.data.length > 0) {
 					setPatientData(ValidatePatientObj(result.data[0].resource))
 				}
