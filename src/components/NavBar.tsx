@@ -1,4 +1,6 @@
 import Link from "next/link"
+import LightModeIcon from "@mui/icons-material/LightMode"
+import DarkModeIcon from "@mui/icons-material/DarkMode"
 
 function NavBar() {
 	return (
@@ -9,6 +11,9 @@ function NavBar() {
 						Superbug AI
 					</div>
 				</Link>
+			</div>
+			<div className="btn btn-ghost">
+				<LightModeIcon className="text-2xl text-primary-content" />
 			</div>
 		</div>
 	)
