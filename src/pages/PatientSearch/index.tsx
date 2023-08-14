@@ -7,7 +7,7 @@ import React, {
 } from "react"
 import axios from "axios"
 import ApiContext from "../../contexts/ApiContext"
-import SearchTable from "../../components/SearchTable"
+import SearchTable from "../../components/PatientSearch/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
 import { GetServerSideProps } from "next"
 
