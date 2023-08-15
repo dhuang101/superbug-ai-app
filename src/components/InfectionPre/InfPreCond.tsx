@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
-import InfPreTable from "./SubComponents/CountTable"
+import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
 function InfPreCond() {
@@ -136,7 +136,7 @@ function InfPreCond() {
 				</div>
 			) : groupedConds != null ? (
 				<div>
-					<InfPreTable name="Condition" searchData={groupedConds} />
+					<CountTable name="Condition" searchData={groupedConds} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
