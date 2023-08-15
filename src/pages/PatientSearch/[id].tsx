@@ -1,5 +1,4 @@
 import axios from "axios"
-import { GetServerSideProps } from "next"
 import React, { useState, useEffect, useContext, useRef } from "react"
 import { useRouter } from "next/router"
 import ApiContext from "../../contexts/ApiContext"
@@ -13,10 +12,6 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import LoopIcon from "@mui/icons-material/Loop"
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety"
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	return { props: { nothing: "nothing" } }
-}
 
 // 6f7acde5-db81-4361-82cf-886893a3280c
 // gregg

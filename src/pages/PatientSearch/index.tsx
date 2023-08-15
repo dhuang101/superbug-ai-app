@@ -9,11 +9,6 @@ import axios from "axios"
 import ApiContext from "../../contexts/ApiContext"
 import SearchTable from "../../components/PatientSearch/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
-import { GetServerSideProps } from "next"
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	return { props: { nothing: "nothing" } }
-}
 
 function PatientSearch() {
 	// global state container
