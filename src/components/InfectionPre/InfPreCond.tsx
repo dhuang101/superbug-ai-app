@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
-import InfPreTable from "./SubComponents/InfPreTable"
+import InfPreTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
 function InfPreCond() {
@@ -106,7 +106,7 @@ function InfPreCond() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-3xl font-thin text-neutral">
+				<article className="mx-4 text-3xl font-thin text-base-content">
 					-
 				</article>
 				<div className="w-1/5">

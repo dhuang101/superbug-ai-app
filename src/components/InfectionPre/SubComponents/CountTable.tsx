@@ -5,7 +5,7 @@ interface Props {
 	name: string
 }
 
-function InfPreTable(props: Props) {
+function CountTable(props: Props) {
 	// component that generates each row
 	function TableRows() {
 		return (
@@ -30,7 +30,7 @@ function InfPreTable(props: Props) {
 				</div>
 			) : (
 				<div className="flex justify-center">
-					<table className="table w-full [&_tr.hover:hover_*]:!bg-accent overflow-x-auto">
+					<table className="table table-md w-full [&_tr.hover:hover_*]:!bg-accent overflow-x-auto">
 						<thead>
 							<tr>
 								<th className="bg-base-300">
@@ -49,4 +49,4 @@ function InfPreTable(props: Props) {
 	)
 }
 
-export default InfPreTable
+export default CountTable
