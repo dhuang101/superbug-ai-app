@@ -2,7 +2,7 @@ import axios from "axios"
 
 function getGroupedDiagCount(apiUrl: string, start: Date, end: Date) {
 	const apiCall: any = axios
-		.get(`${apiUrl}DiagnosticReport/$groupedLocationsCount`, {
+		.get(`${apiUrl}DiagnosticReport/$groupedDiagnosticReportsCount`, {
 			params: { start: start, end: end },
 		})
 		.then((res) => {

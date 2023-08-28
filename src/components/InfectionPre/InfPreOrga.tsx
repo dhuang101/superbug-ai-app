@@ -12,7 +12,7 @@ function InfPreOrga() {
 
 	const [loading, setLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
-	const [groupedConds, setGroupedConds] = useState(null)
+	const [groupedOrgas, setGroupedOrgas] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
 
@@ -42,7 +42,7 @@ function InfPreOrga() {
 			setLoading(true)
 			// grab list of encounters
 			axios
-				.get("/api/condition/groupedCount", {
+				.get("/api/diagnosticreport/groupedCount", {
 					params: {
 						apiUrl: apiContext.value,
 						start: startDate,
@@ -50,10 +50,11 @@ function InfPreOrga() {
 					},
 				})
 				.then((result: any) => {
+					console.log(result)
 					if (result.data.hasOwnProperty("parameter")) {
-						setGroupedConds(result.data.parameter)
+						setGroupedOrgas(result.data.parameter)
 					} else {
-						setGroupedConds([])
+						setGroupedOrgas([])
 					}
 				})
 		}
@@ -61,10 +62,10 @@ function InfPreOrga() {
 
 	// side effect only renders the table once the results are set
 	useEffect(() => {
-		if (groupedConds != null) {
+		if (groupedOrgas != null) {
 			setLoading(false)
 		}
-	}, [groupedConds])
+	}, [groupedOrgas])
 
 	// event handler for the start date selector
 	function handleStartChange(event: { $d: Date }) {
@@ -134,9 +135,9 @@ function InfPreOrga() {
 				<div className="flex justify-center items-center h-[90%]">
 					<CircularProgress size={80} />
 				</div>
-			) : groupedConds != null ? (
+			) : groupedOrgas != null ? (
 				<div>
-					<CountTable name="Organisms" searchData={groupedConds} />
+					<CountTable name="Organisms" searchData={groupedOrgas} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">

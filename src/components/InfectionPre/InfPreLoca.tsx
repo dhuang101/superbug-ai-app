@@ -12,7 +12,7 @@ function InfPreLoca() {
 
 	const [loading, setLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
-	const [groupedConds, setGroupedConds] = useState(null)
+	const [groupedLocas, setGroupedLocas] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
 
@@ -51,9 +51,9 @@ function InfPreLoca() {
 				})
 				.then((result: any) => {
 					if (result.data.hasOwnProperty("parameter")) {
-						setGroupedConds(result.data.parameter)
+						setGroupedLocas(result.data.parameter)
 					} else {
-						setGroupedConds([])
+						setGroupedLocas([])
 					}
 				})
 		}
@@ -61,10 +61,10 @@ function InfPreLoca() {
 
 	// side effect only renders the table once the results are set
 	useEffect(() => {
-		if (groupedConds != null) {
+		if (groupedLocas != null) {
 			setLoading(false)
 		}
-	}, [groupedConds])
+	}, [groupedLocas])
 
 	// event handler for the start date selector
 	function handleStartChange(event: { $d: Date }) {
@@ -134,9 +134,9 @@ function InfPreLoca() {
 				<div className="flex justify-center items-center h-[90%]">
 					<CircularProgress size={80} />
 				</div>
-			) : groupedConds != null ? (
+			) : groupedLocas != null ? (
 				<div>
-					<CountTable name="Condition" searchData={groupedConds} />
+					<CountTable name="Condition" searchData={groupedLocas} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
