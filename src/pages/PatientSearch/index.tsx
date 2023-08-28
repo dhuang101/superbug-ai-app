@@ -32,11 +32,13 @@ function PatientSearch() {
 				},
 			})
 			.then((result: any) => {
-				result.data.forEach((obj) => {
-					if (obj.name === "Patient") {
-						setPatientCount(obj.valueInteger)
-					}
-				})
+				if (result.data.length > 0) {
+					result.data.forEach((obj) => {
+						if (obj.name === "Patient") {
+							setPatientCount(obj.valueInteger)
+						}
+					})
+				}
 			})
 	}, [])
 
