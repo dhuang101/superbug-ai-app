@@ -95,7 +95,7 @@ function InfPreLoca() {
 	}
 
 	return (
-		<div className="flex flex-col w-full min-h-[70vh]">
+		<div className="flex flex-col w-full min-h-[67vh]">
 			<article className="mb-4 text-xl font-normal">
 				Enter Date Range
 			</article>
@@ -114,7 +114,7 @@ function InfPreLoca() {
 				</div>
 				<div
 					className="tooltip tooltip-accent ml-4 flex"
-					data-tip="Search with no dates entered to fetch all conditions. This is a heavy process and can be slow!"
+					data-tip="Search with no dates entered to fetch all locations. This is a heavy process and can be slow!"
 				>
 					<InfoOutlinedIcon className="my-auto" />
 				</div>

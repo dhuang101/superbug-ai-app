@@ -95,7 +95,7 @@ function InfPreCond() {
 	}
 
 	return (
-		<div className="flex flex-col w-full min-h-[70vh]">
+		<div className="flex flex-col w-full min-h-[67vh]">
 			<article className="mb-4 text-xl font-normal">
 				Enter Date Range
 			</article>

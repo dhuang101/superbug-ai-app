@@ -6,7 +6,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
-function InfPreProc() {
+function InfPreOrga() {
 	// global state container
 	const apiContext = useContext(ApiContext)
 
@@ -42,7 +42,7 @@ function InfPreProc() {
 			setLoading(true)
 			// grab list of encounters
 			axios
-				.get("/api/procedure/groupedCount", {
+				.get("/api/condition/groupedCount", {
 					params: {
 						apiUrl: apiContext.value,
 						start: startDate,
@@ -114,7 +114,7 @@ function InfPreProc() {
 				</div>
 				<div
 					className="tooltip tooltip-accent ml-4 flex"
-					data-tip="Search with no dates entered to fetch all procedures. This is a heavy process and can be slow!"
+					data-tip="Search with no dates entered to fetch all organisms. This is a heavy process and can be slow!"
 				>
 					<InfoOutlinedIcon className="my-auto" />
 				</div>
@@ -136,7 +136,7 @@ function InfPreProc() {
 				</div>
 			) : groupedConds != null ? (
 				<div>
-					<CountTable name="Condition" searchData={groupedConds} />
+					<CountTable name="Organisms" searchData={groupedConds} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
@@ -149,4 +149,4 @@ function InfPreProc() {
 	)
 }
 
-export default InfPreProc
+export default InfPreOrga

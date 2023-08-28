@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
+import InfPreOrga from "../../components/InfectionPre/InfPreOrga"
 import InfPreCond from "../../components/InfectionPre/InfPreCond"
 import InfPreProc from "../../components/InfectionPre/InfPreProc"
 import InfPreLoca from "../../components/InfectionPre/InfPreLoca"
@@ -26,7 +27,12 @@ function InfectionPrevention() {
 	}
 
 	function DisplayHandler() {
-		let componentList = [<InfPreCond />, <InfPreProc />, <InfPreLoca />]
+		let componentList = [
+			<InfPreOrga />,
+			<InfPreCond />,
+			<InfPreProc />,
+			<InfPreLoca />,
+		]
 		return componentList[displayedTab]
 	}
 
@@ -44,7 +50,7 @@ function InfectionPrevention() {
 					value={0}
 					onClick={handleTabClick}
 				>
-					Conditions
+					Organisms
 				</button>
 				<button
 					className="tab tab-bordered"
@@ -52,12 +58,20 @@ function InfectionPrevention() {
 					value={1}
 					onClick={handleTabClick}
 				>
-					Procedures
+					Conditions
 				</button>
 				<button
 					className="tab tab-bordered"
 					id="button2"
 					value={2}
+					onClick={handleTabClick}
+				>
+					Procedures
+				</button>
+				<button
+					className="tab tab-bordered"
+					id="button3"
+					value={3}
 					onClick={handleTabClick}
 				>
 					Locations
