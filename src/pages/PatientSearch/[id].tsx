@@ -24,7 +24,6 @@ function PatientSummary() {
 
 	const [encounters, setEncounters] = useState([])
 	const [naviValue, setNaviValue] = useState(0)
-	// const [lastButton, setLastButton] = useState<HTMLButtonElement>()
 	const lastButton = useRef<HTMLButtonElement>()
 	const lastEncounter = useRef("")
 

@@ -57,7 +57,7 @@ function SummaryComponent() {
 			})
 
 		axios
-			.get("/api/patient/summary/medreq", {
+			.get("/api/patient/summary/medReq", {
 				params: {
 					apiUrl: apiContext.value,
 					id: id,
