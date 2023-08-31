@@ -4,13 +4,10 @@ import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
+import DetailsModal from "../../components/InfectionPre/SubComponents/DetailsModal"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
-interface Props {
-	openModal: (name: string) => void
-}
-
-function InfPreCond(props) {
+function InfPreCond() {
 	// global state container
 	const apiContext = useContext(ApiContext)
 
@@ -61,6 +58,20 @@ function InfPreCond(props) {
 					}
 				})
 		}
+	}
+
+	function openModal(name: string) {
+		// grab list of conditions for the modal
+		axios
+			.get("/api/condition/searchByName", {
+				params: {
+					apiUrl: apiContext.value,
+					name: name,
+				},
+			})
+			.then((result: any) => {
+				console.log(result)
+			})
 	}
 
 	// side effect only renders the table once the results are set
@@ -143,7 +154,7 @@ function InfPreCond(props) {
 					<CountTable
 						name="Condition"
 						searchData={groupedConds}
-						openModal={props.openModal}
+						openModal={openModal}
 					/>
 				</div>
 			) : (
@@ -153,6 +164,7 @@ function InfPreCond(props) {
 					</article>
 				</div>
 			)}
+			<DetailsModal />
 		</div>
 	)
 }

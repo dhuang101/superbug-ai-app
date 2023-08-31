@@ -1,0 +1,28 @@
+import axios from "axios"
+
+function searchByName(apiUrl: string, name: string) {
+	const apiCall: any = axios
+		.get(`${apiUrl}Condition`, {
+			params: { "code:text": name },
+		})
+		.then((res) => {
+			if (res.hasOwnProperty("data")) {
+				return res.data
+			} else {
+				return []
+			}
+		})
+	return apiCall
+}
+
+// handler for any calls to this endpoint
+export default async function handler(req, res) {
+	const params = req.query
+
+	try {
+		const result = await searchByName(params.apiUrl, params.name)
+		res.status(200).json(result)
+	} catch (err) {
+		res.status(500).json(err)
+	}
+}
