@@ -26,7 +26,7 @@ function PatientSearch() {
 	useEffect(() => {
 		// fetches server meta data for display
 		axios
-			.get("/api/server/resourcecount", {
+			.get("/api/server/resourceCount", {
 				params: {
 					apiUrl: apiContext.value,
 				},

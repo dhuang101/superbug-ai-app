@@ -6,7 +6,11 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
-function InfPreCond() {
+interface Props {
+	openModal: (name: string) => void
+}
+
+function InfPreCond(props) {
 	// global state container
 	const apiContext = useContext(ApiContext)
 
@@ -136,7 +140,11 @@ function InfPreCond() {
 				</div>
 			) : groupedConds != null ? (
 				<div>
-					<CountTable name="Condition" searchData={groupedConds} />
+					<CountTable
+						name="Condition"
+						searchData={groupedConds}
+						openModal={props.openModal}
+					/>
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">

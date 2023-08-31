@@ -3,6 +3,7 @@ import InfPreOrga from "../../components/InfectionPre/InfPreOrga"
 import InfPreCond from "../../components/InfectionPre/InfPreCond"
 import InfPreProc from "../../components/InfectionPre/InfPreProc"
 import InfPreLoca from "../../components/InfectionPre/InfPreLoca"
+import DetailsModal from "../../components/InfectionPre/SubComponents/DetailsModal"
 
 function InfectionPrevention() {
 	const [displayedTab, setDisplayedTab] = useState(0)
@@ -13,6 +14,10 @@ function InfectionPrevention() {
 			"button0"
 		) as HTMLButtonElement
 	}, [])
+
+	function openModal(name: string) {
+		console.log(name)
+	}
 
 	function handleTabClick(event: React.MouseEvent<HTMLButtonElement>) {
 		let clickedElement = event.target as HTMLButtonElement
@@ -29,7 +34,7 @@ function InfectionPrevention() {
 	function DisplayHandler() {
 		let componentList = [
 			<InfPreOrga />,
-			<InfPreCond />,
+			<InfPreCond openModal={openModal} />,
 			<InfPreProc />,
 			<InfPreLoca />,
 		]
@@ -37,7 +42,7 @@ function InfectionPrevention() {
 	}
 
 	return (
-		<div className="flex flex-col w-8/12 h-full">
+		<div className="flex flex-col w-8/12">
 			<div className="mt-6">
 				<article className="text-3xl font-semibold">
 					Infection Prevention
@@ -80,6 +85,7 @@ function InfectionPrevention() {
 			<div className="flex min-h-fit py-6 px-12 my-8 bg-base-100 rounded">
 				<DisplayHandler />
 			</div>
+			<DetailsModal />
 		</div>
 	)
 }
