@@ -18,8 +18,10 @@ function InfectionPrevention() {
 		let clickedElement = event.target as HTMLButtonElement
 		// alter CSS on clicked button
 		clickedElement.classList.add("tab-active")
+		clickedElement.classList.add("pointer-events-none")
 		// alter CSS on previously clicked button
 		lastButton.current.classList.remove("tab-active")
+		lastButton.current.classList.remove("pointer-events-none")
 		// change displayed component
 		setDisplayedTab(parseInt(clickedElement.value))
 		// save last pressed button
