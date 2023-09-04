@@ -6,6 +6,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import DetailsModal from "../../components/InfectionPre/SubComponents/DetailsModal"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
+import { revalidatePath } from "next/cache"
+import next from "next/types"
 
 function InfPreCond() {
 	// global state container
@@ -60,9 +62,10 @@ function InfPreCond() {
 		}
 	}
 
-	function openModal(name: string) {
-		// grab list of conditions for the modal
-		axios
+	async function openModal(name: string) {
+		let returnValue
+		// first get
+		await axios
 			.get("/api/condition/searchByName", {
 				params: {
 					apiUrl: apiContext.value,
@@ -70,8 +73,27 @@ function InfPreCond() {
 				},
 			})
 			.then((result: any) => {
-				console.log(result)
+				returnValue = result.data
 			})
+		// recursive get for next pages
+		let nextLink: string
+		while (
+			// checks whether a link to the next page exists
+			returnValue.link.some((link) => {
+				// saves the url if it does
+				if (link.relation === "next") {
+					nextLink = link.url
+				}
+				return link.relation === "next"
+			})
+		) {
+			// gets the next page and concats the results
+			await axios.get(nextLink).then((result) => {
+				result.data.entry = result.data.entry.concat(returnValue.entry)
+				returnValue = result.data
+			})
+		}
+		console.log(returnValue)
 	}
 
 	// side effect only renders the table once the results are set

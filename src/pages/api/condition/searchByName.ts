@@ -3,7 +3,7 @@ import axios from "axios"
 function searchByName(apiUrl: string, name: string) {
 	const apiCall: any = axios
 		.get(`${apiUrl}Condition`, {
-			params: { "code:text": name },
+			params: { "code:text": name, _count: 20 },
 		})
 		.then((res) => {
 			if (res.hasOwnProperty("data")) {
@@ -18,9 +18,8 @@ function searchByName(apiUrl: string, name: string) {
 // handler for any calls to this endpoint
 export default async function handler(req, res) {
 	const params = req.query
-
 	try {
-		const result = await searchByName(params.apiUrl, params.name)
+		let result = await searchByName(params.apiUrl, params.name)
 		res.status(200).json(result)
 	} catch (err) {
 		res.status(500).json(err)
