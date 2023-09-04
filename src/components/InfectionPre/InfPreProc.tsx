@@ -5,6 +5,7 @@ import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
+import DetailsModal from "./SubComponents/DetailsModal"
 
 function InfPreProc() {
 	// global state container
@@ -57,6 +58,40 @@ function InfPreProc() {
 					}
 				})
 		}
+	}
+
+	async function openModal(name: string) {
+		let returnValue: { link: any[]; entry: any }
+		// first get
+		await axios
+			.get("/api/procedure/searchByName", {
+				params: {
+					apiUrl: apiContext.value,
+					name: name,
+				},
+			})
+			.then((result: any) => {
+				returnValue = result.data
+			})
+		// recursive get for next pages
+		let nextLink: string
+		while (
+			// checks whether a link to the next page exists
+			returnValue.link.some((link) => {
+				// saves the url if it does
+				if (link.relation === "next") {
+					nextLink = link.url
+				}
+				return link.relation === "next"
+			})
+		) {
+			// gets the next page and concats the results
+			await axios.get(nextLink).then((result) => {
+				result.data.entry = result.data.entry.concat(returnValue.entry)
+				returnValue = result.data
+			})
+		}
+		console.log(returnValue)
 	}
 
 	// side effect only renders the table once the results are set
@@ -136,7 +171,11 @@ function InfPreProc() {
 				</div>
 			) : groupedProcs != null ? (
 				<div>
-					<CountTable name="Condition" searchData={groupedProcs} />
+					<CountTable
+						name="Condition"
+						searchData={groupedProcs}
+						openModal={openModal}
+					/>
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
@@ -145,6 +184,7 @@ function InfPreProc() {
 					</article>
 				</div>
 			)}
+			<DetailsModal />
 		</div>
 	)
 }
