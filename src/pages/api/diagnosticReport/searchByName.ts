@@ -2,7 +2,7 @@ import axios from "axios"
 
 function searchByName(apiUrl: string, name: string) {
 	const apiCall: any = axios
-		.get(`${apiUrl}Condition`, {
+		.get(`${apiUrl}DiagnosticReport`, {
 			params: { "code:text": name, _count: 100 },
 		})
 		.then((res) => {

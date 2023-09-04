@@ -6,8 +6,6 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import DetailsModal from "../../components/InfectionPre/SubComponents/DetailsModal"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
-import { revalidatePath } from "next/cache"
-import next from "next/types"
 
 function InfPreCond() {
 	// global state container
@@ -63,7 +61,7 @@ function InfPreCond() {
 	}
 
 	async function openModal(name: string) {
-		let returnValue
+		let returnValue: { link: any[]; entry: any }
 		// first get
 		await axios
 			.get("/api/condition/searchByName", {
