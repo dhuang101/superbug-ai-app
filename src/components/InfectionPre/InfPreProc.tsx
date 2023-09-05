@@ -61,7 +61,6 @@ function InfPreProc() {
 	}
 
 	function openModal(name: string) {
-		// first get
 		axios
 			.get("/api/procedure/searchByName", {
 				params: {

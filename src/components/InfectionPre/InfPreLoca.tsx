@@ -59,6 +59,8 @@ function InfPreLoca() {
 		}
 	}
 
+	function openModal(name: string) {}
+
 	// side effect only renders the table once the results are set
 	useEffect(() => {
 		if (groupedLocas != null) {
@@ -137,7 +139,11 @@ function InfPreLoca() {
 				</div>
 			) : groupedLocas != null ? (
 				<div>
-					<CountTable name="Condition" searchData={groupedLocas} />
+					<CountTable
+						name="Condition"
+						searchData={groupedLocas}
+						openModal={openModal}
+					/>
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
