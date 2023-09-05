@@ -11,14 +11,14 @@ function CountTable(props: Props) {
 	function TableRows() {
 		return (
 			<React.Fragment>
-				{props.searchData.map((obj: any, i: number) => {
+				{Object.keys(props.searchData).map((key: any, i: number) => {
 					return (
 						<tr
 							key={i}
 							className="hover:text-accent-content hover:bg-accent"
 							onClick={() => {
 								if (document) {
-									props.openModal(obj.name)
+									props.openModal(key)
 									;(
 										document.getElementById(
 											"detailsModal"
@@ -27,8 +27,8 @@ function CountTable(props: Props) {
 								}
 							}}
 						>
-							<td>{obj.name}</td>
-							<td>{obj.valueQuantity.value}</td>
+							<td>{key}</td>
+							<td>{props.searchData[key]}</td>
 						</tr>
 					)
 				})}

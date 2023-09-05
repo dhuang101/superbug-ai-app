@@ -51,8 +51,8 @@ function InfPreCond() {
 					},
 				})
 				.then((result: any) => {
-					if (result.data.hasOwnProperty("parameter")) {
-						setGroupedConds(result.data.parameter)
+					if (result.hasOwnProperty("data")) {
+						setGroupedConds(result.data)
 					} else {
 						setGroupedConds([])
 					}
