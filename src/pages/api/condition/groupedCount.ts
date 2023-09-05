@@ -48,7 +48,12 @@ async function getGroupedCondCount(apiUrl: string, start: Date, end: Date) {
 			countMap[condition.resource.code.text] = 1
 		}
 	})
-	return countMap
+	// convert to list data type
+	let returnValue = []
+	Object.keys(countMap).forEach((key) => {
+		returnValue.push({ name: key, count: countMap[key] })
+	})
+	return returnValue
 }
 
 // handler for any calls to this endpoint
