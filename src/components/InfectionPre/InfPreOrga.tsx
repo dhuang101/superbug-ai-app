@@ -51,8 +51,8 @@ function InfPreOrga() {
 					},
 				})
 				.then((result: any) => {
-					if (result.data.hasOwnProperty("parameter")) {
-						setGroupedOrgas(result.data.parameter)
+					if (result.hasOwnProperty("data")) {
+						setGroupedOrgas(result.data)
 					} else {
 						setGroupedOrgas([])
 					}

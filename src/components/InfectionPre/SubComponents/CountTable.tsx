@@ -7,18 +7,19 @@ interface Props {
 }
 
 function CountTable(props: Props) {
+	console.log(props.searchData)
 	// component that generates each row
 	function TableRows() {
 		return (
 			<React.Fragment>
-				{Object.keys(props.searchData).map((key: any, i: number) => {
+				{props.searchData.map((obj: any, i: number) => {
 					return (
 						<tr
 							key={i}
 							className="hover:text-accent-content hover:bg-accent"
 							onClick={() => {
 								if (document) {
-									props.openModal(key)
+									props.openModal(obj.name)
 									;(
 										document.getElementById(
 											"detailsModal"
@@ -27,8 +28,8 @@ function CountTable(props: Props) {
 								}
 							}}
 						>
-							<td>{key}</td>
-							<td>{props.searchData[key]}</td>
+							<td>{obj.name}</td>
+							<td>{obj.count}</td>
 						</tr>
 					)
 				})}
