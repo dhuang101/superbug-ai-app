@@ -43,7 +43,7 @@ function InfPreOrga() {
 			setLoading(true)
 			// grab list of encounters
 			axios
-				.get("/api/diagnosticreport/groupedCount", {
+				.get("/api/diagnosticReport/groupedCount", {
 					params: {
 						apiUrl: apiContext.value,
 						start: startDate,
