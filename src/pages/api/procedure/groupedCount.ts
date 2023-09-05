@@ -9,7 +9,7 @@ async function getGroupedProcCount(apiUrl: string, start: Date, end: Date) {
 		paramObj = { _count: 100 }
 	}
 	// first call
-	let allProcedures
+	let allProcedures: { link: any[]; entry: any[] }
 	await axios
 		.get(`${apiUrl}Procedure`, {
 			params: paramObj,

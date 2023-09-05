@@ -9,7 +9,7 @@ async function getGroupedCondCount(apiUrl: string, start: Date, end: Date) {
 		paramObj = { _count: 100 }
 	}
 	// first call
-	let allConditions
+	let allConditions: { link: any[]; entry: any[] }
 	await axios
 		.get(`${apiUrl}Condition`, {
 			params: paramObj,

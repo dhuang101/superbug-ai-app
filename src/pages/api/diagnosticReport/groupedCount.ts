@@ -9,7 +9,7 @@ async function getGroupedDiagCount(apiUrl: string, start: Date, end: Date) {
 		paramObj = { _count: 100 }
 	}
 	// first call
-	let allReports
+	let allReports: { link: any[]; entry: any[] }
 	await axios
 		.get(`${apiUrl}DiagnosticReport`, {
 			params: paramObj,
