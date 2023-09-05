@@ -1,8 +1,17 @@
 import axios from "axios"
 
-function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
-	const apiCall: any = axios
-		.get(`${apiUrl}Location/$groupedLocationsCount`, {
+// find all locations (wings/wards?)
+// for each location fetch related encounters
+// for each encounter fetch diagnostic reports
+// check that the report is issued within date range
+
+// return object
+// key: location value: number of diagnostic reports
+
+async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
+	let locations
+	await axios
+		.get(`${apiUrl}Location`, {
 			params: { start: start, end: end },
 		})
 		.then((res) => {
@@ -12,7 +21,6 @@ function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 				return []
 			}
 		})
-	return apiCall
 }
 
 // handler for any calls to this endpoint
