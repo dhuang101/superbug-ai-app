@@ -7,7 +7,6 @@ interface Props {
 }
 
 function CountTable(props: Props) {
-	console.log(props.searchData)
 	// component that generates each row
 	function TableRows() {
 		return (

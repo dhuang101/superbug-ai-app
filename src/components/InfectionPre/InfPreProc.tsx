@@ -51,8 +51,8 @@ function InfPreProc() {
 					},
 				})
 				.then((result: any) => {
-					if (result.data.hasOwnProperty("parameter")) {
-						setGroupedProcs(result.data.parameter)
+					if (result.hasOwnProperty("data")) {
+						setGroupedProcs(result.data)
 					} else {
 						setGroupedProcs([])
 					}
