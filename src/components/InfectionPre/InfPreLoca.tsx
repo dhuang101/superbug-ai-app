@@ -50,8 +50,8 @@ function InfPreLoca() {
 					},
 				})
 				.then((result: any) => {
-					if (result.data.hasOwnProperty("parameter")) {
-						setGroupedLocas(result.data.parameter)
+					if (result.hasOwnProperty("data")) {
+						setGroupedLocas(result.data)
 					} else {
 						setGroupedLocas([])
 					}
@@ -139,7 +139,7 @@ function InfPreLoca() {
 			) : groupedLocas != null ? (
 				<div>
 					<CountTable
-						name="Condition"
+						name="Location"
 						searchData={groupedLocas}
 						openModal={openModal}
 					/>
