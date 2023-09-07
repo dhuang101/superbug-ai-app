@@ -123,7 +123,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 			diagnosticReports = diagnosticReports.concat(currentResponse.entry)
 		}
 		// create return value map
-		returnValue.push({
+		return returnValue.push({
 			name: location.resource.name,
 			count: diagnosticReports.length,
 		})

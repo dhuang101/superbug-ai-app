@@ -39,7 +39,7 @@ function CountTable(props: Props) {
 	return (
 		<React.Fragment>
 			{props.searchData.length === 0 ? (
-				<div className="flex justify-center items-center h-[55vh]">
+				<div className="flex justify-center items-center h-[51vh]">
 					<article className="text-3xl">No Results Found</article>
 				</div>
 			) : (
