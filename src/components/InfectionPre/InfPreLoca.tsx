@@ -123,7 +123,6 @@ function InfPreLoca() {
 				<div className="ml-auto">
 					<button
 						className="btn btn-sm rounded btn-primary h-full"
-						disabled
 						onClick={executeSearch}
 					>
 						Search
@@ -147,7 +146,9 @@ function InfPreLoca() {
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
-					<article className="text-3xl">To Be Implemented</article>
+					<article className="text-3xl">
+						Perform a Search First
+					</article>
 				</div>
 			)}
 		</div>

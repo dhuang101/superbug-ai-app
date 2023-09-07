@@ -9,6 +9,7 @@ import axios from "axios"
 // key: location value: number of diagnostic reports
 
 async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
+	// grab all locations in database
 	let locations
 	await axios
 		.get(`${apiUrl}Location`, {
@@ -16,11 +17,64 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 		})
 		.then((res) => {
 			if (res.hasOwnProperty("data")) {
-				return res.data
+				locations = res.data
 			} else {
 				return []
 			}
 		})
+	// recursive call
+	let nextLink: string
+	while (
+		// checks whether a link to the next page exists
+		locations.link.some((link) => {
+			// saves the url if it does
+			if (link.relation === "next") {
+				nextLink = link.url
+			}
+			return link.relation === "next"
+		})
+	) {
+		// gets the next page and concats the results
+		await axios.get(nextLink).then((result) => {
+			result.data.entry = result.data.entry.concat(locations.entry)
+			locations = result.data
+		})
+	}
+
+	// filters for given physical type
+	locations = locations.entry.filter((location) => {
+		return location.resource.physicalType.coding[0].code === "wa"
+	})
+
+	// fetch all encounters related to the filtered locations
+	let encounters = []
+	locations.forEach(async (location) => {
+		await axios
+			.get(`${apiUrl}Encounter`, {
+				params: { location: location.resource.id },
+			})
+			.then((result) => {
+				console.log(result.data)
+			})
+		// 	// recursive call
+		// 	let nextLink: string
+		// 	while (
+		// 		// checks whether a link to the next page exists
+		// 		locations.link.some((link) => {
+		// 			// saves the url if it does
+		// 			if (link.relation === "next") {
+		// 				nextLink = link.url
+		// 			}
+		// 			return link.relation === "next"
+		// 		})
+		// 	) {
+		// 		// gets the next page and concats the results
+		// 		await axios.get(nextLink).then((result) => {
+		// 			result.data.entry = result.data.entry.concat(locations.entry)
+		// 			locations = result.dataE
+		// 		})
+		// 	}
+	})
 }
 
 // handler for any calls to this endpoint
