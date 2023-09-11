@@ -60,13 +60,25 @@ function InfPreCond() {
 	}
 
 	async function OpenSummary(name: string) {
+		let returnValue
 		const result = await axios.get("/api/condition/searchByName", {
 			params: {
 				apiUrl: apiContext.value,
 				name: name,
 			},
 		})
-		return result.data
+
+		console.log(result.data.entry)
+		returnValue = result.data.entry.map((obj) => {
+			return {
+				patientId: obj.resource.subject.reference.split("/")[1],
+				onsetDate: new Date(obj.resource.onsetDateTime)
+					.toISOString()
+					.split("T")[0],
+			}
+		})
+
+		return [returnValue, ["Patient ID", "Onset Date"]]
 	}
 
 	// side effect only renders the table once the results are set

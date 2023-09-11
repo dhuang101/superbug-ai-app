@@ -62,13 +62,27 @@ function InfPreOrga() {
 
 	// function to pass to count table that runs when a row is clicked
 	async function OpenSummary(name: string) {
+		let returnValue
+		// grab the data
 		const result = await axios.get("/api/diagnosticReport/searchByName", {
 			params: {
 				apiUrl: apiContext.value,
 				name: name,
 			},
 		})
-		return result.data
+		// clean the data
+		// note that the order of ids matters for the summary table
+		returnValue = result.data.entry.map((obj) => {
+			return {
+				patientId: obj.resource.subject.reference.split("/")[1],
+				diagnosticCode: obj.resource.code.text,
+				issuedDate: new Date(obj.resource.issued)
+					.toISOString()
+					.split("T")[0],
+			}
+		})
+		// return the data
+		return [returnValue, ["Patient ID", "Diagnostic Code", "Date Issued"]]
 	}
 
 	// side effect only renders the table once the results are set

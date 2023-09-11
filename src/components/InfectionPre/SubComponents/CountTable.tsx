@@ -32,7 +32,10 @@ function CountTable(props: Props) {
 									clickedElement.textContent
 								)
 								// post resolved data to global context
-								routerContext.setter(searchData)
+								routerContext.setter({
+									searchData: searchData[0],
+									colNames: searchData[1],
+								})
 								// push next page
 								router.push(
 									`/InfectionPrevention/` +
