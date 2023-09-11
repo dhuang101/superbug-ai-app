@@ -1,5 +1,5 @@
 function InfPreSummary() {
-	return <div></div>
+	return <div>chiken</div>
 }
 
 export default InfPreSummary

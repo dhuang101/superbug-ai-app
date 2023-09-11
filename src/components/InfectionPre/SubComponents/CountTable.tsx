@@ -17,7 +17,18 @@ function CountTable(props: Props) {
 						<tr
 							key={i}
 							className="hover:text-accent-content hover:bg-accent"
-							onClick={() => {}}
+							onClick={(
+								event: React.MouseEvent<HTMLTableRowElement>
+							) => {
+								let clickedElement =
+									event.target as HTMLButtonElement
+								let encodedString = encodeURIComponent(
+									clickedElement.textContent
+								)
+								router.push(
+									`/InfectionPrevention/` + encodedString
+								)
+							}}
 						>
 							<td>{obj.name}</td>
 							<td>{obj.count}</td>
