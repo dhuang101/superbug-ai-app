@@ -150,7 +150,7 @@ function InfPreOrga() {
 				</div>
 			) : groupedOrgas != null ? (
 				<div>
-					<CountTable name="Organisms" searchData={groupedOrgas} />
+					<CountTable name="Organism" searchData={groupedOrgas} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">

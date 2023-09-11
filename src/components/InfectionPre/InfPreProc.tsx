@@ -150,7 +150,7 @@ function InfPreProc() {
 				</div>
 			) : groupedProcs != null ? (
 				<div>
-					<CountTable name="Condition" searchData={groupedProcs} />
+					<CountTable name="Procedure" searchData={groupedProcs} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
