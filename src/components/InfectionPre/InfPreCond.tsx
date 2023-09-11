@@ -59,7 +59,7 @@ function InfPreCond() {
 		}
 	}
 
-	function openModal(name: string) {
+	function OpenSummary(name: string) {
 		axios
 			.get("/api/condition/searchByName", {
 				params: {

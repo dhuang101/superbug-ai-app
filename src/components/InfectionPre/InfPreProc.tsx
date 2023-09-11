@@ -60,7 +60,7 @@ function InfPreProc() {
 		}
 	}
 
-	function openModal(name: string) {
+	function OpenSummary(name: string) {
 		axios
 			.get("/api/procedure/searchByName", {
 				params: {

@@ -60,7 +60,7 @@ function InfPreOrga() {
 		}
 	}
 
-	function openModal(name: string) {
+	function OpenSummary(name: string) {
 		axios
 			.get("/api/diagnosticReport/searchByName", {
 				params: {

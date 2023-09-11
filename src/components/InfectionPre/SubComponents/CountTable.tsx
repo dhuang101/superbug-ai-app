@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useContext } from "react"
+import RouterContext from "../../../contexts/RouterContext"
 
 interface Props {
 	searchData: any
@@ -8,6 +9,8 @@ interface Props {
 
 function CountTable(props: Props) {
 	const router = useRouter()
+	// global state container
+	const routerContect = useContext(RouterContext)
 	// component that generates each row
 	function TableRows() {
 		return (

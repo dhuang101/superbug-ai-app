@@ -59,7 +59,7 @@ function InfPreLoca() {
 		}
 	}
 
-	function openModal(name: string) {}
+	function OpenSummary(name: string) {}
 
 	// side effect only renders the table once the results are set
 	useEffect(() => {
