@@ -4,7 +4,6 @@ import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
-import DetailsModal from "../../components/InfectionPre/SubComponents/DetailsModal"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
 function InfPreCond() {
@@ -150,11 +149,7 @@ function InfPreCond() {
 				</div>
 			) : groupedConds != null ? (
 				<div>
-					<CountTable
-						name="Condition"
-						searchData={groupedConds}
-						openModal={openModal}
-					/>
+					<CountTable name="Condition" searchData={groupedConds} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
@@ -163,7 +158,6 @@ function InfPreCond() {
 					</article>
 				</div>
 			)}
-			<DetailsModal />
 		</div>
 	)
 }

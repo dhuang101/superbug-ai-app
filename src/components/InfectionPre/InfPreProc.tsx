@@ -150,11 +150,7 @@ function InfPreProc() {
 				</div>
 			) : groupedProcs != null ? (
 				<div>
-					<CountTable
-						name="Condition"
-						searchData={groupedProcs}
-						openModal={openModal}
-					/>
+					<CountTable name="Condition" searchData={groupedProcs} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
@@ -163,7 +159,6 @@ function InfPreProc() {
 					</article>
 				</div>
 			)}
-			<DetailsModal />
 		</div>
 	)
 }

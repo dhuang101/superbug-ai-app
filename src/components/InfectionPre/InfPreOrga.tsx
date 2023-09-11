@@ -150,11 +150,7 @@ function InfPreOrga() {
 				</div>
 			) : groupedOrgas != null ? (
 				<div>
-					<CountTable
-						name="Organisms"
-						searchData={groupedOrgas}
-						openModal={openModal}
-					/>
+					<CountTable name="Organisms" searchData={groupedOrgas} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">
@@ -163,7 +159,6 @@ function InfPreOrga() {
 					</article>
 				</div>
 			)}
-			<DetailsModal />
 		</div>
 	)
 }

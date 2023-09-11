@@ -138,11 +138,7 @@ function InfPreLoca() {
 				</div>
 			) : groupedLocas != null ? (
 				<div>
-					<CountTable
-						name="Location"
-						searchData={groupedLocas}
-						openModal={openModal}
-					/>
+					<CountTable name="Location" searchData={groupedLocas} />
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">

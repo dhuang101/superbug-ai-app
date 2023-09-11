@@ -1,12 +1,13 @@
+import { useRouter } from "next/router"
 import React from "react"
 
 interface Props {
 	searchData: any
 	name: string
-	openModal: (name: string) => void
 }
 
 function CountTable(props: Props) {
+	const router = useRouter()
 	// component that generates each row
 	function TableRows() {
 		return (
@@ -16,16 +17,7 @@ function CountTable(props: Props) {
 						<tr
 							key={i}
 							className="hover:text-accent-content hover:bg-accent"
-							onClick={() => {
-								if (document) {
-									props.openModal(obj.name)
-									;(
-										document.getElementById(
-											"detailsModal"
-										) as HTMLFormElement
-									).showModal()
-								}
-							}}
+							onClick={() => {}}
 						>
 							<td>{obj.name}</td>
 							<td>{obj.count}</td>
