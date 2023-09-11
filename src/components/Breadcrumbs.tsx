@@ -3,9 +3,9 @@ import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 
 const _defaultGetTextGenerator = (param, query) => null
-const _defaultGetDefaultTextGenerator = (path) => {
-	path = path.replace("/", "")
-	path = path.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")
+const _defaultGetDefaultTextGenerator = (path, idx) => {
+	path = path.split("/").slice(1)[idx]
+	path = path.split(/(?=[A-Z])/).join(" ")
 	return path
 }
 
@@ -32,10 +32,11 @@ function Breadcrumbs({
 					.replace("]", "")
 				const href =
 					"/" + asPathNestedRoutes.slice(0, idx + 1).join("/")
+
 				return {
 					href,
 					textGenerator: getTextGenerator(param, router.query),
-					text: getDefaultTextGenerator(href),
+					text: getDefaultTextGenerator(href, idx),
 				}
 			})
 
@@ -49,8 +50,6 @@ function Breadcrumbs({
 			getDefaultTextGenerator,
 		]
 	)
-
-	console.log(breadcrumbs.length)
 
 	return breadcrumbs.length > 1 ? (
 		<div className="flex breadcrumbs my-2">
