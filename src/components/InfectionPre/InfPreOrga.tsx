@@ -60,17 +60,15 @@ function InfPreOrga() {
 		}
 	}
 
-	function OpenSummary(name: string) {
-		axios
-			.get("/api/diagnosticReport/searchByName", {
-				params: {
-					apiUrl: apiContext.value,
-					name: name,
-				},
-			})
-			.then((result: any) => {
-				console.log(result.data)
-			})
+	// function to pass to count table that runs when a row is clicked
+	async function OpenSummary(name: string) {
+		const result = await axios.get("/api/diagnosticReport/searchByName", {
+			params: {
+				apiUrl: apiContext.value,
+				name: name,
+			},
+		})
+		return result.data
 	}
 
 	// side effect only renders the table once the results are set
@@ -150,7 +148,11 @@ function InfPreOrga() {
 				</div>
 			) : groupedOrgas != null ? (
 				<div>
-					<CountTable name="Organism" searchData={groupedOrgas} />
+					<CountTable
+						name="Organism"
+						searchData={groupedOrgas}
+						OpenSummary={OpenSummary}
+					/>
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">

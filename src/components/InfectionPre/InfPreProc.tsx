@@ -60,17 +60,14 @@ function InfPreProc() {
 		}
 	}
 
-	function OpenSummary(name: string) {
-		axios
-			.get("/api/procedure/searchByName", {
-				params: {
-					apiUrl: apiContext.value,
-					name: name,
-				},
-			})
-			.then((result: any) => {
-				console.log(result.data)
-			})
+	async function OpenSummary(name: string) {
+		const result = await axios.get("/api/procedure/searchByName", {
+			params: {
+				apiUrl: apiContext.value,
+				name: name,
+			},
+		})
+		return result.data
 	}
 
 	// side effect only renders the table once the results are set
@@ -150,7 +147,11 @@ function InfPreProc() {
 				</div>
 			) : groupedProcs != null ? (
 				<div>
-					<CountTable name="Procedure" searchData={groupedProcs} />
+					<CountTable
+						name="Procedure"
+						searchData={groupedProcs}
+						OpenSummary={OpenSummary}
+					/>
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">

@@ -59,17 +59,14 @@ function InfPreCond() {
 		}
 	}
 
-	function OpenSummary(name: string) {
-		axios
-			.get("/api/condition/searchByName", {
-				params: {
-					apiUrl: apiContext.value,
-					name: name,
-				},
-			})
-			.then((result: any) => {
-				console.log(result.data)
-			})
+	async function OpenSummary(name: string) {
+		const result = await axios.get("/api/condition/searchByName", {
+			params: {
+				apiUrl: apiContext.value,
+				name: name,
+			},
+		})
+		return result.data
 	}
 
 	// side effect only renders the table once the results are set
@@ -149,7 +146,11 @@ function InfPreCond() {
 				</div>
 			) : groupedConds != null ? (
 				<div>
-					<CountTable name="Condition" searchData={groupedConds} />
+					<CountTable
+						name="Condition"
+						searchData={groupedConds}
+						OpenSummary={OpenSummary}
+					/>
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">

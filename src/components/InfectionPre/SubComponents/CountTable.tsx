@@ -5,12 +5,13 @@ import RouterContext from "../../../contexts/RouterContext"
 interface Props {
 	searchData: any
 	name: string
+	OpenSummary: any
 }
 
 function CountTable(props: Props) {
 	const router = useRouter()
 	// global state container
-	const routerContect = useContext(RouterContext)
+	const routerContext = useContext(RouterContext)
 	// component that generates each row
 	function TableRows() {
 		return (
@@ -20,16 +21,24 @@ function CountTable(props: Props) {
 						<tr
 							key={i}
 							className="hover:text-accent-content hover:bg-accent"
-							onClick={(
+							onClick={async (
 								event: React.MouseEvent<HTMLTableRowElement>
 							) => {
+								// typing the event.target
 								let clickedElement =
 									event.target as HTMLButtonElement
-								let encodedString = encodeURIComponent(
+								// running passed open summary function
+								let searchData = await props.OpenSummary(
 									clickedElement.textContent
 								)
+								// post resolved data to global context
+								routerContext.setter(searchData)
+								// push next page
 								router.push(
-									`/InfectionPrevention/` + encodedString
+									`/InfectionPrevention/` +
+										encodeURIComponent(
+											clickedElement.textContent
+										)
 								)
 							}}
 						>
