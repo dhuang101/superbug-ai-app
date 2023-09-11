@@ -6,6 +6,7 @@ const _defaultGetTextGenerator = (param, query) => null
 const _defaultGetDefaultTextGenerator = (path, idx) => {
 	path = path.split("/").slice(1)[idx]
 	path = path.split(/(?=[A-Z])/).join(" ")
+	path = decodeURIComponent(path)
 	return path
 }
 

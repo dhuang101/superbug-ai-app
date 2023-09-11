@@ -10,6 +10,7 @@ function InfPreSummary() {
 	return (
 		<div className="flex flex-col w-8/12">
 			<Breadcrumbs />
+			<article className="text-3xl font-semibold">Text</article>
 			<SummaryTable />
 		</div>
 	)
