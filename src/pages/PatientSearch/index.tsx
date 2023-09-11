@@ -9,6 +9,7 @@ import axios from "axios"
 import ApiContext from "../../contexts/ApiContext"
 import SearchTable from "../../components/PatientSearch/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
+import Breadcrumbs from "../../components/Breadcrumbs"
 
 function PatientSearch() {
 	// global state container
@@ -167,7 +168,8 @@ function PatientSearch() {
 
 	return (
 		<div className="w-8/12 h-full">
-			<div className="mt-6">
+			<Breadcrumbs />
+			<div>
 				<article className="text-3xl font-semibold">
 					Patient List
 				</article>

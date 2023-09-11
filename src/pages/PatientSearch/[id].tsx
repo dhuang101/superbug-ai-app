@@ -12,6 +12,7 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import LoopIcon from "@mui/icons-material/Loop"
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety"
+import Breadcrumbs from "../../components/Breadcrumbs"
 
 // 6f7acde5-db81-4361-82cf-886893a3280c
 // gregg
@@ -146,8 +147,11 @@ function PatientSummary() {
 				</button>
 			</div>
 			<div className="flex flex-col w-4/5 items-center overflow-y-auto">
-				<div className="flex flex-col w-10/12 py-6 px-12 my-8 min-h-fit bg-base-100 rounded">
-					<DisplayHandler />
+				<div className="w-10/12">
+					<Breadcrumbs />
+					<div className="flex flex-col w-full py-6 px-12 my-4 min-h-fit bg-base-100 rounded">
+						<DisplayHandler />
+					</div>
 				</div>
 			</div>
 		</div>

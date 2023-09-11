@@ -4,7 +4,6 @@ import "../styles/globals.css"
 import React, { useState, useEffect } from "react"
 import ApiContext from "../contexts/ApiContext"
 import NavBar from "../components/NavBar"
-import Breadcrumbs from "../components/Breadcrumbs"
 
 export default function MyApp({ Component, pageProps }) {
 	// global state wrapper for the api url
@@ -43,7 +42,6 @@ export default function MyApp({ Component, pageProps }) {
 					<div className="flex flex-col h-screen min-w-screen">
 						<NavBar theme={theme} setTheme={setTheme} />
 						<div className="flex flex-col h-[93%] overflow-auto w-full items-center bg-base-200">
-							<Breadcrumbs />
 							<Component {...pageProps} />
 						</div>
 					</div>

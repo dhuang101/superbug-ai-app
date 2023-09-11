@@ -3,6 +3,7 @@ import InfPreOrga from "../../components/InfectionPre/InfPreOrga"
 import InfPreCond from "../../components/InfectionPre/InfPreCond"
 import InfPreProc from "../../components/InfectionPre/InfPreProc"
 import InfPreLoca from "../../components/InfectionPre/InfPreLoca"
+import Breadcrumbs from "../../components/Breadcrumbs"
 
 function InfectionPrevention() {
 	const [displayedTab, setDisplayedTab] = useState(0)
@@ -40,7 +41,8 @@ function InfectionPrevention() {
 
 	return (
 		<div className="flex flex-col w-8/12">
-			<div className="mt-6">
+			<Breadcrumbs />
+			<div>
 				<article className="text-3xl font-semibold">
 					Infection Prevention
 				</article>
