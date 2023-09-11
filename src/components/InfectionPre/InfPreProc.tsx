@@ -61,13 +61,25 @@ function InfPreProc() {
 	}
 
 	async function OpenSummary(name: string) {
+		let returnValue
 		const result = await axios.get("/api/procedure/searchByName", {
 			params: {
 				apiUrl: apiContext.value,
 				name: name,
 			},
 		})
-		return result.data
+
+		returnValue = result.data.entry.map((obj) => {
+			return {
+				patientId: obj.resource.subject.reference.split("/")[1],
+				reason: obj.resource.reasonCode[0].text,
+				performedDate: new Date(obj.resource.performedDateTime)
+					.toISOString()
+					.split("T")[0],
+			}
+		})
+
+		return [returnValue, ["Patient ID", "Reason", "Performed Date"]]
 	}
 
 	// side effect only renders the table once the results are set

@@ -68,7 +68,6 @@ function InfPreCond() {
 			},
 		})
 
-		console.log(result.data.entry)
 		returnValue = result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],

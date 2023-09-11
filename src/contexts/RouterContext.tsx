@@ -2,7 +2,7 @@ import { createContext } from "react"
 
 interface AppContextInterface {
 	value: any
-	setter: React.Dispatch<React.SetStateAction<string>>
+	setter: React.Dispatch<React.SetStateAction<any>>
 }
 
 // context for passing data between pages without being visible as query params
