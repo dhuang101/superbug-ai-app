@@ -20,7 +20,7 @@ function CountTable(props: Props) {
 					return (
 						<tr
 							key={i}
-							className="hover:text-accent-content hover:bg-accent"
+							className="hover:text-accent-content hover:bg-accent cursor-pointer"
 							onClick={async (
 								event: React.MouseEvent<HTMLTableRowElement>
 							) => {

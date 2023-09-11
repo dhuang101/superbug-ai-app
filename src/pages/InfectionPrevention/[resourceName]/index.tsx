@@ -12,7 +12,7 @@ function InfPreSummary() {
 	return (
 		<div className="flex flex-col w-8/12">
 			<Breadcrumbs />
-			<article className="text-3xl font-semibold">
+			<article className="text-3xl mb-4 font-semibold">
 				{router.query.resourceName}
 			</article>
 			<SummaryTable
