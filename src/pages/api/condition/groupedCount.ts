@@ -1,26 +1,30 @@
 import axios from "axios"
 
 async function getGroupedCondCount(apiUrl: string, start: Date, end: Date) {
-	// assign parameters
-	let paramObj: { start?: string; end?: string; _count: number }
-	if (start === null && end === null) {
-		paramObj = { start: "ge" + start, end: "le" + end, _count: 100 }
+	// parsing arguments
+	let urlExtension: string
+	if (typeof start === "undefined" && typeof end === "undefined") {
+		urlExtension = `?_count=100`
 	} else {
-		paramObj = { _count: 100 }
+		urlExtension = `?onset-date=ge${start}&onset-date=le${end}&_count=100`
 	}
+
 	// first call
 	let allConditions: { link: any[]; entry: any[] }
-	await axios
-		.get(`${apiUrl}Condition`, {
-			params: paramObj,
-		})
-		.then((res) => {
-			if (res.hasOwnProperty("data")) {
-				allConditions = res.data
-			} else {
-				return []
-			}
-		})
+	let exitFlag = false
+	await axios.get(`${apiUrl}Condition${urlExtension}`).then((res) => {
+		if (res.data.hasOwnProperty("entry")) {
+			allConditions = res.data
+		} else {
+			exitFlag = true
+		}
+	})
+
+	// early exit for no data returned
+	if (exitFlag) {
+		return []
+	}
+
 	// recursive call
 	let nextLink: string
 	while (

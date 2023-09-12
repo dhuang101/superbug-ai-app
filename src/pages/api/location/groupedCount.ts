@@ -82,13 +82,30 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 		for (const encounter of encounters) {
 			// reset diagnostic reports for each encounter
 			let diagnosticReports = []
+			// parsing arguments
+			let urlExtension = ""
+			if (typeof start !== "undefined" && typeof end !== "undefined") {
+				urlExtension = `?issued=ge${start}&issued=le${end}&_count=100`
+			}
+			// first call
+			let exitFlag = false
 			await axios
-				.get(`${apiUrl}DiagnosticReport`, {
+				.get(`${apiUrl}DiagnosticReport${urlExtension}`, {
 					params: { encounter: encounter.resource.id },
 				})
 				.then((res) => {
-					currentResponse = res.data
+					if (res.data.hasOwnProperty("entry")) {
+						currentResponse = res.data
+					} else {
+						exitFlag = true
+					}
 				})
+
+			// early exit for no data returned
+			if (exitFlag) {
+				break
+			}
+
 			let nextLink: string
 			while (
 				// checks whether a link to the next page exists

@@ -1,26 +1,30 @@
 import axios from "axios"
 
 async function getGroupedProcCount(apiUrl: string, start: Date, end: Date) {
-	// assign parameters
-	let paramObj: { start?: string; end?: string; _count: number }
-	if (start === null && end === null) {
-		paramObj = { start: "ge" + start, end: "le" + end, _count: 100 }
+	// parsing arguments
+	let urlExtension: string
+	if (typeof start === "undefined" && typeof end === "undefined") {
+		urlExtension = `?_count=100`
 	} else {
-		paramObj = { _count: 100 }
+		urlExtension = `?date=ge${start}&date=le${end}&_count=100`
 	}
+
 	// first call
 	let allProcedures: { link: any[]; entry: any[] }
-	await axios
-		.get(`${apiUrl}Procedure`, {
-			params: paramObj,
-		})
-		.then((res) => {
-			if (res.hasOwnProperty("data")) {
-				allProcedures = res.data
-			} else {
-				return []
-			}
-		})
+	let exitFlag = false
+	await axios.get(`${apiUrl}Procedure${urlExtension}`).then((res) => {
+		if (res.data.hasOwnProperty("entry")) {
+			allProcedures = res.data
+		} else {
+			exitFlag = true
+		}
+	})
+
+	// early exit for no data returned
+	if (exitFlag) {
+		return []
+	}
+
 	// recursive call
 	let nextLink: string
 	while (
