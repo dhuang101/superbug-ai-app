@@ -1,26 +1,28 @@
 import axios from "axios"
-
 async function getGroupedDiagCount(apiUrl: string, start: Date, end: Date) {
-	// assign parameters
-	let paramObj: { start?: string; end?: string; _count: number }
-	if (start === null && end === null) {
-		paramObj = { start: "ge" + start, end: "le" + end, _count: 100 }
+	let urlExtension: string
+	if (typeof start === "undefined" && typeof end === "undefined") {
+		urlExtension = `?_count=100`
 	} else {
-		paramObj = { _count: 100 }
+		urlExtension = `?issued=ge${start}&issued=le${end}&_count=100`
 	}
+	console.log(`${apiUrl}DiagnosticReport${urlExtension}`)
 	// first call
 	let allReports: { link: any[]; entry: any[] }
-	await axios
-		.get(`${apiUrl}DiagnosticReport`, {
-			params: paramObj,
-		})
-		.then((res) => {
-			if (res.hasOwnProperty("data")) {
-				allReports = res.data
-			} else {
-				return []
-			}
-		})
+	let exitFlag = false
+	await axios.get(`${apiUrl}DiagnosticReport${urlExtension}`).then((res) => {
+		if (res.data.total > 0) {
+			allReports = res.data
+		} else {
+			exitFlag = true
+		}
+	})
+
+	// early exit for no data returned
+	if (exitFlag) {
+		return []
+	}
+
 	// recursive call
 	let nextLink: string
 	while (
