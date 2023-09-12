@@ -9,19 +9,17 @@ import axios from "axios"
 // key: location value: number of diagnostic reports
 
 async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
+	let returnValue = []
+
 	// grab all locations in database
-	let locations
-	await axios
-		.get(`${apiUrl}Location`, {
-			params: { start: start, end: end },
-		})
-		.then((res) => {
-			if (res.hasOwnProperty("data")) {
-				locations = res.data
-			} else {
-				return []
-			}
-		})
+	let locations: any
+	await axios.get(`${apiUrl}Location`).then((res) => {
+		if (res.hasOwnProperty("data")) {
+			locations = res.data
+		} else {
+			return []
+		}
+	})
 	// recursive call
 	let nextLink: string
 	while (
@@ -40,101 +38,93 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 			locations = result.data
 		})
 	}
-
 	// filters for given physical type
 	locations = locations.entry.filter((location) => {
 		return location.resource.physicalType.coding[0].code === "wa"
 	})
 
 	// fetch all encounters related to the filtered locations
-	let encounters = []
-	let currentResponse
-	return await (
-		await Promise.all(
-			locations.map(async (location) => {
-				await axios
-					.get(`${apiUrl}Encounter`, {
-						params: { location: location.resource.id },
-					})
-					.then((res) => {
-						currentResponse = res.data
-					})
-				// recursive call
-				let nextLink: string
-				while (
-					// checks whether a link to the next page exists
-					currentResponse.link.some(
-						(link: { relation: string; url: string }) => {
-							// saves the url if it does
-							if (link.relation === "next") {
-								nextLink = link.url
-							}
-							return link.relation === "next"
-						}
-					)
-				) {
-					// gets the next page and concats the results
-					await axios.get(nextLink).then((result) => {
-						result.data.entry = result.data.entry.concat(
-							currentResponse.entry
-						)
-						currentResponse = result
-					})
-				}
-				// only push entries if they exist
-				if (currentResponse.hasOwnProperty("entry")) {
-					encounters = encounters.concat(currentResponse.entry)
-				}
-
-				// now fetch diagnostic reports for the encounters related to the locations
-				let diagnosticReports = []
-				encounters.forEach(async (encounter) => {
-					await axios
-						.get(`${apiUrl}DiagnosticReport`, {
-							params: { encounter: encounter.resource.id },
-						})
-						.then((res) => {
-							currentResponse = res.data
-						})
-					// recursive call
-					let nextLink: string
-					while (
-						// checks whether a link to the next page exists
-						currentResponse.link.some(
-							(link: { relation: string; url: string }) => {
-								// saves the url if it does
-								if (link.relation === "next") {
-									nextLink = link.url
-								}
-								return link.relation === "next"
-							}
-						)
-					) {
-						// gets the next page and concats the results
-						await axios.get(nextLink).then((result) => {
-							result.data.entry = result.data.entry.concat(
-								currentResponse.entry
-							)
-							currentResponse = result
-						})
+	for (const location of locations) {
+		let encounters = []
+		let currentResponse
+		await axios
+			.get(`${apiUrl}Encounter`, {
+				params: { location: location.resource.id },
+			})
+			.then((res) => {
+				currentResponse = res.data
+			})
+		// recursive call
+		let nextLink: string
+		while (
+			// checks whether a link to the next page exists
+			currentResponse.link.some(
+				(link: { relation: string; url: string }) => {
+					// saves the url if it does
+					if (link.relation === "next") {
+						nextLink = link.url
 					}
+					return link.relation === "next"
+				}
+			)
+		) {
+			// gets the next page and concats the results
+			await axios.get(nextLink).then((result) => {
+				result.data.entry = result.data.entry.concat(
+					currentResponse.entry
+				)
+				currentResponse = result
+			})
+		}
+		// only push entries if they exist
+		if (currentResponse.hasOwnProperty("entry")) {
+			encounters = encounters.concat(currentResponse.entry)
+		}
+
+		// finally fetch related diagnostic reports
+		for (const encounter of encounters) {
+			let diagnosticReports = []
+			await axios
+				.get(`${apiUrl}DiagnosticReport`, {
+					params: { encounter: encounter.resource.id },
 				})
-				// only push entries if they exist
-				if (currentResponse.hasOwnProperty("entry")) {
-					diagnosticReports = diagnosticReports.concat(
+				.then((res) => {
+					currentResponse = res.data
+				})
+			let nextLink: string
+			while (
+				// checks whether a link to the next page exists
+				currentResponse.link.some(
+					(link: { relation: string; url: string }) => {
+						// saves the url if it does
+						if (link.relation === "next") {
+							nextLink = link.url
+						}
+						return link.relation === "next"
+					}
+				)
+			) {
+				// gets the next page and concats the results
+				await axios.get(nextLink).then((result) => {
+					result.data.entry = result.data.entry.concat(
 						currentResponse.entry
 					)
-				}
-				return {
-					name: location.resource.name,
-					count: diagnosticReports.length,
-					reports: diagnosticReports,
-				}
+					currentResponse = result
+				})
+			}
+			if (currentResponse.hasOwnProperty("entry")) {
+				diagnosticReports = diagnosticReports.concat(
+					currentResponse.entry
+				)
+			}
+			returnValue.push({
+				name: location.resource.name,
+				count: diagnosticReports.length,
+				reports: diagnosticReports,
 			})
-		)
-	).filter((obj) => {
-		return obj.count > 0
-	})
+		}
+	}
+	return returnValue
 }
 
 // handler for any calls to this endpoint
