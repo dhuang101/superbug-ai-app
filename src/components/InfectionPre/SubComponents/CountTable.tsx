@@ -19,7 +19,8 @@ function CountTable(props: Props) {
 				{props.searchData.map((obj: any, i: number) => {
 					return (
 						<tr
-							key={i}
+							key={obj.name}
+							id={obj.name}
 							className="hover:text-accent-content hover:bg-accent cursor-pointer"
 							onClick={async (
 								event: React.MouseEvent<HTMLTableRowElement>
@@ -27,9 +28,11 @@ function CountTable(props: Props) {
 								// typing the event.target
 								let clickedElement =
 									event.target as HTMLButtonElement
+								let parentElement =
+									clickedElement.parentNode as HTMLTableRowElement
 								// running passed open summary function
 								let searchData = await props.OpenSummary(
-									clickedElement.textContent
+									parentElement.id
 								)
 								// post resolved data to global context
 								routerContext.setter({

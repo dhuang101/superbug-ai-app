@@ -5,6 +5,7 @@ import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
+import { group } from "console"
 
 function InfPreLoca() {
 	// global state container
@@ -59,7 +60,26 @@ function InfPreLoca() {
 		}
 	}
 
-	function OpenSummary(name: string) {}
+	function OpenSummary(name: string) {
+		let returnValue
+		let locationObj = groupedLocas.find((obj) => obj.name === name)
+
+		returnValue = locationObj.reports.map((obj) => {
+			return {
+				patientId: obj.resource.subject.reference.split("/")[1],
+				diagnosticCode: obj.resource.code.text,
+				organsismCode: obj.resource.conclusionCode[0].coding[0].display,
+				issuedDate: new Date(obj.resource.issued)
+					.toISOString()
+					.split("T")[0],
+			}
+		})
+
+		return [
+			returnValue,
+			["Patient ID", "Diagnostic Code", "Organism Code", "Date Issued"],
+		]
+	}
 
 	// side effect only renders the table once the results are set
 	useEffect(() => {
