@@ -1,14 +1,8 @@
 import axios from "axios"
 
-// find all locations (wings/wards?)
-// for each location fetch related encounters
-// for each encounter fetch diagnostic reports
-// check that the report is issued within date range
-
-// return object
-// key: location value: number of diagnostic reports
-
+// complex chain of api calls to retrieve all diagnostic reports related to a location
 async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
+	// init return value
 	let returnValue = []
 
 	// grab all locations in database
@@ -45,8 +39,11 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 
 	// fetch all encounters related to the filtered locations
 	for (const location of locations) {
+		// reset encounters for each location
 		let encounters = []
+		// variable to complete paginated reponse
 		let currentResponse
+		// fetch first page
 		await axios
 			.get(`${apiUrl}Encounter`, {
 				params: { location: location.resource.id },
@@ -83,6 +80,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 
 		// finally fetch related diagnostic reports
 		for (const encounter of encounters) {
+			// reset diagnostic reports for each encounter
 			let diagnosticReports = []
 			await axios
 				.get(`${apiUrl}DiagnosticReport`, {
@@ -112,11 +110,13 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 					currentResponse = result
 				})
 			}
+			// only adds to the list of reports if any entries are retrieved
 			if (currentResponse.hasOwnProperty("entry")) {
 				diagnosticReports = diagnosticReports.concat(
 					currentResponse.entry
 				)
 			}
+			// push data to the API return
 			returnValue.push({
 				name: location.resource.name,
 				count: diagnosticReports.length,
@@ -124,6 +124,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 			})
 		}
 	}
+
 	return returnValue
 }
 
