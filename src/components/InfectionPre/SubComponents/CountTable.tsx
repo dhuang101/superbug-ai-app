@@ -21,7 +21,7 @@ function CountTable(props: Props) {
 						<tr
 							key={obj.name}
 							id={obj.name}
-							className="hover:text-accent-content hover:bg-accent cursor-pointer"
+							className="hover:text-accent-content hover:bg-accent hover cursor-pointer"
 							onClick={async (
 								event: React.MouseEvent<HTMLTableRowElement>
 							) => {
@@ -65,7 +65,7 @@ function CountTable(props: Props) {
 				</div>
 			) : (
 				<div className="flex justify-center">
-					<table className="table table-md w-full overflow-x-auto">
+					<table className="table table-md w-full overflow-x-auto [&_tr.hover:hover_*]:!bg-accent">
 						<thead>
 							<tr>
 								<th className="bg-base-300">
