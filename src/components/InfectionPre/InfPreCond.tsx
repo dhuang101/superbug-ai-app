@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
-import InfPreTable from "./SubComponents/InfPreTable"
+import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
 function InfPreCond() {
@@ -50,13 +50,34 @@ function InfPreCond() {
 					},
 				})
 				.then((result: any) => {
-					if (result.data.hasOwnProperty("parameter")) {
-						setGroupedConds(result.data.parameter)
+					if (result.hasOwnProperty("data")) {
+						setGroupedConds(result.data)
 					} else {
 						setGroupedConds([])
 					}
 				})
 		}
+	}
+
+	async function OpenSummary(name: string) {
+		let returnValue
+		const result = await axios.get("/api/condition/searchByName", {
+			params: {
+				apiUrl: apiContext.value,
+				name: name,
+			},
+		})
+
+		returnValue = result.data.entry.map((obj) => {
+			return {
+				patientId: obj.resource.subject.reference.split("/")[1],
+				onsetDate: new Date(obj.resource.onsetDateTime)
+					.toISOString()
+					.split("T")[0],
+			}
+		})
+
+		return [returnValue, ["Patient ID", "Onset Date"]]
 	}
 
 	// side effect only renders the table once the results are set
@@ -95,7 +116,7 @@ function InfPreCond() {
 	}
 
 	return (
-		<div className="flex flex-col w-full min-h-[70vh]">
+		<div className="flex flex-col w-full min-h-[67vh]">
 			<article className="mb-4 text-xl font-normal">
 				Enter Date Range
 			</article>
@@ -106,7 +127,7 @@ function InfPreCond() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-3xl font-thin text-neutral">
+				<article className="mx-4 text-3xl font-thin text-base-content">
 					-
 				</article>
 				<div className="w-1/5">
@@ -136,7 +157,11 @@ function InfPreCond() {
 				</div>
 			) : groupedConds != null ? (
 				<div>
-					<InfPreTable name="Condition" searchData={groupedConds} />
+					<CountTable
+						name="Condition"
+						searchData={groupedConds}
+						OpenSummary={OpenSummary}
+					/>
 				</div>
 			) : (
 				<div className="flex justify-center items-center h-[90%]">

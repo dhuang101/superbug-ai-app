@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react"
+import InfPreOrga from "../../components/InfectionPre/InfPreOrga"
 import InfPreCond from "../../components/InfectionPre/InfPreCond"
 import InfPreProc from "../../components/InfectionPre/InfPreProc"
 import InfPreLoca from "../../components/InfectionPre/InfPreLoca"
+import Breadcrumbs from "../../components/Breadcrumbs"
 
 function InfectionPrevention() {
 	const [displayedTab, setDisplayedTab] = useState(0)
@@ -17,8 +19,10 @@ function InfectionPrevention() {
 		let clickedElement = event.target as HTMLButtonElement
 		// alter CSS on clicked button
 		clickedElement.classList.add("tab-active")
+		clickedElement.classList.add("pointer-events-none")
 		// alter CSS on previously clicked button
 		lastButton.current.classList.remove("tab-active")
+		lastButton.current.classList.remove("pointer-events-none")
 		// change displayed component
 		setDisplayedTab(parseInt(clickedElement.value))
 		// save last pressed button
@@ -26,13 +30,19 @@ function InfectionPrevention() {
 	}
 
 	function DisplayHandler() {
-		let componentList = [<InfPreCond />, <InfPreProc />, <InfPreLoca />]
+		let componentList = [
+			<InfPreOrga />,
+			<InfPreCond />,
+			<InfPreProc />,
+			<InfPreLoca />,
+		]
 		return componentList[displayedTab]
 	}
 
 	return (
-		<div className="flex flex-col w-8/12 h-full">
-			<div className="mt-6">
+		<div className="flex flex-col w-8/12">
+			<Breadcrumbs />
+			<div>
 				<article className="text-3xl font-semibold">
 					Infection Prevention
 				</article>
@@ -44,7 +54,7 @@ function InfectionPrevention() {
 					value={0}
 					onClick={handleTabClick}
 				>
-					Conditions
+					Organisms
 				</button>
 				<button
 					className="tab tab-bordered"
@@ -52,12 +62,20 @@ function InfectionPrevention() {
 					value={1}
 					onClick={handleTabClick}
 				>
-					Procedures
+					Conditions
 				</button>
 				<button
 					className="tab tab-bordered"
 					id="button2"
 					value={2}
+					onClick={handleTabClick}
+				>
+					Procedures
+				</button>
+				<button
+					className="tab tab-bordered"
+					id="button3"
+					value={3}
 					onClick={handleTabClick}
 				>
 					Locations

@@ -20,7 +20,7 @@ function IcuAd(props: {
 	useEffect(() => {
 		if (selectedEnc !== "") {
 			axios
-				.get("/api/observation/byencounter", {
+				.get("/api/observation/byEncounter", {
 					params: {
 						apiUrl: apiContext.value,
 						encId: props.encounters[selectedEnc].resource.id,

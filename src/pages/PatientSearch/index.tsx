@@ -9,11 +9,7 @@ import axios from "axios"
 import ApiContext from "../../contexts/ApiContext"
 import SearchTable from "../../components/PatientSearch/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
-import { GetServerSideProps } from "next"
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	return { props: { nothing: "nothing" } }
-}
+import Breadcrumbs from "../../components/Breadcrumbs"
 
 function PatientSearch() {
 	// global state container
@@ -31,17 +27,19 @@ function PatientSearch() {
 	useEffect(() => {
 		// fetches server meta data for display
 		axios
-			.get("/api/server/resourcecount", {
+			.get("/api/server/resourceCount", {
 				params: {
 					apiUrl: apiContext.value,
 				},
 			})
 			.then((result: any) => {
-				result.data.forEach((obj) => {
-					if (obj.name === "Patient") {
-						setPatientCount(obj.valueInteger)
-					}
-				})
+				if (result.data.length > 0) {
+					result.data.forEach((obj) => {
+						if (obj.name === "Patient") {
+							setPatientCount(obj.valueInteger)
+						}
+					})
+				}
 			})
 	}, [])
 
@@ -170,7 +168,8 @@ function PatientSearch() {
 
 	return (
 		<div className="w-8/12 h-full">
-			<div className="mt-6">
+			<Breadcrumbs />
+			<div>
 				<article className="text-3xl font-semibold">
 					Patient List
 				</article>
@@ -214,7 +213,7 @@ function PatientSearch() {
 					<div className="mt-2">
 						<SearchTable patientData={patientData} />
 					</div>
-					<div className="flex items-center justify-center text-center mt-2">
+					<div className="flex items-center justify-center text-center">
 						<TablePagination
 							component="div"
 							count={patientCount}

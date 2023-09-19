@@ -5,15 +5,14 @@ import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
-import { group } from "console"
 
-function InfPreLoca() {
+function InfPreOrga() {
 	// global state container
 	const apiContext = useContext(ApiContext)
 
 	const [loading, setLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
-	const [groupedLocas, setGroupedLocas] = useState(null)
+	const [groupedOrgas, setGroupedOrgas] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
 
@@ -43,7 +42,7 @@ function InfPreLoca() {
 			setLoading(true)
 			// grab list of encounters
 			axios
-				.get("/api/location/groupedCount", {
+				.get("/api/diagnosticReport/groupedCount", {
 					params: {
 						apiUrl: apiContext.value,
 						start: startDate,
@@ -52,41 +51,45 @@ function InfPreLoca() {
 				})
 				.then((result: any) => {
 					if (result.hasOwnProperty("data")) {
-						setGroupedLocas(result.data)
+						setGroupedOrgas(result.data)
 					} else {
-						setGroupedLocas([])
+						setGroupedOrgas([])
 					}
 				})
 		}
 	}
 
-	function OpenSummary(name: string) {
+	// function to pass to count table that runs when a row is clicked
+	async function OpenSummary(name: string) {
 		let returnValue
-		let locationObj = groupedLocas.find((obj) => obj.name === name)
-
-		returnValue = locationObj.reports.map((obj) => {
+		// grab the data
+		const result = await axios.get("/api/diagnosticReport/searchByName", {
+			params: {
+				apiUrl: apiContext.value,
+				name: name,
+			},
+		})
+		// clean the data
+		// note that the order of ids matters for the summary table
+		returnValue = result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
 				diagnosticCode: obj.resource.code.text,
-				organsismCode: obj.resource.conclusionCode[0].coding[0].display,
 				issuedDate: new Date(obj.resource.issued)
 					.toISOString()
 					.split("T")[0],
 			}
 		})
-
-		return [
-			returnValue,
-			["Patient ID", "Diagnostic Code", "Organism Code", "Date Issued"],
-		]
+		// return the data
+		return [returnValue, ["Patient ID", "Diagnostic Code", "Date Issued"]]
 	}
 
 	// side effect only renders the table once the results are set
 	useEffect(() => {
-		if (groupedLocas != null) {
+		if (groupedOrgas != null) {
 			setLoading(false)
 		}
-	}, [groupedLocas])
+	}, [groupedOrgas])
 
 	// event handler for the start date selector
 	function handleStartChange(event: { $d: Date }) {
@@ -136,7 +139,7 @@ function InfPreLoca() {
 				</div>
 				<div
 					className="tooltip tooltip-accent ml-4 flex"
-					data-tip="Search with no dates entered to fetch all locations. This is a heavy process and can be slow!"
+					data-tip="Search with no dates entered to fetch all organisms. This is a heavy process and can be slow!"
 				>
 					<InfoOutlinedIcon className="my-auto" />
 				</div>
@@ -156,11 +159,11 @@ function InfPreLoca() {
 				<div className="flex justify-center items-center h-[90%]">
 					<CircularProgress size={80} />
 				</div>
-			) : groupedLocas != null ? (
+			) : groupedOrgas != null ? (
 				<div>
 					<CountTable
-						name="Location"
-						searchData={groupedLocas}
+						name="Organism"
+						searchData={groupedOrgas}
 						OpenSummary={OpenSummary}
 					/>
 				</div>
@@ -175,4 +178,4 @@ function InfPreLoca() {
 	)
 }
 
-export default InfPreLoca
+export default InfPreOrga

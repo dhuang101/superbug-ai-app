@@ -1,20 +1,18 @@
 import axios from "axios"
-
-async function getGroupedCondCount(apiUrl: string, start: Date, end: Date) {
+async function getGroupedDiagCount(apiUrl: string, start: Date, end: Date) {
 	// parsing arguments
 	let urlExtension: string
 	if (typeof start === "undefined" && typeof end === "undefined") {
 		urlExtension = `?_count=100`
 	} else {
-		urlExtension = `?onset-date=ge${start}&onset-date=le${end}&_count=100`
+		urlExtension = `?issued=ge${start}&issued=le${end}&_count=100`
 	}
-
 	// first call
-	let allConditions: { link: any[]; entry: any[] }
+	let allReports: { link: any[]; entry: any[] }
 	let exitFlag = false
-	await axios.get(`${apiUrl}Condition${urlExtension}`).then((res) => {
+	await axios.get(`${apiUrl}DiagnosticReport${urlExtension}`).then((res) => {
 		if (res.data.hasOwnProperty("entry")) {
-			allConditions = res.data
+			allReports = res.data
 		} else {
 			exitFlag = true
 		}
@@ -29,7 +27,7 @@ async function getGroupedCondCount(apiUrl: string, start: Date, end: Date) {
 	let nextLink: string
 	while (
 		// checks whether a link to the next page exists
-		allConditions.link.some((link) => {
+		allReports.link.some((link) => {
 			// saves the url if it does
 			if (link.relation === "next") {
 				nextLink = link.url
@@ -39,19 +37,24 @@ async function getGroupedCondCount(apiUrl: string, start: Date, end: Date) {
 	) {
 		// gets the next page and concats the results
 		await axios.get(nextLink).then((result) => {
-			result.data.entry = result.data.entry.concat(allConditions.entry)
-			allConditions = result.data
+			result.data.entry = result.data.entry.concat(allReports.entry)
+			allReports = result.data
 		})
 	}
 	// aggregated count
 	let countMap = {}
-	allConditions.entry.forEach((condition) => {
-		if (countMap.hasOwnProperty(condition.resource.code.text)) {
-			countMap[condition.resource.code.text] += 1
+	allReports.entry.forEach((report) => {
+		if (
+			countMap.hasOwnProperty(
+				report.resource.conclusionCode[0].coding[0].display
+			)
+		) {
+			countMap[report.resource.conclusionCode[0].coding[0].display] += 1
 		} else {
-			countMap[condition.resource.code.text] = 1
+			countMap[report.resource.conclusionCode[0].coding[0].display] = 1
 		}
 	})
+
 	// convert to list data type
 	let returnValue = []
 	Object.keys(countMap).forEach((key) => {
@@ -65,7 +68,7 @@ export default async function handler(req, res) {
 	const params = req.query
 
 	try {
-		const result = await getGroupedCondCount(
+		const result = await getGroupedDiagCount(
 			params.apiUrl,
 			params.start,
 			params.end

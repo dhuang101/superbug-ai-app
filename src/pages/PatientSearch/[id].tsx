@@ -1,5 +1,4 @@
 import axios from "axios"
-import { GetServerSideProps } from "next"
 import React, { useState, useEffect, useContext, useRef } from "react"
 import { useRouter } from "next/router"
 import ApiContext from "../../contexts/ApiContext"
@@ -13,10 +12,7 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import LoopIcon from "@mui/icons-material/Loop"
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety"
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	return { props: { nothing: "nothing" } }
-}
+import Breadcrumbs from "../../components/Breadcrumbs"
 
 // 6f7acde5-db81-4361-82cf-886893a3280c
 // gregg
@@ -29,7 +25,6 @@ function PatientSummary() {
 
 	const [encounters, setEncounters] = useState([])
 	const [naviValue, setNaviValue] = useState(0)
-	// const [lastButton, setLastButton] = useState<HTMLButtonElement>()
 	const lastButton = useRef<HTMLButtonElement>()
 	const lastEncounter = useRef("")
 
@@ -152,8 +147,11 @@ function PatientSummary() {
 				</button>
 			</div>
 			<div className="flex flex-col w-4/5 items-center overflow-y-auto">
-				<div className="flex flex-col w-10/12 py-6 px-12 my-8 min-h-fit bg-base-100 rounded">
-					<DisplayHandler />
+				<div className="flex flex-col w-10/12 h-full">
+					<Breadcrumbs />
+					<div className="flex flex-col w-full py-6 px-12 min-h-fit bg-base-100 rounded">
+						<DisplayHandler />
+					</div>
 				</div>
 			</div>
 		</div>

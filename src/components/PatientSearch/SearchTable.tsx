@@ -27,7 +27,7 @@ function SearchTable({ patientData }: Props) {
 			return (
 				<tr
 					key={i}
-					className="hover cursor-pointer"
+					className="hover:text-accent-content hover:bg-accent hover cursor-pointer"
 					onClick={() => {
 						RouteToSummary(obj.resource)
 					}}
