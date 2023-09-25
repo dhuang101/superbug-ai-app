@@ -52,8 +52,8 @@ function FhirApi() {
 					onChange={handleInput}
 				/>
 				<datalist id="apiUrl">
-					<option value="https://fhirdb-monash.fhir-web-apps.cloud.edu.au" />
-					<option value="https://fhirdb-monash-secondary.fhir-web-apps.cloud.edu.au" />
+					<option value="https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/" />
+					<option value="https://fhirdb-monash-secondary.fhir-web-apps.cloud.edu.au/fhir/" />
 				</datalist>
 				<button
 					className="ml-2 btn rounded btn-primary"
