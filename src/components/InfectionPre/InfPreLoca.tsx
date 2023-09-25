@@ -67,7 +67,7 @@ function InfPreLoca() {
 		returnValue = locationObj.reports.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
-				diagnosticCode: obj.resource.code.text,
+				diagnosticCode: obj.resource.code.coding[0].display,
 				organsismCode: obj.resource.conclusionCode[0].coding[0].display,
 				issuedDate: new Date(obj.resource.issued)
 					.toISOString()

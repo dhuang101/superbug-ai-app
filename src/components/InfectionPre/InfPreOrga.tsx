@@ -74,7 +74,7 @@ function InfPreOrga() {
 		returnValue = result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
-				diagnosticCode: obj.resource.code.text,
+				diagnosticCode: obj.resource.code.coding[0].display,
 				issuedDate: new Date(obj.resource.issued)
 					.toISOString()
 					.split("T")[0],
