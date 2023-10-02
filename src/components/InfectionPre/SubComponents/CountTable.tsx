@@ -34,18 +34,21 @@ function CountTable(props: Props) {
 								let searchData = await props.OpenSummary(
 									parentElement.id
 								)
-								// post resolved data to global context
-								routerContext.setter({
-									searchData: searchData[0],
-									colNames: searchData[1],
-								})
 								// push next page
-								router.push(
-									`/InfectionPrevention/` +
-										encodeURIComponent(
-											clickedElement.textContent
-										)
-								)
+								router
+									.push(
+										`/InfectionPrevention/` +
+											encodeURIComponent(
+												clickedElement.textContent
+											)
+									)
+									.then(() => {
+										// post resolved data to global context
+										routerContext.setter({
+											searchData: searchData[0],
+											colNames: searchData[1],
+										})
+									})
 							}}
 						>
 							<td>{obj.name}</td>
