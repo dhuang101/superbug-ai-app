@@ -13,7 +13,7 @@ function SummaryTable(props) {
 					return (
 						<tr
 							key={i}
-							className="hover:text-accent-content hover:bg-accent hover"
+							className="bg-base-100 hover:text-accent-content hover:bg-accent hover"
 						>
 							{Object.entries(obj).map(
 								([key, value]: [string, string], i) => {
@@ -35,7 +35,7 @@ function SummaryTable(props) {
 				</div>
 			) : (
 				<div className="flex justify-center">
-					<table className="table table-md w-full overflow-x-auto [&_tr.hover:hover_*]:!bg-accent">
+					<table className="table table-lg w-full overflow-x-auto [&_tr.hover:hover_*]:!bg-accent">
 						<thead>
 							<tr>
 								{props.colNames.map((title, i) => {

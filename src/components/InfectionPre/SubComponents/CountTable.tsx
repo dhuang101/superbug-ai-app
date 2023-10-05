@@ -35,20 +35,17 @@ function CountTable(props: Props) {
 									parentElement.id
 								)
 								// push next page
-								router
-									.push(
-										`/InfectionPrevention/` +
-											encodeURIComponent(
-												clickedElement.textContent
-											)
-									)
-									.then(() => {
-										// post resolved data to global context
-										routerContext.setter({
-											searchData: searchData[0],
-											colNames: searchData[1],
-										})
-									})
+								router.push(
+									`/InfectionPrevention/` +
+										encodeURIComponent(
+											clickedElement.textContent
+										)
+								)
+								// post resolved data to global context
+								routerContext.setter({
+									searchData: searchData[0],
+									colNames: searchData[1],
+								})
 							}}
 						>
 							<td>{obj.name}</td>
@@ -75,6 +72,7 @@ function CountTable(props: Props) {
 									{props.name + " Name"}
 								</th>
 								<th className="bg-base-300">Count</th>
+								<th className="bg-base-300">Last Occurrence</th>
 							</tr>
 						</thead>
 						<tbody>
