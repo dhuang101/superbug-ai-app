@@ -65,14 +65,13 @@ function CountTable(props: Props) {
 				</div>
 			) : (
 				<div className="flex justify-center">
-					<table className="table table-md w-full overflow-x-auto [&_tr.hover:hover_*]:!bg-accent">
+					<table className="table table-lg w-full overflow-x-auto [&_tr.hover:hover_*]:!bg-accent">
 						<thead>
 							<tr>
 								<th className="bg-base-300">
 									{props.name + " Name"}
 								</th>
 								<th className="bg-base-300">Count</th>
-								<th className="bg-base-300">Last Occurrence</th>
 							</tr>
 						</thead>
 						<tbody>
