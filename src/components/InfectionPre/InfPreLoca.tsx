@@ -52,6 +52,7 @@ function InfPreLoca() {
 				})
 				.then((result: any) => {
 					if (result.hasOwnProperty("data")) {
+						result.data.sort((a, b) => b.count - a.count)
 						setGroupedLocas(result.data)
 					} else {
 						setGroupedLocas([])

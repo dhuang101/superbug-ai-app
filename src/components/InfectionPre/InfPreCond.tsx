@@ -51,6 +51,7 @@ function InfPreCond() {
 				})
 				.then((result: any) => {
 					if (result.hasOwnProperty("data")) {
+						result.data.sort((a, b) => b.count - a.count)
 						setGroupedConds(result.data)
 					} else {
 						setGroupedConds([])

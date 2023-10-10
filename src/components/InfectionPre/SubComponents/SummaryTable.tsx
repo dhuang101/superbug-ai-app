@@ -35,7 +35,7 @@ function SummaryTable(props) {
 				</div>
 			) : (
 				<div className="flex justify-center">
-					<table className="table table-lg w-full overflow-x-auto [&_tr.hover:hover_*]:!bg-accent">
+					<table className="table table-lg mb-4 w-full overflow-x-auto [&_tr.hover:hover_*]:!bg-accent">
 						<thead>
 							<tr>
 								{props.colNames.map((title, i) => {

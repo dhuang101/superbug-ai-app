@@ -50,6 +50,7 @@ function InfPreProc() {
 				})
 				.then((result: any) => {
 					if (result.hasOwnProperty("data")) {
+						result.data.sort((a, b) => b.count - a.count)
 						setGroupedProcs(result.data)
 					} else {
 						setGroupedProcs([])

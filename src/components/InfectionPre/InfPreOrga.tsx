@@ -51,6 +51,7 @@ function InfPreOrga() {
 				})
 				.then((result: any) => {
 					if (result.hasOwnProperty("data")) {
+						result.data.sort((a, b) => b.count - a.count)
 						setGroupedOrgas(result.data)
 					} else {
 						setGroupedOrgas([])
