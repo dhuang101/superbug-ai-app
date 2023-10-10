@@ -61,14 +61,27 @@ function InfPreCond() {
 	}
 
 	async function OpenSummary(name: string) {
+		// local function to sort the dates
+		function Compare(a, b) {
+			if (a.issuedDate < b.issuedDate) {
+				return 1
+			}
+			if (a.issuedDate > b.issuedDate) {
+				return -1
+			}
+			return 0
+		}
+
 		let returnValue
+		// grab the data
 		const result = await axios.get("/api/condition/searchByName", {
 			params: {
 				apiUrl: apiContext.value,
 				name: name,
 			},
 		})
-
+		// clean the data
+		// note that the order of ids matters for the summary table
 		returnValue = result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
@@ -78,7 +91,7 @@ function InfPreCond() {
 			}
 		})
 
-		return [returnValue, ["Patient ID", "Onset Date"]]
+		return [returnValue.sort(Compare), ["Patient ID", "Onset Date"]]
 	}
 
 	// side effect only renders the table once the results are set

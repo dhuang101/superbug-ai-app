@@ -62,6 +62,17 @@ function InfPreOrga() {
 
 	// function to pass to count table that runs when a row is clicked
 	async function OpenSummary(name: string) {
+		// local function to sort the dates
+		function Compare(a, b) {
+			if (a.issuedDate < b.issuedDate) {
+				return 1
+			}
+			if (a.issuedDate > b.issuedDate) {
+				return -1
+			}
+			return 0
+		}
+
 		let returnValue
 		// grab the data
 		const result = await axios.get("/api/diagnosticReport/searchByName", {
@@ -82,7 +93,10 @@ function InfPreOrga() {
 			}
 		})
 		// return the data
-		return [returnValue, ["Patient ID", "Diagnostic Code", "Date Issued"]]
+		return [
+			returnValue.sort(Compare),
+			["Patient ID", "Diagnostic Code", "Date Issued"],
+		]
 	}
 
 	// side effect only renders the table once the results are set
