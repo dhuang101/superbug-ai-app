@@ -53,7 +53,7 @@ function Breadcrumbs({
 	)
 
 	return breadcrumbs.length > 1 ? (
-		<div className="flex breadcrumbs mt-2">
+		<div className="flex breadcrumbs mt-2 min-h-[40px]">
 			<ul>
 				{breadcrumbs.map((crumb, idx) => (
 					<Crumb
