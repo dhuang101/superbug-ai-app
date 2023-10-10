@@ -27,7 +27,7 @@ function SearchTable({ patientData }: Props) {
 			return (
 				<tr
 					key={i}
-					className="hover:text-accent-content hover:bg-accent hover cursor-pointer"
+					className="hover:text-accent-content hover:bg-accent cursor-pointer"
 					onClick={() => {
 						RouteToSummary(obj.resource)
 					}}
@@ -46,7 +46,7 @@ function SearchTable({ patientData }: Props) {
 
 	return (
 		<div className="overflow-x-auto">
-			<table className="table table-lg w-full [&_tr.hover:hover_*]:!bg-accent">
+			<table className="table table-lg w-full">
 				<thead>
 					<tr>
 						<th className="bg-base-300">ID</th>
