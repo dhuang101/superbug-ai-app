@@ -3,16 +3,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import "../styles/globals.css"
 import React, { useState, useEffect } from "react"
 import ApiContext from "../contexts/ApiContext"
-import RouterContext from "../contexts/RouterContext"
 import NavBar from "../components/NavBar"
 
+// https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/ for web server vm
 export default function MyApp({ Component, pageProps }) {
 	// global state wrapper for the api url
 	const [apiUrl, setApiUrl] = useState("http://localhost:8080/fhir/")
 	const apiContextWrapper = { value: apiUrl, setter: setApiUrl }
-
-	const [routerState, setRouterState] = useState({})
-	const routerContextWrapper = { value: routerState, setter: setRouterState }
 
 	// state for the theme
 	const [theme, setTheme] = useState(null)
@@ -42,16 +39,14 @@ export default function MyApp({ Component, pageProps }) {
 	) : (
 		<LocalizationProvider dateAdapter={AdapterDayjs}>
 			<div data-theme={theme} className="font-sans" id="themeWrapper">
-				<RouterContext.Provider value={routerContextWrapper}>
-					<ApiContext.Provider value={apiContextWrapper}>
-						<div className="flex flex-col h-screen min-w-screen">
-							<NavBar theme={theme} setTheme={setTheme} />
-							<div className="flex flex-col h-[93%] overflow-auto w-full items-center bg-base-200">
-								<Component {...pageProps} />
-							</div>
+				<ApiContext.Provider value={apiContextWrapper}>
+					<div className="flex flex-col h-screen min-w-screen">
+						<NavBar theme={theme} setTheme={setTheme} />
+						<div className="flex flex-col h-[93%] overflow-auto w-full items-center bg-base-200">
+							<Component {...pageProps} />
 						</div>
-					</ApiContext.Provider>
-				</RouterContext.Provider>
+					</div>
+				</ApiContext.Provider>
 			</div>
 		</LocalizationProvider>
 	)

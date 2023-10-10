@@ -1,14 +1,11 @@
-import { useContext } from "react"
 import { useRouter } from "next/router"
 import SummaryTable from "../../../components/InfectionPre/SubComponents/SummaryTable"
-import RouterContext from "../../../contexts/RouterContext"
 import Breadcrumbs from "../../../components/Breadcrumbs"
 
 function InfPreSummary() {
-	// global state container
-	const routerContext = useContext(RouterContext)
 	// router
 	const router = useRouter()
+
 	return (
 		<div className="flex flex-col w-8/12">
 			<Breadcrumbs />
@@ -16,8 +13,10 @@ function InfPreSummary() {
 				{router.query.resourceName}
 			</article>
 			<SummaryTable
-				searchData={routerContext.value.searchData}
-				colNames={routerContext.value.colNames}
+				searchData={JSON.parse(
+					decodeURIComponent(router.query.searchData as string)
+				)}
+				colNames={router.query.colNames}
 			/>
 		</div>
 	)

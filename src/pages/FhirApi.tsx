@@ -47,10 +47,14 @@ function FhirApi() {
 					type="text"
 					placeholder="https://"
 					className="input input-bordered w-full max-w-sm"
-					autoComplete="on"
+					list="apiUrl"
 					onKeyDown={handleKeyDown}
 					onChange={handleInput}
 				/>
+				<datalist id="apiUrl">
+					<option value="https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/" />
+					<option value="https://fhirdb-monash-secondary.fhir-web-apps.cloud.edu.au/fhir/" />
+				</datalist>
 				<button
 					className="ml-2 btn rounded btn-primary"
 					onClick={handleSubmit}
@@ -58,7 +62,6 @@ function FhirApi() {
 					Submit
 				</button>
 			</div>
-
 			<article className="mt-6">
 				Current API: <b className="font-semibold">{apiContext.value}</b>
 			</article>

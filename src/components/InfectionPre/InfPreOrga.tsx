@@ -51,6 +51,7 @@ function InfPreOrga() {
 				})
 				.then((result: any) => {
 					if (result.hasOwnProperty("data")) {
+						result.data.sort((a, b) => b.count - a.count)
 						setGroupedOrgas(result.data)
 					} else {
 						setGroupedOrgas([])
@@ -61,6 +62,17 @@ function InfPreOrga() {
 
 	// function to pass to count table that runs when a row is clicked
 	async function OpenSummary(name: string) {
+		// local function to sort the dates
+		function Compare(a, b) {
+			if (a.issuedDate < b.issuedDate) {
+				return 1
+			}
+			if (a.issuedDate > b.issuedDate) {
+				return -1
+			}
+			return 0
+		}
+
 		let returnValue
 		// grab the data
 		const result = await axios.get("/api/diagnosticReport/searchByName", {
@@ -74,14 +86,17 @@ function InfPreOrga() {
 		returnValue = result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
-				diagnosticCode: obj.resource.code.text,
+				diagnosticCode: obj.resource.code.coding[0].display,
 				issuedDate: new Date(obj.resource.issued)
 					.toISOString()
 					.split("T")[0],
 			}
 		})
 		// return the data
-		return [returnValue, ["Patient ID", "Diagnostic Code", "Date Issued"]]
+		return [
+			returnValue.sort(Compare),
+			["Patient ID", "Diagnostic Code", "Date Issued"],
+		]
 	}
 
 	// side effect only renders the table once the results are set
@@ -131,7 +146,7 @@ function InfPreOrga() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-3xl font-thin text-base-content">
+				<article className="mx-4 w-[2%] text-center text-3xl font-thin text-base-content">
 					-
 				</article>
 				<div className="w-1/5">

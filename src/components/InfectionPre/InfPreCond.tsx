@@ -51,6 +51,7 @@ function InfPreCond() {
 				})
 				.then((result: any) => {
 					if (result.hasOwnProperty("data")) {
+						result.data.sort((a, b) => b.count - a.count)
 						setGroupedConds(result.data)
 					} else {
 						setGroupedConds([])
@@ -60,14 +61,27 @@ function InfPreCond() {
 	}
 
 	async function OpenSummary(name: string) {
+		// local function to sort the dates
+		function Compare(a, b) {
+			if (a.issuedDate < b.issuedDate) {
+				return 1
+			}
+			if (a.issuedDate > b.issuedDate) {
+				return -1
+			}
+			return 0
+		}
+
 		let returnValue
+		// grab the data
 		const result = await axios.get("/api/condition/searchByName", {
 			params: {
 				apiUrl: apiContext.value,
 				name: name,
 			},
 		})
-
+		// clean the data
+		// note that the order of ids matters for the summary table
 		returnValue = result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
@@ -77,7 +91,7 @@ function InfPreCond() {
 			}
 		})
 
-		return [returnValue, ["Patient ID", "Onset Date"]]
+		return [returnValue.sort(Compare), ["Patient ID", "Onset Date"]]
 	}
 
 	// side effect only renders the table once the results are set
@@ -127,7 +141,7 @@ function InfPreCond() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-3xl font-thin text-base-content">
+				<article className="mx-4 w-[2%] text-center text-3xl font-thin text-base-content">
 					-
 				</article>
 				<div className="w-1/5">

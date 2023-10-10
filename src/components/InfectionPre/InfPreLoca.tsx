@@ -52,6 +52,7 @@ function InfPreLoca() {
 				})
 				.then((result: any) => {
 					if (result.hasOwnProperty("data")) {
+						result.data.sort((a, b) => b.count - a.count)
 						setGroupedLocas(result.data)
 					} else {
 						setGroupedLocas([])
@@ -61,13 +62,26 @@ function InfPreLoca() {
 	}
 
 	function OpenSummary(name: string) {
+		// local function to sort the dates
+		function Compare(a, b) {
+			if (a.issuedDate < b.issuedDate) {
+				return 1
+			}
+			if (a.issuedDate > b.issuedDate) {
+				return -1
+			}
+			return 0
+		}
+
+		// grab data
 		let returnValue
 		let locationObj = groupedLocas.find((obj) => obj.name === name)
-
+		// clean the data
+		// note that the order of ids matters for the summary table
 		returnValue = locationObj.reports.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
-				diagnosticCode: obj.resource.code.text,
+				diagnosticCode: obj.resource.code.coding[0].display,
 				organsismCode: obj.resource.conclusionCode[0].coding[0].display,
 				issuedDate: new Date(obj.resource.issued)
 					.toISOString()
@@ -76,7 +90,7 @@ function InfPreLoca() {
 		})
 
 		return [
-			returnValue,
+			returnValue.sort(Compare),
 			["Patient ID", "Diagnostic Code", "Organism Code", "Date Issued"],
 		]
 	}
@@ -128,7 +142,7 @@ function InfPreLoca() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-3xl font-thin text-base-content">
+				<article className="mx-4 w-[2%] text-center text-3xl font-thin text-base-content">
 					-
 				</article>
 				<div className="w-1/5">

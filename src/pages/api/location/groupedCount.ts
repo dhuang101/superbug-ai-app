@@ -70,7 +70,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 				result.data.entry = result.data.entry.concat(
 					currentResponse.entry
 				)
-				currentResponse = result
+				currentResponse = result.data
 			})
 		}
 		// only push entries if they exist
@@ -124,7 +124,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 					result.data.entry = result.data.entry.concat(
 						currentResponse.entry
 					)
-					currentResponse = result
+					currentResponse = result.data
 				})
 			}
 			// only adds to the list of reports if any entries are retrieved

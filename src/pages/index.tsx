@@ -53,6 +53,7 @@ function Home() {
 					</article>
 				</Link>
 			</div>
+			<article className="absolute bottom-1 right-1">v0.01</article>
 		</div>
 	)
 }

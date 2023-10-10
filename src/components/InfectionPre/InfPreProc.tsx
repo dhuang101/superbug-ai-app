@@ -50,6 +50,7 @@ function InfPreProc() {
 				})
 				.then((result: any) => {
 					if (result.hasOwnProperty("data")) {
+						result.data.sort((a, b) => b.count - a.count)
 						setGroupedProcs(result.data)
 					} else {
 						setGroupedProcs([])
@@ -59,6 +60,18 @@ function InfPreProc() {
 	}
 
 	async function OpenSummary(name: string) {
+		// local function to sort the dates
+		function Compare(a, b) {
+			if (a.issuedDate < b.issuedDate) {
+				return 1
+			}
+			if (a.issuedDate > b.issuedDate) {
+				return -1
+			}
+			return 0
+		}
+
+		// grab data
 		let returnValue
 		const result = await axios.get("/api/procedure/searchByName", {
 			params: {
@@ -66,7 +79,7 @@ function InfPreProc() {
 				name: name,
 			},
 		})
-
+		// clean the data
 		returnValue = result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
@@ -77,7 +90,10 @@ function InfPreProc() {
 			}
 		})
 
-		return [returnValue, ["Patient ID", "Reason", "Performed Date"]]
+		return [
+			returnValue.sort(Compare),
+			["Patient ID", "Reason", "Performed Date"],
+		]
 	}
 
 	// side effect only renders the table once the results are set
@@ -127,7 +143,7 @@ function InfPreProc() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-3xl font-thin text-base-content">
+				<article className="mx-4 w-[2%] text-center text-3xl font-thin text-base-content">
 					-
 				</article>
 				<div className="w-1/5">

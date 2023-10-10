@@ -1,6 +1,5 @@
 import { useRouter } from "next/router"
-import React, { useContext } from "react"
-import RouterContext from "../../../contexts/RouterContext"
+import React from "react"
 
 interface Props {
 	searchData: any
@@ -10,8 +9,6 @@ interface Props {
 
 function CountTable(props: Props) {
 	const router = useRouter()
-	// global state container
-	const routerContext = useContext(RouterContext)
 	// component that generates each row
 	function TableRows() {
 		return (
@@ -34,13 +31,22 @@ function CountTable(props: Props) {
 								let searchData = await props.OpenSummary(
 									parentElement.id
 								)
-								// post resolved data to global context
-								routerContext.setter({
-									searchData: searchData[0],
-									colNames: searchData[1],
-								})
+
 								// push next page
 								router.push(
+									{
+										pathname:
+											`/InfectionPrevention/` +
+											encodeURIComponent(
+												clickedElement.textContent
+											),
+										query: {
+											searchData: encodeURIComponent(
+												JSON.stringify(searchData[0])
+											),
+											colNames: searchData[1],
+										},
+									},
 									`/InfectionPrevention/` +
 										encodeURIComponent(
 											clickedElement.textContent
@@ -65,7 +71,7 @@ function CountTable(props: Props) {
 				</div>
 			) : (
 				<div className="flex justify-center">
-					<table className="table table-md w-full overflow-x-auto [&_tr.hover:hover_*]:!bg-accent">
+					<table className="table table-lg w-full overflow-x-auto [&_tr.hover:hover_*]:!bg-accent">
 						<thead>
 							<tr>
 								<th className="bg-base-300">
