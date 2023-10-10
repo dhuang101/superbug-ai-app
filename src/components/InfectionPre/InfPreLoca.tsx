@@ -129,7 +129,7 @@ function InfPreLoca() {
 						label="Start"
 					/>
 				</div>
-				<article className="mx-4 text-3xl font-thin text-base-content">
+				<article className="mx-4 w-[2%] text-center text-3xl font-thin text-base-content">
 					-
 				</article>
 				<div className="w-1/5">
