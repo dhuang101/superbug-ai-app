@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react"
 import ApiContext from "../contexts/ApiContext"
 import NavBar from "../components/NavBar"
 
+// https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/ for web server vm
 export default function MyApp({ Component, pageProps }) {
 	// global state wrapper for the api url
 	const [apiUrl, setApiUrl] = useState("http://localhost:8080/fhir/")
