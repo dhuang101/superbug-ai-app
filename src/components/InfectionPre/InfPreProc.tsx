@@ -81,10 +81,11 @@ function InfPreProc() {
 		})
 		// clean the data
 		returnValue = result.data.entry.map((obj) => {
+			console.log(obj)
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
-				reason: obj.resource.reasonCode[0].text,
-				performedDate: new Date(obj.resource.performedDateTime)
+				reason: obj.resource.statusReason.text,
+				performedDate: new Date(obj.resource.occurrenceDateTime)
 					.toISOString()
 					.split("T")[0],
 			}
