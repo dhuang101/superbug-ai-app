@@ -37,7 +37,7 @@ function PatientSummary() {
 				params: {
 					apiUrl: apiContext.value,
 					patientId: id,
-					className: "inpatient",
+					className: "IMP",
 				},
 			})
 			.then((result: any) => {

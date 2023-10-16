@@ -18,7 +18,7 @@ function EncSelect(props: {
 				</option>
 				{props.encounters.map((obj: any, i: number) => {
 					let display =
-						new Date(obj.resource.period.start).toLocaleString(
+						new Date(obj.resource.plannedStartDate).toLocaleString(
 							"en-AU",
 							{
 								timeZone:
@@ -27,7 +27,7 @@ function EncSelect(props: {
 							}
 						) +
 						" - " +
-						new Date(obj.resource.period.end).toLocaleString(
+						new Date(obj.resource.plannedEndDate).toLocaleString(
 							"en-AU",
 							{
 								timeZone:
