@@ -34,7 +34,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 	}
 	// filters for given physical type
 	locations = locations.entry.filter((location) => {
-		return location.resource.physicalType.coding[0].code === "wa"
+		return location.resource.form.coding[0].code === "wa"
 	})
 
 	// fetch all encounters related to the filtered locations
@@ -158,6 +158,7 @@ export default async function handler(req, res) {
 
 		res.status(200).json(result)
 	} catch (err) {
+		console.log(err)
 		res.status(500).json(err)
 	}
 }
