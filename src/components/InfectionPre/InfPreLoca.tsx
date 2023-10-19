@@ -5,7 +5,6 @@ import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
-import { group } from "console"
 
 function InfPreLoca() {
 	// global state container
