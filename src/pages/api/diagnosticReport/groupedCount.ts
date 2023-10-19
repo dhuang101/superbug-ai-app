@@ -49,16 +49,25 @@ async function getGroupedDiagCount(apiUrl: string, start: Date, end: Date) {
 				report.resource.conclusionCode[0].coding[0].display
 			)
 		) {
-			countMap[report.resource.conclusionCode[0].coding[0].display] += 1
+			countMap[
+				report.resource.conclusionCode[0].coding[0].display
+			].count += 1
 		} else {
-			countMap[report.resource.conclusionCode[0].coding[0].display] = 1
+			countMap[report.resource.conclusionCode[0].coding[0].display] = {
+				code: report.resource.conclusionCode[0].coding[0].code,
+				count: 1,
+			}
 		}
 	})
 
 	// convert to list data type
 	let returnValue = []
 	Object.keys(countMap).forEach((key) => {
-		returnValue.push({ name: key, count: countMap[key] })
+		returnValue.push({
+			name: key,
+			code: countMap[key].code,
+			count: countMap[key].count,
+		})
 	})
 	return returnValue
 }

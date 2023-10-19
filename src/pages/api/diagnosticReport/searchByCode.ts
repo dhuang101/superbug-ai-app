@@ -1,8 +1,8 @@
 import axios from "axios"
 
-async function searchByName(
+async function searchByCode(
 	apiUrl: string,
-	name: string,
+	code: string,
 	start: Date,
 	end: Date
 ) {
@@ -15,7 +15,7 @@ async function searchByName(
 	}
 	await axios
 		.get(`${apiUrl}DiagnosticReport${urlExtension}`, {
-			params: { "conclusion:text": name, _count: 100 },
+			params: { conclusion: code, _count: 100 },
 		})
 		.then((res) => {
 			if (res.hasOwnProperty("data")) {
@@ -50,9 +50,9 @@ async function searchByName(
 export default async function handler(req, res) {
 	const params = req.query
 	try {
-		let result = await searchByName(
+		let result = await searchByCode(
 			params.apiUrl,
-			params.name,
+			params.code,
 			params.start,
 			params.end
 		)

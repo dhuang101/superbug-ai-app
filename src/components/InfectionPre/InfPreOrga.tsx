@@ -76,11 +76,12 @@ function InfPreOrga() {
 		}
 
 		let returnValue
+		let code = groupedOrgas.find((obj) => obj.name === name).code
 		// grab the data
-		const result = await axios.get("/api/diagnosticReport/searchByName", {
+		const result = await axios.get("/api/diagnosticReport/searchByCode", {
 			params: {
 				apiUrl: apiContext.value,
-				name: name,
+				code: code,
 				start: currentSearchRange.current.start,
 				end: currentSearchRange.current.end,
 			},
