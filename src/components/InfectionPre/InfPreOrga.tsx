@@ -85,8 +85,6 @@ function InfPreOrga() {
 				end: currentSearchRange.current.end,
 			},
 		})
-
-		console.log(result)
 		// clean the data
 		// note that the order of ids matters for the summary table
 		returnValue = result.data.entry.map((obj) => {

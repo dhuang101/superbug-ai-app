@@ -46,7 +46,6 @@ async function getGroupedCondCount(apiUrl: string, start: Date, end: Date) {
 	// aggregated count
 	let countMap = {}
 	allConditions.entry.forEach((condition) => {
-		console.log()
 		if (countMap.hasOwnProperty(condition.resource.code.text)) {
 			countMap[condition.resource.code.text].count += 1
 		} else {

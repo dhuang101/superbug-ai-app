@@ -47,15 +47,22 @@ async function getGroupedProcCount(apiUrl: string, start: Date, end: Date) {
 	let countMap = {}
 	allProcedures.entry.forEach((procedure) => {
 		if (countMap.hasOwnProperty(procedure.resource.code.text)) {
-			countMap[procedure.resource.code.text] += 1
+			countMap[procedure.resource.code.text].count += 1
 		} else {
-			countMap[procedure.resource.code.text] = 1
+			countMap[procedure.resource.code.text] = {
+				code: procedure.resource.code.coding[0].code,
+				count: 1,
+			}
 		}
 	})
 	// convert to list data type
 	let returnValue = []
 	Object.keys(countMap).forEach((key) => {
-		returnValue.push({ name: key, count: countMap[key] })
+		returnValue.push({
+			name: key,
+			code: countMap[key].code,
+			count: countMap[key].count,
+		})
 	})
 	return returnValue
 }
