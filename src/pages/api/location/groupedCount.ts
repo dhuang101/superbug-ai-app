@@ -83,7 +83,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 			// reset diagnostic reports for each encounter
 			let diagnosticReports = []
 			// parsing arguments
-			let urlExtension = ""
+			let urlExtension = "?_count=100"
 			if (typeof start !== "undefined" && typeof end !== "undefined") {
 				urlExtension = `?issued=ge${start}&issued=le${end}&_count=100`
 			}

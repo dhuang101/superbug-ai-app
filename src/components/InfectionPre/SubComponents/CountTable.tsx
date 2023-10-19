@@ -38,7 +38,7 @@ function CountTable(props: Props) {
 										pathname:
 											`/InfectionPrevention/` +
 											encodeURIComponent(
-												clickedElement.textContent
+												parentElement.id
 											),
 										query: {
 											searchData: encodeURIComponent(
@@ -48,9 +48,7 @@ function CountTable(props: Props) {
 										},
 									},
 									`/InfectionPrevention/` +
-										encodeURIComponent(
-											clickedElement.textContent
-										)
+										encodeURIComponent(parentElement.id)
 								)
 							}}
 						>
