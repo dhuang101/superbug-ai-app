@@ -1,3 +1,4 @@
+import Link from "next/link"
 import React from "react"
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
 }
 
 function SummaryTable(props) {
+	console.log(props.searchData)
 	function TableRows() {
 		return (
 			<React.Fragment>
@@ -17,7 +19,23 @@ function SummaryTable(props) {
 						>
 							{Object.entries(obj).map(
 								([key, value]: [string, string], i) => {
-									return <td key={i}>{value}</td>
+									if (key === "patientId") {
+										return (
+											<td key={i}>
+												<Link
+													className="pointer-events-auto"
+													href={
+														`/PatientSearch/` +
+														value
+													}
+												>
+													{value}
+												</Link>
+											</td>
+										)
+									} else {
+										return <td key={i}>{value}</td>
+									}
 								}
 							)}
 						</tr>
