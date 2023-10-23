@@ -10,7 +10,7 @@ function getPatientsByName(
 	const apiCall: Promise<any> = axios
 		.get(`${apiUrl}Patient`, {
 			params: {
-				_sort: "_id",
+				_sort: "name",
 				_getpagesoffset: currentPage * rowCount,
 				_count: rowCount,
 				name: name,
