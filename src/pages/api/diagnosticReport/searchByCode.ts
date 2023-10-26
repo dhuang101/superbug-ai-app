@@ -1,11 +1,21 @@
 import axios from "axios"
 
-async function searchByName(apiUrl: string, name: string) {
+async function searchByCode(
+	apiUrl: string,
+	code: string,
+	start: Date,
+	end: Date
+) {
 	// get the first page with search params
 	let returnValue: { link: any[]; entry: any }
+	// check for date range
+	let urlExtension = ""
+	if (typeof start !== "undefined" && typeof end !== "undefined") {
+		urlExtension = `?issued=ge${start}&issued=le${end}`
+	}
 	await axios
-		.get(`${apiUrl}DiagnosticReport`, {
-			params: { "conclusion:text": name, _count: 100 },
+		.get(`${apiUrl}DiagnosticReport${urlExtension}`, {
+			params: { conclusion: code, _count: 100 },
 		})
 		.then((res) => {
 			if (res.hasOwnProperty("data")) {
@@ -32,6 +42,7 @@ async function searchByName(apiUrl: string, name: string) {
 			returnValue = result.data
 		})
 	}
+
 	return returnValue
 }
 
@@ -39,7 +50,12 @@ async function searchByName(apiUrl: string, name: string) {
 export default async function handler(req, res) {
 	const params = req.query
 	try {
-		let result = await searchByName(params.apiUrl, params.name)
+		let result = await searchByCode(
+			params.apiUrl,
+			params.code,
+			params.start,
+			params.end
+		)
 		res.status(200).json(result)
 	} catch (err) {
 		res.status(500).json(err)

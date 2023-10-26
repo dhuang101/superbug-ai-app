@@ -1,10 +1,11 @@
 import axios from "axios"
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
+
 function InfPreProc() {
 	// global state container
 	const apiContext = useContext(ApiContext)
@@ -14,6 +15,7 @@ function InfPreProc() {
 	const [groupedProcs, setGroupedProcs] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
+	const currentSearchRange = useRef({ start: undefined, end: undefined })
 
 	function executeSearch() {
 		// error checking
@@ -73,18 +75,21 @@ function InfPreProc() {
 
 		// grab data
 		let returnValue
-		const result = await axios.get("/api/procedure/searchByName", {
+		let code = groupedProcs.find((obj) => obj.name === name).code
+		const result = await axios.get("/api/procedure/searchByCode", {
 			params: {
 				apiUrl: apiContext.value,
-				name: name,
+				code: code,
+				start: currentSearchRange.current.start,
+				end: currentSearchRange.current.end,
 			},
 		})
 		// clean the data
 		returnValue = result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
-				reason: obj.resource.reasonCode[0].text,
-				performedDate: new Date(obj.resource.performedDateTime)
+				reason: obj.resource.statusReason.text,
+				performedDate: new Date(obj.resource.occurrenceDateTime)
 					.toISOString()
 					.split("T")[0],
 			}

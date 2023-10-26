@@ -37,7 +37,7 @@ function PatientSummary() {
 				params: {
 					apiUrl: apiContext.value,
 					patientId: id,
-					className: "inpatient",
+					className: "IMP",
 				},
 			})
 			.then((result: any) => {
@@ -149,7 +149,7 @@ function PatientSummary() {
 			<div className="flex flex-col w-4/5 items-center overflow-y-auto">
 				<div className="flex flex-col w-10/12 h-full">
 					<Breadcrumbs />
-					<div className="flex flex-col w-full mt-4 py-6 px-12 min-h-fit bg-base-100 rounded">
+					<div className="flex flex-col w-full mt-4 mb-8 py-6 px-12 min-h-fit bg-base-100 rounded">
 						<DisplayHandler />
 					</div>
 				</div>

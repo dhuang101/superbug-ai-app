@@ -1,5 +1,5 @@
 import axios from "axios"
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
@@ -15,6 +15,7 @@ function InfPreOrga() {
 	const [groupedOrgas, setGroupedOrgas] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
+	const currentSearchRange = useRef({ start: undefined, end: undefined })
 
 	function executeSearch() {
 		// error checking
@@ -38,6 +39,7 @@ function InfPreOrga() {
 			setErrorMessage("Error: The end date is greater than today's date!")
 			return
 		} else {
+			currentSearchRange.current = { start: startDate, end: endDate }
 			setErrorMessage("")
 			setLoading(true)
 			// grab list of encounters
@@ -74,11 +76,14 @@ function InfPreOrga() {
 		}
 
 		let returnValue
+		let code = groupedOrgas.find((obj) => obj.name === name).code
 		// grab the data
-		const result = await axios.get("/api/diagnosticReport/searchByName", {
+		const result = await axios.get("/api/diagnosticReport/searchByCode", {
 			params: {
 				apiUrl: apiContext.value,
-				name: name,
+				code: code,
+				start: currentSearchRange.current.start,
+				end: currentSearchRange.current.end,
 			},
 		})
 		// clean the data

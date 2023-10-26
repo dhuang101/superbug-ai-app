@@ -6,7 +6,7 @@ export function ValidateMedReq(list: {
 		resource: {
 			id: string
 			hasOwnProperty: (arg0: string) => any
-			medicationCodeableConcept: { text: string }
+			medication: { text: string }
 			status: string
 		}
 	}[]
@@ -22,7 +22,10 @@ export function ValidateMedReq(list: {
 				resource: {
 					id: string
 					hasOwnProperty: (arg0: string) => any
-					medicationCodeableConcept: { text: string }
+					medication: {
+						[x: string]: any
+						text: string
+					}
 					status: string
 				}
 			}) => {
@@ -36,9 +39,8 @@ export function ValidateMedReq(list: {
 				// ID
 				validatedObj.id = obj.resource.id
 				// Name
-				if (obj.resource.hasOwnProperty("medicationCodeableConcept")) {
-					validatedObj.name =
-						obj.resource.medicationCodeableConcept.text
+				if (obj.resource.hasOwnProperty("medication")) {
+					validatedObj.name = obj.resource.medication.concept.text
 				}
 				// Status
 				if (obj.resource.hasOwnProperty("status")) {

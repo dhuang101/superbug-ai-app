@@ -12,7 +12,10 @@ function MedicationHistory(props: Props) {
 			<React.Fragment>
 				{props.medicationData.map((obj: any, i: number) => {
 					return (
-						<tr key={i} className="hover">
+						<tr
+							key={i}
+							className="hover:text-accent-content hover:bg-accent cursor-pointer"
+						>
 							<td>{obj.id}</td>
 							<td>{obj.name}</td>
 							<td>{obj.status}</td>
@@ -31,7 +34,7 @@ function MedicationHistory(props: Props) {
 				</div>
 			) : (
 				<div className="flex justify-center">
-					<table className="table w-full [&_tr.hover:hover_*]:!bg-accent overflow-x-auto">
+					<table className="table w-full overflow-x-auto">
 						<thead>
 							<tr>
 								<th className="bg-base-300">ID</th>
