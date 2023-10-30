@@ -15,6 +15,7 @@
     "dayjs": "^1.11.7",
     "libphonenumber-js": "^1.10.30",
     "next": "^14.0.0",
+    "next-auth": "^4.24.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "recharts": "^2.9.0"
