@@ -14,3 +14,6 @@ Note that the app requires connection to a running FHIR database in order for an
 ## Build
 
 To build the app simply run ```npm run build```. This will create a build package which can then be launched using ```npm start```. The app will then be running on [localhost:3000](http:localhost:3000).
+
+## Changelog
+[link](https://docs.google.com/document/d/13tKJqB61ulvWK3TMmUg7DFfTRobDJk7ToiMIC-EGdZE/edit?usp=sharing)

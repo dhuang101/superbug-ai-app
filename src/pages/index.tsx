@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { useContext } from "react"
+import { useSession } from "next-auth/react"
 import ApiContext from "../contexts/ApiContext"
 import PersonSearchIcon from "@mui/icons-material/PersonSearch"
 import BiotechIcon from "@mui/icons-material/Biotech"
@@ -9,6 +10,8 @@ import ApiIcon from "@mui/icons-material/Api"
 function Home() {
 	// global state container
 	const apiContext = useContext(ApiContext)
+	// auth object
+	const { data: session } = useSession()
 
 	return (
 		<div className="flex flex-col h-full justify-center w-3/5">
@@ -53,7 +56,7 @@ function Home() {
 					</article>
 				</Link>
 			</div>
-			<article className="absolute bottom-1 right-1">v0.01</article>
+			<article className="absolute bottom-1 right-1">v0.03</article>
 		</div>
 	)
 }
