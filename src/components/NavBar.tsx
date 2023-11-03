@@ -9,9 +9,6 @@ import DarkModeIcon from "@mui/icons-material/DarkMode"
 function NavBar(props: { theme: string; setTheme: (arg0: string) => void }) {
 	const { data: session, status } = useSession()
 
-	console.log(session)
-	console.log(status)
-
 	function ToggleTheme() {
 		if (props.theme === "darkMode") {
 			props.setTheme("lightMode")
@@ -45,7 +42,7 @@ function NavBar(props: { theme: string; setTheme: (arg0: string) => void }) {
 					</label>
 					<ul
 						tabIndex={0}
-						className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4 text-primary"
+						className="menu dropdown-content z-[1] p-2 shadow rounded-box w-52 mt-4 bg-accent text-accent-content"
 					>
 						<article className="mx-2 my-2">
 							Signed In As <b>{session.user.email}</b>
