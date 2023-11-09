@@ -54,6 +54,7 @@ function FhirApi() {
 				<datalist id="apiUrl">
 					<option value="https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/" />
 					<option value="https://fhirdb-monash-secondary.fhir-web-apps.cloud.edu.au/fhir/" />
+					<option value="http://superbugai.erc.monash.edu:8082/fhir/" />
 				</datalist>
 				<button
 					className="ml-2 btn rounded btn-primary"
