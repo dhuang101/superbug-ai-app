@@ -1,6 +1,7 @@
 import { patientInput } from "../types/ValidationTypes"
 
 export function ValidatePatientObj(obj: patientInput) {
+	console.log(obj)
 	// preset object
 	let validatedObj = {
 		id: "",
@@ -37,7 +38,7 @@ export function ValidatePatientObj(obj: patientInput) {
 	if (obj.hasOwnProperty("telecom")) {
 		validatedObj.phoneNum = obj.telecom[0].value
 	} else {
-		validatedObj.birthDate = "Not Given"
+		validatedObj.phoneNum = "Not Given"
 	}
 
 	if (obj.hasOwnProperty("address")) {
@@ -53,7 +54,7 @@ export function ValidatePatientObj(obj: patientInput) {
 			", " +
 			addressList.country
 	} else {
-		validatedObj.address = "No Value"
+		validatedObj.address = "Not Given"
 	}
 	return validatedObj
 }
