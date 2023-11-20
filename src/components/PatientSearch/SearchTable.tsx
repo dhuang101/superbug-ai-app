@@ -9,7 +9,7 @@ function SearchTable({ patientData }: Props) {
 	const router = useRouter()
 
 	function RouteToSummary(resource: { id: string }) {
-		router.push(`/PatientSearch/` + resource.id)
+		router.push(`/patient-search/` + resource.id)
 	}
 
 	function TableRows() {

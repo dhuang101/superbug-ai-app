@@ -36,7 +36,7 @@ function CountTable(props: Props) {
 								router.push(
 									{
 										pathname:
-											`/InfectionPrevention/` +
+											`/infection-prevention/` +
 											encodeURIComponent(
 												parentElement.id
 											),
@@ -47,7 +47,7 @@ function CountTable(props: Props) {
 											colNames: searchData[1],
 										},
 									},
-									`/InfectionPrevention/` +
+									`/infection-prevention/` +
 										encodeURIComponent(parentElement.id)
 								)
 							}}

@@ -25,7 +25,7 @@ function SummaryTable(props) {
 												<Link
 													className="pointer-events-auto"
 													href={
-														`/PatientSearch/` +
+														`/patient-search/` +
 														value
 													}
 												>
