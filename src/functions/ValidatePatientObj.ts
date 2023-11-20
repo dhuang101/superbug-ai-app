@@ -1,7 +1,6 @@
 import { patientInput } from "../types/ValidationTypes"
 
 export function ValidatePatientObj(obj: patientInput) {
-	console.log(obj)
 	// preset object
 	let validatedObj = {
 		id: "",
