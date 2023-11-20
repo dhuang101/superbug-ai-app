@@ -13,6 +13,7 @@
     "@mui/x-date-pickers": "^6.5.0",
     "axios": "^1.6.0",
     "dayjs": "^1.11.7",
+    "gantt-task-react": "^0.3.9",
     "libphonenumber-js": "^1.10.30",
     "next": "^14.0.0",
     "next-auth": "^4.24.4",
