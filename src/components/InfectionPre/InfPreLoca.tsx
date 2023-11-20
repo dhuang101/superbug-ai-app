@@ -61,37 +61,7 @@ function InfPreLoca() {
 	}
 
 	function OpenSummary(name: string) {
-		// local function to sort the dates
-		function Compare(a, b) {
-			if (a.issuedDate < b.issuedDate) {
-				return 1
-			}
-			if (a.issuedDate > b.issuedDate) {
-				return -1
-			}
-			return 0
-		}
-
-		// grab data
-		let returnValue
-		let locationObj = groupedLocas.find((obj) => obj.name === name)
-		// clean the data
-		// note that the order of ids matters for the summary table
-		returnValue = locationObj.reports.map((obj) => {
-			return {
-				patientId: obj.resource.subject.reference.split("/")[1],
-				diagnosticCode: obj.resource.code.coding[0].display,
-				organsismCode: obj.resource.conclusionCode[0].coding[0].display,
-				issuedDate: new Date(obj.resource.issued)
-					.toISOString()
-					.split("T")[0],
-			}
-		})
-
-		return [
-			returnValue.sort(Compare),
-			["Patient ID", "Diagnostic Code", "Organism Code", "Date Issued"],
-		]
+		return groupedLocas.find((obj) => obj.name === name)
 	}
 
 	// side effect only renders the table once the results are set
