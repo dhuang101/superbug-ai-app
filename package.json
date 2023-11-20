@@ -18,7 +18,6 @@
     "next-auth": "^4.24.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-vis-timeline-3": "^2.1.0",
     "recharts": "^2.9.0"
   },
   "devDependencies": {
