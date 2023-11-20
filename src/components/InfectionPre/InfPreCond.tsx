@@ -177,7 +177,7 @@ function InfPreCond() {
 			) : groupedConds != null ? (
 				<div>
 					<CountTable
-						name="Condition"
+						name="condition"
 						searchData={groupedConds}
 						OpenSummary={OpenSummary}
 					/>

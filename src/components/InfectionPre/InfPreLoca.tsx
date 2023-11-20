@@ -172,7 +172,7 @@ function InfPreLoca() {
 			) : groupedLocas != null ? (
 				<div>
 					<CountTable
-						name="Location"
+						name="location"
 						searchData={groupedLocas}
 						OpenSummary={OpenSummary}
 					/>

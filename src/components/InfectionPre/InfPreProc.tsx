@@ -179,7 +179,7 @@ function InfPreProc() {
 			) : groupedProcs != null ? (
 				<div>
 					<CountTable
-						name="Procedure"
+						name="procedure"
 						searchData={groupedProcs}
 						OpenSummary={OpenSummary}
 					/>

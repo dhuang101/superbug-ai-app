@@ -182,7 +182,7 @@ function InfPreOrga() {
 			) : groupedOrgas != null ? (
 				<div>
 					<CountTable
-						name="Organism"
+						name="organism"
 						searchData={groupedOrgas}
 						OpenSummary={OpenSummary}
 					/>

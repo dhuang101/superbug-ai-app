@@ -8,6 +8,7 @@ interface Props {
 }
 
 function CountTable(props: Props) {
+	console.log(props)
 	const router = useRouter()
 	// component that generates each row
 	function TableRows() {
@@ -36,7 +37,7 @@ function CountTable(props: Props) {
 								router.push(
 									{
 										pathname:
-											`/infection-prevention/` +
+											`/infection-prevention/${props.name}/` +
 											encodeURIComponent(
 												parentElement.id
 											),
@@ -47,7 +48,7 @@ function CountTable(props: Props) {
 											colNames: searchData[1],
 										},
 									},
-									`/infection-prevention/` +
+									`/infection-prevention/${props.name}/` +
 										encodeURIComponent(parentElement.id)
 								)
 							}}
