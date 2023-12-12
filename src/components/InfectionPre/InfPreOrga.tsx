@@ -20,11 +20,8 @@ function InfPreOrga() {
 	function executeSearch() {
 		// error checking
 		// one value entered but not the other
-		if (
-			(startDate === null && endDate !== null) ||
-			(startDate !== null && endDate === null)
-		) {
-			setErrorMessage("Error: Both or none of the dates must be entered!")
+		if (startDate === null || endDate !== null) {
+			setErrorMessage("Error: Both of the dates must be entered!")
 			return
 		}
 		// start is greater than end
@@ -156,12 +153,6 @@ function InfPreOrga() {
 				</article>
 				<div className="w-1/5">
 					<StyledDatePicker onChange={handleEndChange} label="End" />
-				</div>
-				<div
-					className="tooltip tooltip-accent ml-4 flex"
-					data-tip="Search with no dates entered to fetch all organisms. This is a heavy process and can be slow!"
-				>
-					<InfoOutlinedIcon className="my-auto" />
 				</div>
 				<div className="ml-auto">
 					<button
