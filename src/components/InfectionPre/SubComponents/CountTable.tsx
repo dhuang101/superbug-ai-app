@@ -74,7 +74,9 @@ function CountTable(props: Props) {
 						<thead>
 							<tr>
 								<th className="bg-base-300">
-									{props.name + " Name"}
+									{props.name.charAt(0).toUpperCase() +
+										props.name.slice(1) +
+										" Name"}
 								</th>
 								<th className="bg-base-300">Count</th>
 							</tr>
