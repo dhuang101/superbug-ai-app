@@ -20,7 +20,7 @@ function InfPreCond() {
 	function executeSearch() {
 		// error checking
 		// one value entered but not the other
-		if (startDate === null || endDate !== null) {
+		if (startDate === null || endDate === null) {
 			setErrorMessage("Error: Both of the dates must be entered!")
 			return
 		}
