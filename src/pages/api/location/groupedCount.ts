@@ -44,8 +44,9 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 		// variable to complete paginated reponse
 		let currentResponse
 		// fetch first page
+		let urlExtension = `?_count=100&date=ge${start}&date=le${end}`
 		await axios
-			.get(`${apiUrl}Encounter`, {
+			.get(`${apiUrl}Encounter${urlExtension}`, {
 				params: { location: location.resource.id },
 			})
 			.then((res) => {
@@ -73,75 +74,112 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 				currentResponse = result.data
 			})
 		}
-		// only push entries if they exist
+
+		// filtering encounters with finer granularity
 		if (currentResponse.hasOwnProperty("entry")) {
-			encounters = encounters.concat(currentResponse.entry)
-		}
-
-		// finally fetch related diagnostic reports
-		for (const encounter of encounters) {
-			// reset diagnostic reports for each encounter
-			let diagnosticReports = []
-			// parsing arguments
-			let urlExtension = "?_count=100"
-			if (typeof start !== "undefined" && typeof end !== "undefined") {
-				urlExtension = `?issued=ge${start}&issued=le${end}&_count=100`
-			}
-			// first call
-			let exitFlag = false
-			await axios
-				.get(`${apiUrl}DiagnosticReport${urlExtension}`, {
-					params: { encounter: encounter.resource.id },
-				})
-				.then((res) => {
-					if (res.data.hasOwnProperty("entry")) {
-						currentResponse = res.data
-					} else {
-						exitFlag = true
-					}
-				})
-
-			// early exit for no data returned
-			if (exitFlag) {
-				break
-			}
-
-			let nextLink: string
-			while (
-				// checks whether a link to the next page exists
-				currentResponse.link.some(
-					(link: { relation: string; url: string }) => {
-						// saves the url if it does
-						if (link.relation === "next") {
-							nextLink = link.url
-						}
-						return link.relation === "next"
-					}
+			encounters = currentResponse.entry
+			// console.log(encounters)
+			encounters.filter((encounter) => {
+				// flag to return to check if current encounter is valid
+				let filterFlag = false
+				// building reference string to compare to locations
+				let reference =
+					location.resource.resourceType + "/" + location.resource.id
+				// filter all locations in encounter based on reference string
+				let validLocations = encounter.resource.location.filter(
+					(location) => location.location.reference === reference
 				)
-			) {
-				// gets the next page and concats the results
-				await axios.get(nextLink).then((result) => {
-					result.data.entry = result.data.entry.concat(
-						currentResponse.entry
-					)
-					currentResponse = result.data
-				})
-			}
-			// only adds to the list of reports if any entries are retrieved
-			if (currentResponse.hasOwnProperty("entry")) {
-				diagnosticReports = diagnosticReports.concat(
-					currentResponse.entry
-				)
-			}
-			// push data to the API return
-			returnValue.push({
-				name: location.resource.name,
-				count: diagnosticReports.length,
-				reports: diagnosticReports,
+				// checking if any of the valid location's period are within the date range and adjusting filter flag
+				for (let i = 0; i < validLocations.length; i++) {
+					if (
+						new Date(validLocations[i].period.start) >
+							new Date(start) ||
+						new Date(validLocations[i].period.end) < new Date(end)
+					) {
+						// immediately end loop if a valid location period is found
+						filterFlag = true
+						break
+					}
+				}
+
+				return filterFlag
 			})
 		}
-	}
 
+		// only push entries if they exist
+		if (encounters.length > 0) {
+			returnValue.push({
+				name: location.resource.name,
+				count: encounters.length,
+				encounters: encounters,
+			})
+		}
+
+		// requirements changed only encounters needed now
+
+		// finally fetch related diagnostic reports
+		// for (const encounter of encounters) {
+		// 	// reset diagnostic reports for each encounter
+		// 	let diagnosticReports = []
+		// 	// parsing arguments
+		// 	let urlExtension = "?_count=100"
+		// 	if (typeof start !== "undefined" && typeof end !== "undefined") {
+		// 		urlExtension = `?issued=ge${start}&issued=le${end}&_count=100`
+		// 	}
+		// 	// first call
+		// 	let exitFlag = false
+		// 	await axios
+		// 		.get(`${apiUrl}DiagnosticReport${urlExtension}`, {
+		// 			params: { encounter: encounter.resource.id },
+		// 		})
+		// 		.then((res) => {
+		// 			if (res.data.hasOwnProperty("entry")) {
+		// 				currentResponse = res.data
+		// 			} else {
+		// 				exitFlag = true
+		// 			}
+		// 		})
+
+		// 	// early exit for no data returned
+		// 	if (exitFlag) {
+		// 		break
+		// 	}
+
+		// 	let nextLink: string
+		// 	while (
+		// 		// checks whether a link to the next page exists
+		// 		currentResponse.link.some(
+		// 			(link: { relation: string; url: string }) => {
+		// 				// saves the url if it does
+		// 				if (link.relation === "next") {
+		// 					nextLink = link.url
+		// 				}
+		// 				return link.relation === "next"
+		// 			}
+		// 		)
+		// 	) {
+		// 		// gets the next page and concats the results
+		// 		await axios.get(nextLink).then((result) => {
+		// 			result.data.entry = result.data.entry.concat(
+		// 				currentResponse.entry
+		// 			)
+		// 			currentResponse = result.data
+		// 		})
+		// 	}
+		// 	// only adds to the list of reports if any entries are retrieved
+		// 	if (currentResponse.hasOwnProperty("entry")) {
+		// 		diagnosticReports = diagnosticReports.concat(
+		// 			currentResponse.entry
+		// 		)
+		// 	}
+		// 	// push data to the API return
+		// 	returnValue.push({
+		// 		name: location.resource.name,
+		// 		count: diagnosticReports.length,
+		// 		encounters: diagnosticReports,
+		// 	})
+		// }
+	}
 	return returnValue
 }
 
