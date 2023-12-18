@@ -57,7 +57,16 @@ function InfPreLoca() {
 	}
 
 	function OpenSummary(name: string) {
-		return groupedLocas.find((obj) => obj.name === name)
+		return groupedLocas
+			.find((obj) => obj.name === name)
+			.encounters.map((obj) => {
+				let resource = obj.resource
+				return {
+					encounterId: resource.id,
+					locations: resource.location,
+					patientId: resource.subject.reference.split("/")[1],
+				}
+			})
 	}
 
 	// side effect only renders the table once the results are set
@@ -134,6 +143,8 @@ function InfPreLoca() {
 					<CountTable
 						name="location"
 						searchData={groupedLocas}
+						startDate={startDate}
+						endDate={endDate}
 						OpenSummary={OpenSummary}
 					/>
 				</div>

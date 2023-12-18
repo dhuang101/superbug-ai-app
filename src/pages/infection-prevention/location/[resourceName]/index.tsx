@@ -13,7 +13,17 @@ function InfLocaSummary() {
 				{router.query.resourceName}
 			</article>
 			<div className="h-full w-full">
-				<GanttChart />
+				<GanttChart
+					data={JSON.parse(
+						decodeURIComponent(router.query.encounters as string)
+					)}
+					startDate={JSON.parse(
+						decodeURIComponent(router.query.startDate as string)
+					)}
+					endDate={JSON.parse(
+						decodeURIComponent(router.query.endDate as string)
+					)}
+				/>
 			</div>
 		</div>
 	)

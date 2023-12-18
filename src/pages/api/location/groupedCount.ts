@@ -44,9 +44,8 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 		// variable to complete paginated reponse
 		let currentResponse
 		// fetch first page
-		let urlExtension = `?_count=100&date=ge${start}&date=le${end}`
 		await axios
-			.get(`${apiUrl}Encounter${urlExtension}`, {
+			.get(`${apiUrl}Encounter`, {
 				params: { location: location.resource.id },
 			})
 			.then((res) => {

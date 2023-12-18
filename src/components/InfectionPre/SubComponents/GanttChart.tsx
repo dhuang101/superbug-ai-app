@@ -1,4 +1,6 @@
 import { add, format, differenceInCalendarDays } from "date-fns"
+import { CircularProgress } from "@mui/material"
+import { useEffect, useState } from "react"
 import {
 	BarChart,
 	Bar,
@@ -10,28 +12,34 @@ import {
 	ResponsiveContainer,
 } from "recharts"
 
-function GanttChart() {
-	// test data
-	const startDate = new Date(2019, 4, 15)
-	const endDate = new Date(2019, 7, 1)
-	const data = [
-		{
-			name: "Patient A",
-			dateRange: [new Date(2019, 4, 25), new Date(2019, 4, 30)],
-		},
-		{
-			name: "Patient B",
-			dateRange: [new Date(2019, 4, 21), new Date(2019, 5, 30)],
-		},
-		{
-			name: "Patient C",
-			dateRange: [new Date(2019, 4, 15), new Date(2019, 6, 21)],
-		},
-		{
-			name: "Patient D",
-			dateRange: [new Date(2019, 4, 18), new Date(2019, 6, 28)],
-		},
-	]
+interface Props {
+	data: any
+	startDate: any
+	endDate: any
+}
+
+function GanttChart(props: Props) {
+	const startDate = new Date(props.startDate)
+	const endDate = new Date(props.endDate)
+	const [data, setData] = useState([])
+
+	useEffect(() => {
+		props.data.map((obj) => {
+			obj.locations.forEach((element) => {
+				console.log(obj)
+				let elementStart = new Date(element.period.start)
+				let elementEnd = new Date(element.period.end)
+				if (elementStart > startDate || elementEnd < endDate) {
+					let formattedEntry = {
+						patientId: obj.patientId,
+						encounterId: obj.encounterId,
+						dateRange: [elementStart, elementEnd],
+					}
+					setData([...data, formattedEntry])
+				}
+			})
+		})
+	}, [])
 
 	// converts the array of data to an array the graph can read
 	function dateToData(data: { dateRange: any[] }) {
@@ -61,11 +69,11 @@ function GanttChart() {
 	function dateFormatter(date) {
 		return format(new Date(date), "dd/MM/yyyy")
 	}
-
 	const ticks = getTicks(startDate, endDate, 6)
+	// calculates and creates graph domain
 	const domain = [ticks[0], ticks[ticks.length - 1]]
 
-	return (
+	return data.length > 0 ? (
 		<ResponsiveContainer width="100%" height="100%">
 			<BarChart
 				data={data}
@@ -83,8 +91,11 @@ function GanttChart() {
 					domain={domain}
 					dataKey={dateToData}
 				/>
-				<YAxis type="category" dataKey="name" />
+				<YAxis type="category" dataKey="patientId" width={300} />
 				<Tooltip
+					labelFormatter={(label) => {
+						return `Patient ID: ${label}`
+					}}
 					formatter={(value: number[]) => {
 						return [
 							format(new Date(value[0]), "dd/MM/yyyy") +
@@ -102,6 +113,11 @@ function GanttChart() {
 				/>
 			</BarChart>
 		</ResponsiveContainer>
+	) : (
+		<div className="flex flex-col justify-center items-center h-full">
+			<article className="text-xl mb-8">Data is Processing</article>
+			<CircularProgress size={80} />
+		</div>
 	)
 }
 
