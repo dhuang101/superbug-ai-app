@@ -78,7 +78,6 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 		// filtering encounters with finer granularity
 		if (currentResponse.hasOwnProperty("entry")) {
 			encounters = currentResponse.entry
-			// console.log(encounters)
 			encounters.filter((encounter) => {
 				// flag to return to check if current encounter is valid
 				let filterFlag = false
