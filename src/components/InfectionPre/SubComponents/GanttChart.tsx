@@ -74,7 +74,7 @@ function GanttChart(props: Props) {
 	const domain = [ticks[0], ticks[ticks.length - 1]]
 
 	return data.length > 0 ? (
-		<ResponsiveContainer width="100%" height="100%">
+		<ResponsiveContainer width="100%" height={data.length * 60 + 30}>
 			<BarChart
 				data={data}
 				layout="vertical"
@@ -82,7 +82,7 @@ function GanttChart(props: Props) {
 					right: 40,
 				}}
 			>
-				<CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
+				<CartesianGrid stroke="hsl(var(--s))" strokeDasharray="3 5" />
 				<XAxis
 					type="number"
 					scale="time"
@@ -90,9 +90,16 @@ function GanttChart(props: Props) {
 					ticks={ticks}
 					domain={domain}
 					dataKey={dateToData}
+					stroke="hsl(var(--bc))"
 				/>
-				<YAxis type="category" dataKey="patientId" width={300} />
+				<YAxis
+					type="category"
+					dataKey="patientId"
+					width={300}
+					stroke="hsl(var(--bc))"
+				/>
 				<Tooltip
+					cursor={{ fill: "hsl(var(--s))" }}
 					labelFormatter={(label) => {
 						return `Patient ID: ${label}`
 					}}
@@ -104,12 +111,14 @@ function GanttChart(props: Props) {
 							"Dates of Stay",
 						]
 					}}
+					labelStyle={{ color: "hsl(var(--sf))" }}
+					itemStyle={{ color: "hsl(var(--b1))" }}
 				/>
 				<Bar
 					barSize={80}
 					dataKey={dateToData}
-					fill="#8884d8"
-					activeBar={<Rectangle stroke="blue" />}
+					fill="hsl(var(--pf))"
+					activeBar={<Rectangle stroke="hsl(var(--pc))" />}
 				/>
 			</BarChart>
 		</ResponsiveContainer>
