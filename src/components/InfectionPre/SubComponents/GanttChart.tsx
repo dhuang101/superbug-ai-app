@@ -26,7 +26,6 @@ function GanttChart(props: Props) {
 	useEffect(() => {
 		props.data.map((obj) => {
 			obj.locations.forEach((element) => {
-				console.log(obj)
 				let elementStart = new Date(element.period.start)
 				let elementEnd = new Date(element.period.end)
 				if (elementStart > startDate || elementEnd < endDate) {
