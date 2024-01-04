@@ -68,12 +68,15 @@ function GanttChart(props: Props) {
 	function dateFormatter(date) {
 		return format(new Date(date), "dd/MM/yyyy")
 	}
+
+	// const value for allocating ticks
 	const ticks = getTicks(startDate, endDate, 6)
+
 	// calculates and creates graph domain
 	const domain = [ticks[0], ticks[ticks.length - 1]]
 
 	return data.length > 0 ? (
-		<ResponsiveContainer width="100%" height={data.length * 60 + 30}>
+		<ResponsiveContainer width="100%" height={data.length * 60 + 200}>
 			<BarChart
 				data={data}
 				layout="vertical"
@@ -114,7 +117,7 @@ function GanttChart(props: Props) {
 					itemStyle={{ color: "hsl(var(--b1))" }}
 				/>
 				<Bar
-					barSize={80}
+					barSize={60}
 					dataKey={dateToData}
 					fill="hsl(var(--pf))"
 					activeBar={<Rectangle stroke="hsl(var(--pc))" />}
@@ -126,6 +129,23 @@ function GanttChart(props: Props) {
 			<article className="text-xl mb-8">Data is Processing</article>
 			<CircularProgress size={80} />
 		</div>
+	)
+}
+
+// custom axis title
+function CustomTick(props) {
+	return (
+		<g>
+			<text
+				x={props.x}
+				y={props.y}
+				textAnchor="end"
+				fill={props.fill}
+				orientation={props.orientation}
+			>
+				{props.payload.value}
+			</text>
+		</g>
 	)
 }
 
