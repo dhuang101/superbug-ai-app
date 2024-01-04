@@ -77,7 +77,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 		// filtering encounters with finer granularity
 		if (currentResponse.hasOwnProperty("entry")) {
 			encounters = currentResponse.entry
-			encounters.filter((encounter) => {
+			encounters = encounters.filter((encounter) => {
 				// flag to return to check if current encounter is valid
 				let filterFlag = false
 				// building reference string to compare to locations
@@ -87,12 +87,17 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 				let validLocations = encounter.resource.location.filter(
 					(location) => location.location.reference === reference
 				)
+
 				// checking if any of the valid location's period are within the date range and adjusting filter flag
+				let rangeStart = new Date(start)
+				let rangeEnd = new Date(end)
 				for (let i = 0; i < validLocations.length; i++) {
+					let locationStart = new Date(validLocations[i].period.start)
+					let locationEnd = new Date(validLocations[i].period.end)
 					if (
-						new Date(validLocations[i].period.start) >
-							new Date(start) ||
-						new Date(validLocations[i].period.end) < new Date(end)
+						(locationStart > rangeStart &&
+							locationStart < rangeEnd) ||
+						(locationEnd > rangeStart && locationEnd < rangeEnd)
 					) {
 						// immediately end loop if a valid location period is found
 						filterFlag = true
