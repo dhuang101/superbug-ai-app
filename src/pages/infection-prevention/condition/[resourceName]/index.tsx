@@ -13,10 +13,16 @@ function InfPreSummary() {
 				{router.query.resourceName}
 			</article>
 			<SummaryTable
-				searchData={JSON.parse(
-					decodeURIComponent(router.query.searchData as string)
-				)}
-				colNames={router.query.colNames}
+				searchData={
+					JSON.parse(
+						decodeURIComponent(router.query.summaryData as string)
+					)[0]
+				}
+				colNames={
+					JSON.parse(
+						decodeURIComponent(router.query.summaryData as string)
+					)[1]
+				}
 			/>
 		</div>
 	)

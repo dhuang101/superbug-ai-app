@@ -120,7 +120,7 @@ function GanttChart(props: Props) {
 						]
 					}}
 					labelStyle={{ color: "hsl(var(--sf))" }}
-					itemStyle={{ color: "hsl(var(--b1))" }}
+					itemStyle={{ color: "hsl(var(--n))" }}
 				/>
 				<Bar
 					barSize={60}

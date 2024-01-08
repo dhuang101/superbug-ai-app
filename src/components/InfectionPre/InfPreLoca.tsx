@@ -19,7 +19,7 @@ function InfPreLoca() {
 		// error checking
 		// one value entered but not the other
 		if (startDate === null || endDate === null) {
-			setErrorMessage("Error: Both or none of the dates must be entered!")
+			setErrorMessage("Error: Both of the dates must be entered!")
 			return
 		}
 		// start is greater than end
