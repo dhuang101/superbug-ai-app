@@ -166,11 +166,11 @@ function LineGraph(props: any) {
 									value + "%",
 									props.tooltip,
 								]}
-								labelStyle={{ color: "hsl(var(--sf))" }}
-								itemStyle={{ color: "hsl(var(--b1))" }}
+								labelStyle={{ color: "oklch(var(--sf))" }}
+								itemStyle={{ color: "oklch(var(--b1))" }}
 							/>
 							<CartesianGrid
-								stroke="hsl(var(--s))"
+								stroke="oklch(var(--s))"
 								strokeDasharray="3 5"
 							/>
 							<XAxis
@@ -186,12 +186,12 @@ function LineGraph(props: any) {
 										}
 									)
 								}}
-								stroke="hsl(var(--bc))"
+								stroke="oklch(var(--bc))"
 							/>
 							<YAxis
 								unit={"%"}
 								domain={[0, 100]}
-								stroke="hsl(var(--bc))"
+								stroke="oklch(var(--bc))"
 							/>
 							{graphState.limit1 !== null &&
 							graphState.limit2 !== null ? (

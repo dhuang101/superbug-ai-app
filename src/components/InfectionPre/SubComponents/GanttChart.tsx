@@ -90,7 +90,7 @@ function GanttChart(props: Props) {
 					right: 40,
 				}}
 			>
-				<CartesianGrid stroke="hsl(var(--s))" strokeDasharray="3 5" />
+				<CartesianGrid stroke="oklch(var(--s))" strokeDasharray="3 5" />
 				<XAxis
 					type="number"
 					scale="time"
@@ -98,16 +98,16 @@ function GanttChart(props: Props) {
 					ticks={ticks}
 					domain={domain}
 					dataKey={dateToData}
-					stroke="hsl(var(--bc))"
+					stroke="oklch(var(--bc))"
 				/>
 				<YAxis
 					type="category"
 					dataKey="patientId"
 					width={300}
-					stroke="hsl(var(--bc))"
+					stroke="oklch(var(--bc))"
 				/>
 				<Tooltip
-					cursor={{ fill: "hsl(var(--s))" }}
+					cursor={{ fill: "oklch(var(--s))" }}
 					labelFormatter={(label) => {
 						return `Patient ID: ${label}`
 					}}
@@ -119,14 +119,14 @@ function GanttChart(props: Props) {
 							"Dates of Stay",
 						]
 					}}
-					labelStyle={{ color: "hsl(var(--sf))" }}
-					itemStyle={{ color: "hsl(var(--n))" }}
+					labelStyle={{ color: "oklch(var(--s))" }}
+					itemStyle={{ color: "oklch(var(--n))" }}
 				/>
 				<Bar
 					barSize={60}
 					dataKey={dateToData}
-					fill="hsl(var(--pf))"
-					activeBar={<Rectangle stroke="hsl(var(--pc))" />}
+					fill="oklch(var(--p))"
+					activeBar={<Rectangle stroke="oklch(var(--pc))" />}
 				/>
 			</BarChart>
 		</ResponsiveContainer>

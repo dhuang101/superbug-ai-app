@@ -223,14 +223,14 @@ function PatientSearch() {
 							onRowsPerPageChange={handleChangeRowsPerPage}
 							sx={{
 								"& .MuiToolbar-root": {
-									color: "hsl(var(--bc))",
+									color: "oklch(var(--bc))",
 								},
 								"& .MuiSelect-icon": {
-									color: "hsl(var(--bc))",
+									color: "oklch(var(--bc))",
 								},
 								"& .MuiButtonBase-root": {
 									"&.Mui-disabled": {
-										color: "hsl(var(--disabled))",
+										color: "oklch(var(--disabled))",
 									},
 								},
 							}}
