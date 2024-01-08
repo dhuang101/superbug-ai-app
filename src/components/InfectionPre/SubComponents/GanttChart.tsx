@@ -24,20 +24,26 @@ function GanttChart(props: Props) {
 	const [data, setData] = useState([])
 
 	useEffect(() => {
+		let cleanData = []
 		props.data.map((obj) => {
 			obj.locations.forEach((element) => {
+				console.log(element)
 				let elementStart = new Date(element.period.start)
 				let elementEnd = new Date(element.period.end)
-				if (elementStart > startDate || elementEnd < endDate) {
+				if (
+					(elementStart > startDate && elementStart < endDate) ||
+					(elementEnd > startDate && elementEnd < endDate)
+				) {
 					let formattedEntry = {
 						patientId: obj.patientId,
 						encounterId: obj.encounterId,
 						dateRange: [elementStart, elementEnd],
 					}
-					setData([...data, formattedEntry])
+					cleanData.push(formattedEntry)
 				}
 			})
 		})
+		setData(cleanData)
 	}, [])
 
 	// converts the array of data to an array the graph can read
