@@ -42,7 +42,7 @@ function CountTable(props: Props) {
 												parentElement.id
 											),
 										query: {
-											encounters: encodeURIComponent(
+											summaryData: encodeURIComponent(
 												JSON.stringify(summaryData)
 											),
 											startDate: encodeURIComponent(
