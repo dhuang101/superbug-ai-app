@@ -2,8 +2,10 @@ import { useRouter } from "next/router"
 import React from "react"
 
 interface Props {
-	searchData: any
 	name: string
+	searchData: any
+	startDate?: any
+	endDate?: any
 	OpenSummary: any
 }
 
@@ -28,26 +30,30 @@ function CountTable(props: Props) {
 								let parentElement =
 									clickedElement.parentNode as HTMLTableRowElement
 								// running passed open summary function
-								let searchData = await props.OpenSummary(
+								let summaryData = await props.OpenSummary(
 									parentElement.id
 								)
-
 								// push next page
 								router.push(
 									{
 										pathname:
-											`/InfectionPrevention/` +
+											`/infection-prevention/${props.name}/` +
 											encodeURIComponent(
 												parentElement.id
 											),
 										query: {
-											searchData: encodeURIComponent(
-												JSON.stringify(searchData[0])
+											encounters: encodeURIComponent(
+												JSON.stringify(summaryData)
 											),
-											colNames: searchData[1],
+											startDate: encodeURIComponent(
+												JSON.stringify(props.startDate)
+											),
+											endDate: encodeURIComponent(
+												JSON.stringify(props.endDate)
+											),
 										},
 									},
-									`/InfectionPrevention/` +
+									`/infection-prevention/${props.name}/` +
 										encodeURIComponent(parentElement.id)
 								)
 							}}
@@ -73,7 +79,9 @@ function CountTable(props: Props) {
 						<thead>
 							<tr>
 								<th className="bg-base-300">
-									{props.name + " Name"}
+									{props.name.charAt(0).toUpperCase() +
+										props.name.slice(1) +
+										" Name"}
 								</th>
 								<th className="bg-base-300">Count</th>
 							</tr>

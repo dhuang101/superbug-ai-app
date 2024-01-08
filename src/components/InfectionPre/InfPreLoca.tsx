@@ -2,7 +2,6 @@ import axios from "axios"
 import React, { useState, useEffect, useContext } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
@@ -19,10 +18,7 @@ function InfPreLoca() {
 	function executeSearch() {
 		// error checking
 		// one value entered but not the other
-		if (
-			(startDate === null && endDate !== null) ||
-			(startDate !== null && endDate === null)
-		) {
+		if (startDate === null || endDate === null) {
 			setErrorMessage("Error: Both or none of the dates must be entered!")
 			return
 		}
@@ -61,37 +57,16 @@ function InfPreLoca() {
 	}
 
 	function OpenSummary(name: string) {
-		// local function to sort the dates
-		function Compare(a, b) {
-			if (a.issuedDate < b.issuedDate) {
-				return 1
-			}
-			if (a.issuedDate > b.issuedDate) {
-				return -1
-			}
-			return 0
-		}
-
-		// grab data
-		let returnValue
-		let locationObj = groupedLocas.find((obj) => obj.name === name)
-		// clean the data
-		// note that the order of ids matters for the summary table
-		returnValue = locationObj.reports.map((obj) => {
-			return {
-				patientId: obj.resource.subject.reference.split("/")[1],
-				diagnosticCode: obj.resource.code.coding[0].display,
-				organsismCode: obj.resource.conclusionCode[0].coding[0].display,
-				issuedDate: new Date(obj.resource.issued)
-					.toISOString()
-					.split("T")[0],
-			}
-		})
-
-		return [
-			returnValue.sort(Compare),
-			["Patient ID", "Diagnostic Code", "Organism Code", "Date Issued"],
-		]
+		return groupedLocas
+			.find((obj) => obj.name === name)
+			.encounters.map((obj) => {
+				let resource = obj.resource
+				return {
+					encounterId: resource.id,
+					locations: resource.location,
+					patientId: resource.subject.reference.split("/")[1],
+				}
+			})
 	}
 
 	// side effect only renders the table once the results are set
@@ -147,12 +122,6 @@ function InfPreLoca() {
 				<div className="w-1/5">
 					<StyledDatePicker onChange={handleEndChange} label="End" />
 				</div>
-				<div
-					className="tooltip tooltip-accent ml-4 flex"
-					data-tip="Search with no dates entered to fetch all locations. This is a heavy process and can be slow!"
-				>
-					<InfoOutlinedIcon className="my-auto" />
-				</div>
 				<div className="ml-auto">
 					<button
 						className="btn btn-sm rounded btn-primary h-full"
@@ -172,8 +141,10 @@ function InfPreLoca() {
 			) : groupedLocas != null ? (
 				<div>
 					<CountTable
-						name="Location"
+						name="location"
 						searchData={groupedLocas}
+						startDate={startDate}
+						endDate={endDate}
 						OpenSummary={OpenSummary}
 					/>
 				</div>

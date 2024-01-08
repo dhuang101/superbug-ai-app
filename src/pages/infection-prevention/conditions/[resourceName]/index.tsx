@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
-import SummaryTable from "../../../components/InfectionPre/SubComponents/SummaryTable"
-import Breadcrumbs from "../../../components/Breadcrumbs"
+import SummaryTable from "../../../../components/InfectionPre/SubComponents/SummaryTable"
+import Breadcrumbs from "../../../../components/Breadcrumbs"
 
 function InfPreSummary() {
 	// router

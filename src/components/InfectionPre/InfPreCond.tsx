@@ -2,7 +2,6 @@ import axios from "axios"
 import React, { useState, useEffect, useContext, useRef } from "react"
 import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
 
@@ -20,11 +19,8 @@ function InfPreCond() {
 	function executeSearch() {
 		// error checking
 		// one value entered but not the other
-		if (
-			(startDate === null && endDate !== null) ||
-			(startDate !== null && endDate === null)
-		) {
-			setErrorMessage("Error: Both or none of the dates must be entered!")
+		if (startDate === null || endDate === null) {
+			setErrorMessage("Error: Both of the dates must be entered!")
 			return
 		}
 		// start is greater than end
@@ -152,12 +148,6 @@ function InfPreCond() {
 				<div className="w-1/5">
 					<StyledDatePicker onChange={handleEndChange} label="End" />
 				</div>
-				<div
-					className="tooltip tooltip-accent ml-4 flex"
-					data-tip="Search with no dates entered to fetch all conditions. This is a heavy process and can be slow!"
-				>
-					<InfoOutlinedIcon className="my-auto" />
-				</div>
 				<div className="ml-auto">
 					<button
 						className="btn btn-sm rounded btn-primary h-full"
@@ -177,7 +167,7 @@ function InfPreCond() {
 			) : groupedConds != null ? (
 				<div>
 					<CountTable
-						name="Condition"
+						name="condition"
 						searchData={groupedConds}
 						OpenSummary={OpenSummary}
 					/>

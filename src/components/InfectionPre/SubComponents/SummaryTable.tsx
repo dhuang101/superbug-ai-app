@@ -7,7 +7,6 @@ interface Props {
 }
 
 function SummaryTable(props) {
-	console.log(props.searchData)
 	function TableRows() {
 		return (
 			<React.Fragment>
@@ -25,7 +24,7 @@ function SummaryTable(props) {
 												<Link
 													className="pointer-events-auto"
 													href={
-														`/PatientSearch/` +
+														`/patient-search/` +
 														value
 													}
 												>

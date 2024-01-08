@@ -2,10 +2,18 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 
+function capitalizeEachWord(str) {
+	str = decodeURIComponent(str)
+	return str.replace(/\w\S*/g, function (txt) {
+		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+	})
+}
+
 const _defaultGetTextGenerator = (param, query) => null
 const _defaultGetDefaultTextGenerator = (path, idx) => {
 	path = path.split("/").slice(1)[idx]
-	path = path.split(/(?=[A-Z])/).join(" ")
+	path = path.replace(/-/g, " ")
+	path = capitalizeEachWord(path)
 	path = decodeURIComponent(path)
 	return path
 }
