@@ -5,7 +5,6 @@ import Breadcrumbs from "../../../../components/Breadcrumbs"
 function InfPreSummary() {
 	// router
 	const router = useRouter()
-	console.log(router.query)
 
 	return (
 		<div className="flex flex-col w-8/12">
@@ -14,10 +13,16 @@ function InfPreSummary() {
 				{router.query.resourceName}
 			</article>
 			<SummaryTable
-				searchData={JSON.parse(
-					decodeURIComponent(router.query.summaryData as string)
-				)}
-				colNames={router.query.colNames}
+				searchData={
+					JSON.parse(
+						decodeURIComponent(router.query.summaryData as string)
+					)[0]
+				}
+				colNames={
+					JSON.parse(
+						decodeURIComponent(router.query.summaryData as string)
+					)[1]
+				}
 			/>
 		</div>
 	)
