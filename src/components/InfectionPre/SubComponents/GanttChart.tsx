@@ -119,7 +119,7 @@ function GanttChart(props: Props) {
 							"Dates of Stay",
 						]
 					}}
-					labelStyle={{ color: "oklch(var(--s))" }}
+					labelStyle={{ color: "oklch(var(--p))" }}
 					itemStyle={{ color: "oklch(var(--n))" }}
 				/>
 				<Bar
