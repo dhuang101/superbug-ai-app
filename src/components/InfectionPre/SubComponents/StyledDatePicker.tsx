@@ -2,7 +2,6 @@
 // @ts-nocheck
 
 import React from "react"
-import Popper from "@mui/material"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 
@@ -132,6 +131,7 @@ function StyledDatePicker(props) {
 	return (
 		<ThemeProvider theme={theme}>
 			<DatePicker
+				className="w-full"
 				slotProps={{
 					textField: { size: "small" },
 					popper: {

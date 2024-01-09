@@ -58,19 +58,7 @@ function InfPreProc() {
 	}
 
 	async function OpenSummary(name: string) {
-		// local function to sort the dates
-		function Compare(a, b) {
-			if (a.issuedDate < b.issuedDate) {
-				return 1
-			}
-			if (a.issuedDate > b.issuedDate) {
-				return -1
-			}
-			return 0
-		}
-
 		// grab data
-		let returnValue
 		let code = groupedProcs.find((obj) => obj.name === name).code
 		const result = await axios.get("/api/procedure/searchByCode", {
 			params: {
@@ -80,8 +68,8 @@ function InfPreProc() {
 				end: currentSearchRange.current.end,
 			},
 		})
-		// clean the data
-		returnValue = result.data.entry.map((obj) => {
+		// clean and return the data
+		return result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
 				reason: obj.resource.statusReason.text,
@@ -90,11 +78,6 @@ function InfPreProc() {
 					.split("T")[0],
 			}
 		})
-
-		return [
-			returnValue.sort(Compare),
-			["Patient ID", "Reason", "Performed Date"],
-		]
 	}
 
 	// side effect only renders the table once the results are set
