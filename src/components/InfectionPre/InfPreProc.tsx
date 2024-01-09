@@ -154,6 +154,8 @@ function InfPreProc() {
 					<CountTable
 						name="procedure"
 						searchData={groupedProcs}
+						startDate={startDate}
+						endDate={endDate}
 						OpenSummary={OpenSummary}
 					/>
 				</div>

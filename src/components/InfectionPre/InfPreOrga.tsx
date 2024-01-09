@@ -174,6 +174,8 @@ function InfPreOrga() {
 					<CountTable
 						name="organism"
 						searchData={groupedOrgas}
+						startDate={startDate}
+						endDate={endDate}
 						OpenSummary={OpenSummary}
 					/>
 				</div>

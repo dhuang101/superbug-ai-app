@@ -169,6 +169,8 @@ function InfPreCond() {
 					<CountTable
 						name="condition"
 						searchData={groupedConds}
+						startDate={startDate}
+						endDate={endDate}
 						OpenSummary={OpenSummary}
 					/>
 				</div>
