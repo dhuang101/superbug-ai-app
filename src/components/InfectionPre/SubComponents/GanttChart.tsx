@@ -10,6 +10,7 @@ import {
 	CartesianGrid,
 	Tooltip,
 	ResponsiveContainer,
+	Label,
 } from "recharts"
 
 interface Props {
@@ -74,6 +75,14 @@ function GanttChart(props: Props) {
 		return format(new Date(date), "dd/MM/yyyy")
 	}
 
+	function patientFormatter(patient: string) {
+		return (
+			patient.substring(0, patient.length / 2) +
+			"\n" +
+			patient.substring(patient.length / 2, patient.length)
+		)
+	}
+
 	// const value for allocating ticks
 	const ticks = getTicks(startDate, endDate, 6)
 
@@ -86,6 +95,7 @@ function GanttChart(props: Props) {
 				data={data}
 				layout="vertical"
 				margin={{
+					left: 9,
 					right: 40,
 				}}
 			>
@@ -102,7 +112,8 @@ function GanttChart(props: Props) {
 				<YAxis
 					type="category"
 					dataKey="patientId"
-					width={300}
+					width={150}
+					tickFormatter={patientFormatter}
 					stroke="oklch(var(--bc))"
 				/>
 				<Tooltip
