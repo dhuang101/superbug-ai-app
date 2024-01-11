@@ -39,14 +39,18 @@ function InfPreSummary() {
 
 			// adds the procedure and the corresponding patient to the edge map
 			// first check if the procedure exists in the map
-			if (procedure.reason in edgeMap) {
+			if (procedure.procedureName in edgeMap) {
 				// if it does we then check if the patient already exists in the procedure's value
-				if (!edgeMap[procedure.reason].includes(procedure.patientId)) {
-					edgeMap[procedure.reason].push(procedure.patientId)
+				if (
+					!edgeMap[procedure.procedureName].includes(
+						procedure.patientId
+					)
+				) {
+					edgeMap[procedure.procedureName].push(procedure.patientId)
 				}
 			} else {
 				// otherwise we create both the key and the value for the procedure
-				edgeMap[procedure.reason] = [procedure.patientId]
+				edgeMap[procedure.procedureName] = [procedure.patientId]
 			}
 		})
 
@@ -62,6 +66,7 @@ function InfPreSummary() {
 						id: i,
 						source: patient,
 						target: node,
+						data: { label: procedure },
 					})
 				})
 			})

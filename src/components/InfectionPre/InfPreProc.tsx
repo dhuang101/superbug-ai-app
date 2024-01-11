@@ -68,11 +68,12 @@ function InfPreProc() {
 				end: currentSearchRange.current.end,
 			},
 		})
+
 		// clean and return the data
 		return result.data.entry.map((obj) => {
 			return {
 				patientId: obj.resource.subject.reference.split("/")[1],
-				reason: obj.resource.statusReason.text,
+				procedureName: obj.resource.code.text,
 				performedDate: new Date(obj.resource.occurrenceDateTime)
 					.toISOString()
 					.split("T")[0],
