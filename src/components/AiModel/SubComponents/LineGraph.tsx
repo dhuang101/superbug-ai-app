@@ -166,8 +166,8 @@ function LineGraph(props: any) {
 									value + "%",
 									props.tooltip,
 								]}
-								labelStyle={{ color: "oklch(var(--sf))" }}
-								itemStyle={{ color: "oklch(var(--b1))" }}
+								labelStyle={{ color: "oklch(var(--p))" }}
+								itemStyle={{ color: "oklch(var(--n))" }}
 							/>
 							<CartesianGrid
 								stroke="oklch(var(--s))"
