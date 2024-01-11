@@ -1,8 +1,8 @@
 import { useRouter } from "next/router"
-import Breadcrumbs from "../../../../components/Breadcrumbs"
-import ReactFlow, { Background, Controls, MiniMap } from "reactflow"
-import "reactflow/dist/style.css"
 import { useEffect, useState } from "react"
+import ReactFlow, { Background, Controls, MiniMap } from "reactflow"
+import Breadcrumbs from "../../../../components/Breadcrumbs"
+import "reactflow/dist/style.css"
 
 function InfPreSummary() {
 	// router
@@ -19,10 +19,10 @@ function InfPreSummary() {
 		// temp variables
 		let nodes = []
 		let edges = []
+		let edgeMap = {}
 
+		// generate the nodes and an edge map
 		rawData.forEach((procedure) => {
-			console.log(procedure)
-
 			// checks if the current procedure's patient does not have a node
 			if (
 				!nodes.some((node) => {
@@ -37,8 +37,36 @@ function InfPreSummary() {
 				})
 			}
 
-			// generates edges for the given procedure
+			// adds the procedure and the corresponding patient to the edge map
+			// first check if the procedure exists in the map
+			if (procedure.reason in edgeMap) {
+				// if it does we then check if the patient already exists in the procedure's value
+				if (!edgeMap[procedure.reason].includes(procedure.patientId)) {
+					edgeMap[procedure.reason].push(procedure.patientId)
+				}
+			} else {
+				// otherwise we create both the key and the value for the procedure
+				edgeMap[procedure.reason] = [procedure.patientId]
+			}
 		})
+
+		// use the edge map to create the edges
+		for (const [procedure, patients] of Object.entries(edgeMap)) {
+			// assign a type to the patients
+			let patientsList = patients as [string]
+			// parse through the patients generating the edges
+			patientsList.forEach((patient, i) => {
+				let targetNodes = patientsList.slice(i + 1)
+				targetNodes.forEach((node) => {
+					edges.push({
+						id: i,
+						source: patient,
+						target: node,
+					})
+				})
+			})
+		}
+
 		// set data to state
 		setNodes(nodes)
 		setEdges(edges)
@@ -56,7 +84,7 @@ function InfPreSummary() {
 			<article className="text-3xl mb-4 font-semibold">
 				{router.query.resourceName}
 			</article>
-			<div className="w-full h-[82vh] bg-[oklch(var(--s))]">
+			<div className="w-full h-[80vh] bg-[oklch(var(--s))]">
 				<ReactFlow nodes={nodes} edges={edges}>
 					<Background color="oklch(var(--sc))" />
 					<MiniMap />
