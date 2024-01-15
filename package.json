@@ -12,6 +12,7 @@
     "@mui/material": "^5.13.1",
     "@mui/x-date-pickers": "^6.5.0",
     "axios": "^1.6.0",
+    "d3": "^7.8.5",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
     "libphonenumber-js": "^1.10.30",
