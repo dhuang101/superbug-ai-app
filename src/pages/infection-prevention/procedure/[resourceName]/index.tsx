@@ -1,14 +1,51 @@
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import ReactFlow, { Background, Controls, MiniMap } from "reactflow"
+import { useCallback, useEffect, useState } from "react"
+import Dagre from "@dagrejs/dagre"
+import ReactFlow, {
+	Background,
+	Controls,
+	MiniMap,
+	ReactFlowProvider,
+	Panel,
+	useNodesState,
+	useEdgesState,
+	useReactFlow,
+} from "reactflow"
 import Breadcrumbs from "../../../../components/Breadcrumbs"
 import "reactflow/dist/style.css"
 
-function InfPreSummary() {
+// const initialNodes = [
+// 	{ id: "1", position: { x: 0, y: 0 }, data: { label: "1" } },
+// 	{ id: "2", position: { x: 0, y: 100 }, data: { label: "2" } },
+// ]
+// const initialEdges = [{ id: "e1-2", source: "1", target: "2" }]
+
+const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}))
+
+const getLayoutedElements = (nodes, edges, options) => {
+	g.setGraph({ rankdir: options.direction })
+
+	edges.forEach((edge) => g.setEdge(edge.source, edge.target))
+	nodes.forEach((node) => g.setNode(node.id, node))
+
+	Dagre.layout(g, { align: "UL" })
+
+	return {
+		nodes: nodes.map((node) => {
+			const { x, y } = g.node(node.id)
+
+			return { ...node, position: { x, y } }
+		}),
+		edges,
+	}
+}
+
+function InfProcSummary() {
 	// router
 	const router = useRouter()
-	const [nodes, setNodes] = useState([])
-	const [edges, setEdges] = useState([])
+	const { fitView } = useReactFlow()
+	const [nodes, setNodes, onNodesChange] = useNodesState([])
+	const [edges, setEdges, onEdgesChange] = useEdgesState([])
 
 	// generate edges and node from data
 	useEffect(() => {
@@ -77,11 +114,19 @@ function InfPreSummary() {
 		setEdges(edges)
 	}, [])
 
-	const initialNodes = [
-		{ id: "1", position: { x: 0, y: 0 }, data: { label: "1" } },
-		{ id: "2", position: { x: 0, y: 100 }, data: { label: "2" } },
-	]
-	const initialEdges = [{ id: "e1-2", source: "1", target: "2" }]
+	const onLayout = useCallback(
+		(direction) => {
+			const layouted = getLayoutedElements(nodes, edges, { direction })
+
+			setNodes([...layouted.nodes])
+			setEdges([...layouted.edges])
+
+			window.requestAnimationFrame(() => {
+				fitView()
+			})
+		},
+		[nodes, edges]
+	)
 
 	return (
 		<div className="flex flex-col w-8/12">
@@ -90,7 +135,21 @@ function InfPreSummary() {
 				{router.query.resourceName}
 			</article>
 			<div className="w-full h-[80vh] bg-[oklch(var(--s))]">
-				<ReactFlow nodes={nodes} edges={edges}>
+				<ReactFlow
+					nodes={nodes}
+					edges={edges}
+					onNodesChange={onNodesChange}
+					onEdgesChange={onEdgesChange}
+					fitView
+				>
+					<Panel position="top-right">
+						<button
+							className="button"
+							onClick={() => onLayout("TB")}
+						>
+							vertical layout
+						</button>
+					</Panel>
 					<Background color="oklch(var(--sc))" />
 					<MiniMap />
 					<Controls />
@@ -100,4 +159,10 @@ function InfPreSummary() {
 	)
 }
 
-export default InfPreSummary
+export default function () {
+	return (
+		<ReactFlowProvider>
+			<InfProcSummary />
+		</ReactFlowProvider>
+	)
+}
