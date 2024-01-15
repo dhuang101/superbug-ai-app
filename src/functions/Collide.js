@@ -1,3 +1,5 @@
+// Collision function for the d3-force layout used in the network graph
+// taken from the example https://reactflow.dev/learn/layouting/layouting#d3-force
 import { quadtree } from "d3-quadtree"
 
 export function collide() {

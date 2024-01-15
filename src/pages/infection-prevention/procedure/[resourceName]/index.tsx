@@ -1,4 +1,4 @@
-// d3 contains untyped variables so we must diable ts
+// d3 contains untyped variables so we must disable ts
 // @ts-nocheck
 
 import { useRouter } from "next/router"
@@ -91,7 +91,9 @@ const useLayoutedElements = () => {
 				fitView()
 
 				// If the simulation hasn't be stopped, schedule another tick.
-				if (running) tick()
+				if (running) {
+					tick()
+				}
 			})
 		}
 
@@ -337,7 +339,11 @@ function InfProcSummary() {
 					fitView
 				>
 					<Panel position={"top-left"}>
-						{initialised && (
+						{initialised && !isRunning() ? (
+							<button className="btn btn-sm" onClick={toggle}>
+								Activate Layout
+							</button>
+						) : (
 							<button className="btn btn-sm" onClick={toggle}>
 								Reset Layout
 							</button>
