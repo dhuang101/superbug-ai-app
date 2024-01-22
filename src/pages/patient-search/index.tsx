@@ -6,14 +6,14 @@ import React, {
 	useContext,
 } from "react"
 import axios from "axios"
-import ApiContext from "../../contexts/ApiContext"
 import SearchTable from "../../components/PatientSearch/SearchTable"
 import { CircularProgress, TablePagination } from "@mui/material"
 import Breadcrumbs from "../../components/Breadcrumbs"
+import { GlobalContext } from "../../contexts/GlobalStore"
 
 function PatientSearch() {
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 	// component specific state
 	const [loading, setLoading] = useState(true)
 	const [patientCount, setPatientCount] = useState(0)
@@ -29,7 +29,7 @@ function PatientSearch() {
 		axios
 			.get("/api/server/resourceCount", {
 				params: {
-					apiUrl: apiContext.value,
+					apiUrl: globalState.apiUrl,
 				},
 			})
 			.then((result: any) => {
@@ -55,7 +55,7 @@ function PatientSearch() {
 			axios
 				.get("/api/patient/search/id", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						id: searchInput,
 						currentPage: currentPage,
 						rowsPerPage: rowsPerPage,
@@ -71,7 +71,7 @@ function PatientSearch() {
 			axios
 				.get("/api/patient/search/name", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						name: searchInput,
 						currentPage: currentPage,
 						rowsPerPage: rowsPerPage,
@@ -132,7 +132,7 @@ function PatientSearch() {
 			axios
 				.get("/api/patient/search/id", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						id: searchInput,
 						currentPage: 0,
 						rowsPerPage: rowsPerPage,
@@ -150,7 +150,7 @@ function PatientSearch() {
 			axios
 				.get("/api/patient/search/name", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						name: searchInput,
 						currentPage: 0,
 						rowsPerPage: rowsPerPage,

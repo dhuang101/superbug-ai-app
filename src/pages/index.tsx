@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { useContext } from "react"
 import { useSession } from "next-auth/react"
-import ApiContext from "../contexts/ApiContext"
 import PersonSearchIcon from "@mui/icons-material/PersonSearch"
 import BiotechIcon from "@mui/icons-material/Biotech"
 import ApiIcon from "@mui/icons-material/Api"
@@ -9,7 +8,8 @@ import { GlobalContext } from "../contexts/GlobalStore"
 
 // functionally just a wrapper that allows the / path to lead to the patient list
 function Home() {
-	const [state, dispatch] = useContext(GlobalContext)
+	// global state wrapper
+	const [globalState, dispatch] = useContext(GlobalContext)
 	// auth object
 	const { data: session } = useSession()
 
@@ -19,7 +19,7 @@ function Home() {
 				Superbug AI
 			</article>
 			<article className="text-base mt-6 text-center">
-				Current API: {state.apiUrl}
+				Current API: {globalState.apiUrl}
 			</article>
 			<div className="flex mt-20 justify-around text-lg text-center">
 				<Link

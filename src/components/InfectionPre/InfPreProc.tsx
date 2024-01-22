@@ -1,13 +1,13 @@
 import axios from "axios"
 import React, { useState, useEffect, useContext, useRef } from "react"
-import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
+import { GlobalContext } from "../../contexts/GlobalStore"
 
 function InfPreProc() {
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	const [loading, setLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
@@ -41,7 +41,7 @@ function InfPreProc() {
 			axios
 				.get("/api/procedure/groupedCount", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						start: startDate,
 						end: endDate,
 					},
@@ -62,7 +62,7 @@ function InfPreProc() {
 		let code = groupedProcs.find((obj) => obj.name === name).code
 		const result = await axios.get("/api/procedure/searchByCode", {
 			params: {
-				apiUrl: apiContext.value,
+				apiUrl: globalState.apiUrl,
 				code: code,
 				start: currentSearchRange.current.start,
 				end: currentSearchRange.current.end,

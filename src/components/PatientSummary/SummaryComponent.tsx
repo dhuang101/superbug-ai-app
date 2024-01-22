@@ -4,17 +4,17 @@ import { CircularProgress } from "@mui/material"
 import { medAdValidated, patientValidated } from "../../types/ValidationTypes"
 import { ValidatePatientObj } from "../../functions/ValidatePatientObj"
 import { ValidateMedReq } from "../../functions/ValidateMedReq"
-import ApiContext from "../../contexts/ApiContext"
 import PatientDetails from "./SubComponents/PatientDetails"
 import MedicationHistory from "./SubComponents/MedicationHistory"
 import AllergiesDetails from "./SubComponents/AllergiesDetails"
 import axios from "axios"
+import { GlobalContext } from "../../contexts/GlobalStore"
 
 function SummaryComponent() {
 	// const for path param
 	const router = useRouter()
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	// component state values
 	const [patientData, setPatientData] = useState<patientValidated>({
@@ -41,7 +41,7 @@ function SummaryComponent() {
 		axios
 			.get("/api/patient/search/id", {
 				params: {
-					apiUrl: apiContext.value,
+					apiUrl: globalState.apiUrl,
 					id: id,
 					currentPage: 0,
 					rowsPerPage: 1,
@@ -59,7 +59,7 @@ function SummaryComponent() {
 		axios
 			.get("/api/patient/summary/medReq", {
 				params: {
-					apiUrl: apiContext.value,
+					apiUrl: globalState.apiUrl,
 					id: id,
 				},
 			})
@@ -73,7 +73,7 @@ function SummaryComponent() {
 		axios
 			.get("/api/patient/summary/allergy", {
 				params: {
-					apiUrl: apiContext.value,
+					apiUrl: globalState.apiUrl,
 					id: id,
 				},
 			})

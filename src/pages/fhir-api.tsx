@@ -1,10 +1,10 @@
 import { KeyboardEvent, ChangeEvent, useState, useContext } from "react"
-import ApiContext from "../contexts/ApiContext"
+import { ACTION, GlobalContext } from "../contexts/GlobalStore"
 
 // page which will allow the user to set the api url used
 function FhirApi() {
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 	const [currentInput, setCurrentInput] = useState("")
 
 	function handleInput(event: ChangeEvent<HTMLInputElement>): void {
@@ -33,7 +33,7 @@ function FhirApi() {
 			return
 		}
 		error.innerHTML = ""
-		apiContext.setter(currentInput)
+		dispatch({ type: ACTION.UPDATE_API, payload: currentInput })
 		window.localStorage.setItem("currentApiUrl", currentInput)
 	}
 
@@ -64,7 +64,8 @@ function FhirApi() {
 				</button>
 			</div>
 			<article className="mt-6">
-				Current API: <b className="font-semibold">{apiContext.value}</b>
+				Current API:{" "}
+				<b className="font-semibold">{globalState.apiUrl}</b>
 			</article>
 			<article
 				id="errors"
