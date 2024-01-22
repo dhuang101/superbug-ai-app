@@ -5,16 +5,21 @@ import LoginIcon from "@mui/icons-material/Login"
 import LogoutIcon from "@mui/icons-material/Logout"
 import LightModeIcon from "@mui/icons-material/LightMode"
 import DarkModeIcon from "@mui/icons-material/DarkMode"
+import { useContext } from "react"
+import { ACTION, GlobalContext } from "../contexts/GlobalStore"
 
-function NavBar(props: { theme: string; setTheme: (arg0: string) => void }) {
+function NavBar() {
+	// auth session
 	const { data: session, status } = useSession()
+	// global store access
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	function ToggleTheme() {
-		if (props.theme === "darkMode") {
-			props.setTheme("lightMode")
+		if (globalState.theme === "darkMode") {
+			dispatch({ type: ACTION.UPDATE_THEME, payload: "lightMode" })
 			window.localStorage.setItem("theme", "lightMode")
 		} else {
-			props.setTheme("darkMode")
+			dispatch({ type: ACTION.UPDATE_THEME, payload: "darkMode" })
 			window.localStorage.setItem("theme", "darkMode")
 		}
 	}
@@ -29,7 +34,7 @@ function NavBar(props: { theme: string; setTheme: (arg0: string) => void }) {
 				</Link>
 			</div>
 			<div className="btn btn-ghost rounded-xl" onClick={ToggleTheme}>
-				{props.theme === "lightMode" ? (
+				{globalState.theme === "lightMode" ? (
 					<LightModeIcon className="text-2xl text-primary-content" />
 				) : (
 					<DarkModeIcon className="text-2xl text-primary-content" />

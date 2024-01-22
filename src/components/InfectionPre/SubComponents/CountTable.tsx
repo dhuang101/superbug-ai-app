@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useContext } from "react"
+import { ACTION, GlobalContext } from "../../../contexts/GlobalStore"
 
 interface Props {
 	name: string
@@ -11,6 +12,8 @@ interface Props {
 
 function CountTable(props: Props) {
 	const router = useRouter()
+	// global state access
+	const [globalState, dispatch] = useContext(GlobalContext)
 	// component that generates each row
 	function TableRows() {
 		return (
@@ -33,29 +36,20 @@ function CountTable(props: Props) {
 								let summaryData = await props.OpenSummary(
 									parentElement.id
 								)
-								// push next page
-								router.push(
-									{
-										pathname:
-											`/infection-prevention/${props.name}/` +
-											encodeURIComponent(
-												parentElement.id
-											),
-										query: {
-											summaryData: encodeURIComponent(
-												JSON.stringify(summaryData)
-											),
-											startDate: encodeURIComponent(
-												JSON.stringify(props.startDate)
-											),
-											endDate: encodeURIComponent(
-												JSON.stringify(props.endDate)
-											),
-										},
+								dispatch({
+									type: ACTION.ADD_COUNT_DATA,
+									payload: {
+										summaryData: summaryData,
+										startDate: props.startDate,
+										endDate: props.endDate,
 									},
-									`/infection-prevention/${props.name}/` +
-										encodeURIComponent(parentElement.id)
-								)
+								})
+								// push next page
+								router.push({
+									pathname:
+										`/infection-prevention/${props.name}/` +
+										encodeURIComponent(parentElement.id),
+								})
 							}}
 						>
 							<td>{obj.name}</td>

@@ -1,10 +1,14 @@
 import { useRouter } from "next/router"
 import SummaryTable from "../../../../components/InfectionPre/SubComponents/SummaryTable"
 import Breadcrumbs from "../../../../components/Breadcrumbs"
+import { useContext } from "react"
+import { GlobalContext } from "../../../../contexts/GlobalStore"
 
 function InfPreSummary() {
 	// router
 	const router = useRouter()
+	// global state access
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	return (
 		<div className="flex flex-col w-8/12">
@@ -13,16 +17,8 @@ function InfPreSummary() {
 				{router.query.resourceName}
 			</article>
 			<SummaryTable
-				searchData={
-					JSON.parse(
-						decodeURIComponent(router.query.summaryData as string)
-					)[0]
-				}
-				colNames={
-					JSON.parse(
-						decodeURIComponent(router.query.summaryData as string)
-					)[1]
-				}
+				searchData={globalState.countData.summaryData[0]}
+				colNames={globalState.countData.summaryData[1]}
 			/>
 		</div>
 	)

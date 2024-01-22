@@ -1,13 +1,13 @@
 import axios from "axios"
 import React, { useState, useEffect, useContext, useRef } from "react"
-import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
+import { GlobalContext } from "../../contexts/GlobalStore"
 
 function InfPreOrga() {
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	const [loading, setLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
@@ -42,7 +42,7 @@ function InfPreOrga() {
 			axios
 				.get("/api/diagnosticReport/groupedCount", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						start: startDate,
 						end: endDate,
 					},
@@ -76,7 +76,7 @@ function InfPreOrga() {
 		// grab the data
 		const result = await axios.get("/api/diagnosticReport/searchByCode", {
 			params: {
-				apiUrl: apiContext.value,
+				apiUrl: globalState.apiUrl,
 				code: code,
 				start: currentSearchRange.current.start,
 				end: currentSearchRange.current.end,
