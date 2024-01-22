@@ -3,6 +3,8 @@
 
 import { useRouter } from "next/router"
 import React, { useEffect, useMemo } from "react"
+import { useContext } from "react"
+import { GlobalContext } from "../../../../contexts/GlobalStore"
 import {
 	forceSimulation,
 	forceLink,
@@ -111,6 +113,8 @@ const useLayoutedElements = () => {
 function InfProcSummary() {
 	// router
 	const router = useRouter()
+	// global state access
+	const [globalState, dispatch] = useContext(GlobalContext)
 	const [initialised, { toggle, isRunning }] = useLayoutedElements()
 	const [nodes, setNodes, onNodesChange] = useNodesState([
 		{
@@ -260,9 +264,8 @@ function InfProcSummary() {
 	// generate edges and node from data
 	// useEffect(() => {
 	// 	// parse data from query
-	// 	let rawData = JSON.parse(
-	// 		decodeURIComponent(router.query.summaryData as string)
-	// 	)
+	// 	let rawData = globalState.countData.summaryData
+	//
 	// 	// temp variables
 	// 	let nodes = []
 	// 	let edges = []

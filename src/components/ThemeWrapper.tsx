@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react"
 import { ACTION, GlobalContext } from "../contexts/GlobalStore"
 
 function ThemeWrapper({ children }: React.PropsWithChildren): JSX.Element {
+	// global state access
 	const [globalState, dispatch] = useContext(GlobalContext)
 
 	useEffect(() => {

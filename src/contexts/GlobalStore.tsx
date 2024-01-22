@@ -3,6 +3,7 @@ import { createContext, useReducer } from "react"
 export enum ACTION {
 	UPDATE_API,
 	UPDATE_THEME,
+	ADD_COUNT_DATA,
 }
 
 export interface Action {
@@ -13,12 +14,18 @@ export interface Action {
 export interface State {
 	apiUrl: String
 	theme?: String
+	countData?: {
+		summaryData: any
+		startDate?: string
+		endDate?: string
+	}
 }
 
 // https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/ for web server vm
 const initialState: State = {
 	apiUrl: "http://localhost:8080/fhir/",
 	theme: null,
+	countData: null,
 }
 
 function StoreReducer(state, action) {
@@ -33,6 +40,8 @@ function StoreReducer(state, action) {
 				...state,
 				theme: action.payload,
 			}
+		case ACTION.ADD_COUNT_DATA:
+			return { ...state, countData: action.payload }
 		default:
 			return state
 	}
