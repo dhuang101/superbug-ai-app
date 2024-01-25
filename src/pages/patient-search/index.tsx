@@ -230,7 +230,7 @@ function PatientSearch() {
 								},
 								"& .MuiButtonBase-root": {
 									"&.Mui-disabled": {
-										color: "oklch(var(--disabled))",
+										color: "oklch(var(disabled))",
 									},
 								},
 							}}
