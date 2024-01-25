@@ -1,16 +1,16 @@
 import { add, format, differenceInCalendarDays } from "date-fns"
 import { CircularProgress } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import {
 	BarChart,
 	Bar,
-	Rectangle,
 	XAxis,
 	YAxis,
 	CartesianGrid,
 	Tooltip,
 	ResponsiveContainer,
-	Label,
+	Cell,
+	ReferenceLine,
 } from "recharts"
 
 interface Props {
@@ -23,26 +23,38 @@ function GanttChart(props: Props) {
 	const startDate = new Date(props.startDate)
 	const endDate = new Date(props.endDate)
 	const [data, setData] = useState([])
+	const [cursorPos, setCursorPos] = useState(0)
+	const graphContainer = useRef(null)
 
 	useEffect(() => {
 		let cleanData = []
-		props.data.map((obj) => {
-			obj.locations.forEach((element) => {
-				let elementStart = new Date(element.period.start)
-				let elementEnd = new Date(element.period.end)
-				if (
-					(elementStart > startDate && elementStart < endDate) ||
-					(elementEnd > startDate && elementEnd < endDate)
-				) {
-					let formattedEntry = {
-						patientId: obj.patientId,
-						encounterId: obj.encounterId,
-						dateRange: [elementStart, elementEnd],
+		props.data.map(
+			(obj: { locations: any[]; patientId: any; encounterId: any }) => {
+				obj.locations.forEach(
+					(element: {
+						period: {
+							start: string | number | Date
+							end: string | number | Date
+						}
+					}) => {
+						let elementStart = new Date(element.period.start)
+						let elementEnd = new Date(element.period.end)
+						if (
+							(elementStart > startDate &&
+								elementStart < endDate) ||
+							(elementEnd > startDate && elementEnd < endDate)
+						) {
+							let formattedEntry = {
+								patientId: obj.patientId,
+								encounterId: obj.encounterId,
+								dateRange: [elementStart, elementEnd],
+							}
+							cleanData.push(formattedEntry)
+						}
 					}
-					cleanData.push(formattedEntry)
-				}
-			})
-		})
+				)
+			}
+		)
 		setData(cleanData)
 	}, [])
 
@@ -54,7 +66,7 @@ function GanttChart(props: Props) {
 	}
 
 	// produces the ticks between the start and end date for the graph
-	function getTicks(startDate, endDate, num) {
+	function getTicks(startDate: Date, endDate: Date, num: number) {
 		const diffDays = differenceInCalendarDays(endDate, startDate)
 
 		let current = startDate,
@@ -71,7 +83,7 @@ function GanttChart(props: Props) {
 	}
 
 	// formats the ticks display
-	function dateFormatter(date) {
+	function dateFormatter(date: string | number | Date) {
 		return format(new Date(date), "dd/MM/yyyy")
 	}
 
@@ -83,6 +95,47 @@ function GanttChart(props: Props) {
 		)
 	}
 
+	// generated grouped colours for each bar
+	function colourGenerator(patientId: string) {
+		// converts the string into a int
+		let seed = ""
+		for (let i = 0; i < patientId.length; i++) {
+			let char = patientId.slice(i, i + 1)
+			seed += char.charCodeAt(0)
+		}
+		// uses that int as a seed to generate a random 6 digit int
+		let colour = Math.floor(
+			Math.abs(Math.sin(parseInt(seed)) * 16777215)
+		).toString(16)
+		// returns as a hex code
+		return "#" + colour
+	}
+
+	function CustomTooltip({ payload, label, active }) {
+		if (active) {
+			return (
+				<div className="p-2 rounded outline outline-2 outline-slate-300 bg-slate-50">
+					<p className="text-primary text-xs">{`Patient ID: ${label}`}</p>
+					<p className="text-neutral text-xs">
+						{"Dates of Stay: " +
+							format(
+								new Date(payload[0].value[0]),
+								"dd/MM/yyyy"
+							) +
+							" - " +
+							format(new Date(payload[0].value[1]), "dd/MM/yyyy")}
+					</p>
+					<p className="text-accent text-xs">
+						{"Cursor Position: " +
+							format(new Date(cursorPos), "dd/MM/yyyy")}
+					</p>
+				</div>
+			)
+		}
+
+		return null
+	}
+
 	// const value for allocating ticks
 	const ticks = getTicks(startDate, endDate, 6)
 
@@ -90,7 +143,11 @@ function GanttChart(props: Props) {
 	const domain = [ticks[0], ticks[ticks.length - 1]]
 
 	return data.length > 0 ? (
-		<ResponsiveContainer width="100%" height={data.length * 60 + 200}>
+		<ResponsiveContainer
+			width="100%"
+			height={data.length * 60 + 200}
+			ref={graphContainer}
+		>
 			<BarChart
 				data={data}
 				layout="vertical"
@@ -98,6 +155,23 @@ function GanttChart(props: Props) {
 					left: 9,
 					right: 40,
 				}}
+				onMouseMove={(event: any) => {
+					if (event.isTooltipActive) {
+						let graphRange =
+							graphContainer.current.current.clientWidth -
+							40 -
+							159
+						let percentage = event.activeCoordinate.x - 159
+						setCursorPos(
+							Math.floor(
+								domain[0] +
+									((domain[1] - domain[0]) * percentage) /
+										graphRange
+							)
+						)
+					}
+				}}
+				onMouseLeave={() => setCursorPos(0)}
 			>
 				<CartesianGrid stroke="oklch(var(--s))" strokeDasharray="3 5" />
 				<XAxis
@@ -117,26 +191,24 @@ function GanttChart(props: Props) {
 					stroke="oklch(var(--bc))"
 				/>
 				<Tooltip
-					cursor={{ fill: "oklch(var(--s))" }}
-					labelFormatter={(label) => {
-						return `Patient ID: ${label}`
-					}}
-					formatter={(value: number[]) => {
-						return [
-							format(new Date(value[0]), "dd/MM/yyyy") +
-								" - " +
-								format(new Date(value[1]), "dd/MM/yyyy"),
-							"Dates of Stay",
-						]
-					}}
-					labelStyle={{ color: "oklch(var(--p))" }}
-					itemStyle={{ color: "oklch(var(--n))" }}
+					content={CustomTooltip}
+					animationDuration={400}
+					cursor={{ fill: "rgba(53, 108, 176, .4)" }}
 				/>
-				<Bar
-					barSize={60}
-					dataKey={dateToData}
-					fill="oklch(var(--p))"
-					activeBar={<Rectangle stroke="oklch(var(--pc))" />}
+				<Bar barSize={60} dataKey={dateToData}>
+					{data.map((entry, index) => (
+						<Cell
+							key={index}
+							fill={colourGenerator(entry.patientId)}
+						/>
+					))}
+				</Bar>
+				<ReferenceLine
+					isFront={true}
+					strokeWidth={2}
+					strokeDasharray="5 3"
+					x={cursorPos}
+					stroke="oklch(var(--a))"
 				/>
 			</BarChart>
 		</ResponsiveContainer>
@@ -145,23 +217,6 @@ function GanttChart(props: Props) {
 			<article className="text-xl mb-8">Data is Processing</article>
 			<CircularProgress size={80} />
 		</div>
-	)
-}
-
-// custom axis title
-function CustomTick(props) {
-	return (
-		<g>
-			<text
-				x={props.x}
-				y={props.y}
-				textAnchor="end"
-				fill={props.fill}
-				orientation={props.orientation}
-			>
-				{props.payload.value}
-			</text>
-		</g>
 	)
 }
 
