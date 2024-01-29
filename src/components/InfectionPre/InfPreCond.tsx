@@ -58,43 +58,6 @@ function InfPreCond() {
 		}
 	}
 
-	async function OpenSummary(name: string) {
-		// local function to sort the dates
-		function Compare(a, b) {
-			if (a.issuedDate < b.issuedDate) {
-				return 1
-			}
-			if (a.issuedDate > b.issuedDate) {
-				return -1
-			}
-			return 0
-		}
-
-		let returnValue
-		let code = groupedConds.find((obj) => obj.name === name).code
-		// grab the data
-		const result = await axios.get("/api/condition/searchByCode", {
-			params: {
-				apiUrl: globalState.apiUrl,
-				code: code,
-				start: currentSearchRange.current.start,
-				end: currentSearchRange.current.end,
-			},
-		})
-		// clean the data
-		// note that the order of ids matters for the summary table
-		returnValue = result.data.entry.map((obj) => {
-			return {
-				patientId: obj.resource.subject.reference.split("/")[1],
-				onsetDate: new Date(obj.resource.onsetDateTime)
-					.toISOString()
-					.split("T")[0],
-			}
-		})
-
-		return [returnValue.sort(Compare), ["Patient ID", "Onset Date"]]
-	}
-
 	// side effect only renders the table once the results are set
 	useEffect(() => {
 		if (groupedConds != null) {
@@ -171,7 +134,6 @@ function InfPreCond() {
 						searchData={groupedConds}
 						startDate={startDate}
 						endDate={endDate}
-						OpenSummary={OpenSummary}
 					/>
 				</div>
 			) : (

@@ -13,8 +13,6 @@ function InfPreSummary() {
 	const [globalState, dispatch] = useContext(GlobalContext)
 	const [data, setData] = useState()
 
-	console.log(router.query)
-
 	useEffect(() => {
 		fetchData()
 	}, [])
