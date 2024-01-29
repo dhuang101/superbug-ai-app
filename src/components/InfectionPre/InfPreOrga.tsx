@@ -58,48 +58,6 @@ function InfPreOrga() {
 		}
 	}
 
-	// function to pass to count table that runs when a row is clicked
-	async function OpenSummary(name: string) {
-		// local function to sort the dates
-		function Compare(a, b) {
-			if (a.issuedDate < b.issuedDate) {
-				return 1
-			}
-			if (a.issuedDate > b.issuedDate) {
-				return -1
-			}
-			return 0
-		}
-
-		let returnValue
-		let code = groupedOrgas.find((obj) => obj.name === name).code
-		// grab the data
-		const result = await axios.get("/api/diagnosticReport/searchByCode", {
-			params: {
-				apiUrl: globalState.apiUrl,
-				code: code,
-				start: currentSearchRange.current.start,
-				end: currentSearchRange.current.end,
-			},
-		})
-		// clean the data
-		// note that the order of ids matters for the summary table
-		returnValue = result.data.entry.map((obj) => {
-			return {
-				patientId: obj.resource.subject.reference.split("/")[1],
-				diagnosticCode: obj.resource.code.coding[0].display,
-				issuedDate: new Date(obj.resource.issued)
-					.toISOString()
-					.split("T")[0],
-			}
-		})
-		// return the data
-		return [
-			returnValue.sort(Compare),
-			["Patient ID", "Diagnostic Code", "Date Issued"],
-		]
-	}
-
 	// side effect only renders the table once the results are set
 	useEffect(() => {
 		if (groupedOrgas != null) {
@@ -176,7 +134,6 @@ function InfPreOrga() {
 						searchData={groupedOrgas}
 						startDate={startDate}
 						endDate={endDate}
-						OpenSummary={OpenSummary}
 					/>
 				</div>
 			) : (

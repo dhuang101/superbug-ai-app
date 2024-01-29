@@ -3,7 +3,6 @@ import { createContext, useReducer } from "react"
 export enum ACTION {
 	UPDATE_API,
 	UPDATE_THEME,
-	ADD_COUNT_DATA,
 }
 
 export interface Action {
@@ -40,8 +39,6 @@ function StoreReducer(state, action) {
 				...state,
 				theme: action.payload,
 			}
-		case ACTION.ADD_COUNT_DATA:
-			return { ...state, countData: action.payload }
 		default:
 			return state
 	}
