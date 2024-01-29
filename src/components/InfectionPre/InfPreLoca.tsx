@@ -145,7 +145,6 @@ function InfPreLoca() {
 						searchData={groupedLocas}
 						startDate={startDate}
 						endDate={endDate}
-						OpenSummary={OpenSummary}
 					/>
 				</div>
 			) : (

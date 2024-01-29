@@ -23,7 +23,6 @@ function CountTable(props: Props) {
 							onClick={async (
 								event: React.MouseEvent<HTMLTableRowElement>
 							) => {
-								console.log(obj)
 								// typing the event.target
 								let clickedElement =
 									event.target as HTMLButtonElement
