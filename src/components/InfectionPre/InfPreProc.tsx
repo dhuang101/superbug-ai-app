@@ -157,7 +157,6 @@ function InfPreProc() {
 						searchData={groupedProcs}
 						startDate={startDate}
 						endDate={endDate}
-						OpenSummary={OpenSummary}
 					/>
 				</div>
 			) : (
