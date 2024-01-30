@@ -27,7 +27,7 @@ const initialState: State = {
 	countData: null,
 }
 
-function StoreReducer(state, action) {
+function storeReducer(state, action) {
 	switch (action.type) {
 		case ACTION.UPDATE_API:
 			return {
@@ -45,7 +45,7 @@ function StoreReducer(state, action) {
 }
 
 function GlobalStore({ children }: React.PropsWithChildren): JSX.Element {
-	const [state, dispatch] = useReducer(StoreReducer, initialState)
+	const [state, dispatch] = useReducer(storeReducer, initialState)
 
 	return (
 		<GlobalContext.Provider value={[state, dispatch]}>

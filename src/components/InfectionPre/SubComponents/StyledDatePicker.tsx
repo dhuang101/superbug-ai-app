@@ -120,7 +120,7 @@ function StyledDatePicker(props) {
 	})
 
 	// function that correctly places the popper in order to theme it
-	function PopperWrap() {
+	function popperWrap() {
 		if (typeof document !== "undefined") {
 			return document.getElementById("themeWrapper")
 		} else {
@@ -135,7 +135,7 @@ function StyledDatePicker(props) {
 				slotProps={{
 					textField: { size: "small" },
 					popper: {
-						container: PopperWrap,
+						container: popperWrap,
 					},
 				}}
 				onChange={props.onChange}

@@ -6,7 +6,7 @@ interface Props {
 	colNames: any
 }
 
-function SummaryTable(props) {
+function SummaryTable(props: Props) {
 	function TableRows() {
 		return (
 			<React.Fragment>

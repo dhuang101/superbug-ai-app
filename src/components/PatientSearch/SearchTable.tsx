@@ -8,7 +8,7 @@ interface Props {
 function SearchTable({ patientData }: Props) {
 	const router = useRouter()
 
-	function RouteToSummary(resource: { id: string }) {
+	function routeToSummary(resource: { id: string }) {
 		router.push(`/patient-search/` + resource.id)
 	}
 
@@ -29,7 +29,7 @@ function SearchTable({ patientData }: Props) {
 					key={i}
 					className="hover:text-accent-content hover:bg-accent cursor-pointer"
 					onClick={() => {
-						RouteToSummary(obj.resource)
+						routeToSummary(obj.resource)
 					}}
 				>
 					<td>{obj.resource.id}</td>

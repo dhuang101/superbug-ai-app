@@ -14,7 +14,7 @@ function NavBar() {
 	// global store access
 	const [globalState, dispatch] = useContext(GlobalContext)
 
-	function ToggleTheme() {
+	function toggleTheme() {
 		if (globalState.theme === "darkMode") {
 			dispatch({ type: ACTION.UPDATE_THEME, payload: "lightMode" })
 			window.localStorage.setItem("theme", "lightMode")
@@ -25,7 +25,7 @@ function NavBar() {
 	}
 
 	return (
-		<div className="navbar h-[7%] bg-primary">
+		<div className="navbar h-[7%] max-h-[64px] bg-primary">
 			<div className="flex-1">
 				<Link href={"/"}>
 					<div className="btn btn-ghost normal-case rounded-xl text-xl text-primary-content">
@@ -33,7 +33,7 @@ function NavBar() {
 					</div>
 				</Link>
 			</div>
-			<div className="btn btn-ghost rounded-xl" onClick={ToggleTheme}>
+			<div className="btn btn-ghost rounded-xl" onClick={toggleTheme}>
 				{globalState.theme === "lightMode" ? (
 					<LightModeIcon className="text-2xl text-primary-content" />
 				) : (

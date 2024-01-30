@@ -44,6 +44,7 @@ function EncSelect(props: {
 			</React.Fragment>
 		)
 	}
+
 	return (
 		<select
 			className="select select-bordered max-w-sm ml-20"

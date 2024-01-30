@@ -57,30 +57,6 @@ function InfPreProc() {
 		}
 	}
 
-	async function OpenSummary(name: string) {
-		// grab data
-		let code = groupedProcs.find((obj) => obj.name === name).code
-		const result = await axios.get("/api/procedure/searchByCode", {
-			params: {
-				apiUrl: globalState.apiUrl,
-				code: code,
-				start: currentSearchRange.current.start,
-				end: currentSearchRange.current.end,
-			},
-		})
-
-		// clean and return the data
-		return result.data.entry.map((obj) => {
-			return {
-				patientId: obj.resource.subject.reference.split("/")[1],
-				procedureName: obj.resource.code.text,
-				performedDate: new Date(obj.resource.occurrenceDateTime)
-					.toISOString()
-					.split("T")[0],
-			}
-		})
-	}
-
 	// side effect only renders the table once the results are set
 	useEffect(() => {
 		if (groupedProcs != null) {

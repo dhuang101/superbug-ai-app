@@ -132,7 +132,6 @@ function GanttChart(props: Props) {
 				</div>
 			)
 		}
-
 		return null
 	}
 
