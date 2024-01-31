@@ -12,6 +12,7 @@ import {
 	Cell,
 	ReferenceLine,
 } from "recharts"
+import { filter } from "d3"
 
 interface Props {
 	data: any
@@ -23,10 +24,17 @@ function GanttChart(props: Props) {
 	const startDate = new Date(props.startDate)
 	const endDate = new Date(props.endDate)
 	const [data, setData] = useState([])
+	const [mode, setMode] = useState("")
 	const [cursorPos, setCursorPos] = useState(0)
+	const [overlapCount, setOverlapCount] = useState(0)
+	const originalData = useRef([])
 	const graphContainer = useRef(null)
+	const zoomButton = useRef(null)
+	const filterButton = useRef(null)
 
+	// runs on component mount
 	useEffect(() => {
+		// cleans the data from the api call to be usable by the gantt chart
 		let cleanData = []
 		props.data.map(
 			(obj: { locations: any[]; patientId: any; encounterId: any }) => {
@@ -55,6 +63,7 @@ function GanttChart(props: Props) {
 				)
 			}
 		)
+		originalData.current = [...cleanData]
 		setData(cleanData)
 	}, [])
 
@@ -68,16 +77,13 @@ function GanttChart(props: Props) {
 	// produces the ticks between the start and end date for the graph
 	function getTicks(startDate: Date, endDate: Date, num: number) {
 		const diffDays = differenceInCalendarDays(endDate, startDate)
-
-		let current = startDate,
-			velocity = Math.round(diffDays / (num - 1))
-
 		const ticks = [startDate.getTime()]
+		let current = startDate
+		let velocity = Math.round(diffDays / (num - 1))
 
 		for (let i = 1; i < num - 1; i++) {
 			ticks.push(add(current, { days: i * velocity }).getTime())
 		}
-
 		ticks.push(endDate.getTime())
 		return ticks
 	}
@@ -87,6 +93,7 @@ function GanttChart(props: Props) {
 		return format(new Date(date), "dd/MM/yyyy")
 	}
 
+	// formats the patient's id on the y-axis to create more space
 	function patientFormatter(patient: string) {
 		return (
 			patient.substring(0, patient.length / 2) +
@@ -111,12 +118,80 @@ function GanttChart(props: Props) {
 		return "#" + colour
 	}
 
+	// function that handles the cursor hoving over the gantt chart
+	function handleHover(event) {
+		if (event.isTooltipActive) {
+			// calculates the floating line
+			let graphRange =
+				graphContainer.current.current.clientWidth - 40 - 159
+			let percentage = event.activeCoordinate.x - 159
+			let epochValue = Math.floor(
+				domain[0] + ((domain[1] - domain[0]) * percentage) / graphRange
+			)
+			setCursorPos(epochValue)
+			// calculates the number of overlaps on the floating lines current position
+			let dateValue = new Date(epochValue)
+			let overlapCount = 0
+			data.forEach((datapoint) => {
+				if (
+					dateValue > datapoint.dateRange[0] &&
+					dateValue < datapoint.dateRange[1]
+				) {
+					overlapCount++
+				}
+			})
+			setOverlapCount(overlapCount)
+		} else {
+			setCursorPos(0)
+		}
+	}
+
+	function handleZoomButton() {
+		if (mode === "zoom") {
+			zoomButton.current.classList.add("btn-neutral")
+			zoomButton.current.classList.remove("btn-success")
+			setMode("")
+		} else {
+			if (mode === "filter") {
+				filterButton.current.classList.add("btn-neutral")
+				filterButton.current.classList.remove("btn-success")
+			}
+			zoomButton.current.classList.add("btn-success")
+			zoomButton.current.classList.remove("btn-neutral")
+			setMode("zoom")
+		}
+	}
+
+	function handleFilterButton() {
+		if (mode === "filter") {
+			// alter CSS on clicked button
+			filterButton.current.classList.add("btn-neutral")
+			filterButton.current.classList.remove("btn-success")
+			setMode("")
+		} else {
+			if (mode === "zoom") {
+				zoomButton.current.classList.add("btn-neutral")
+				zoomButton.current.classList.remove("btn-success")
+			}
+			filterButton.current.classList.add("btn-success")
+			filterButton.current.classList.remove("btn-neutral")
+			setMode("filter")
+		}
+	}
+
+	function handleGraphClick(event) {
+		if (mode === "filter") {
+			data.splice(event.activeTooltipIndex, 1)
+		}
+	}
+
+	// custom component for the tooltip that appears on hover
 	function CustomTooltip({ payload, label, active }) {
 		if (active) {
 			return (
 				<div className="p-2 rounded outline outline-2 outline-slate-300 bg-slate-50">
-					<p className="text-primary text-xs">{`Patient ID: ${label}`}</p>
-					<p className="text-neutral text-xs">
+					<article className="text-primary text-xs">{`Patient ID: ${label}`}</article>
+					<article className="text-neutral text-xs">
 						{"Dates of Stay: " +
 							format(
 								new Date(payload[0].value[0]),
@@ -124,11 +199,14 @@ function GanttChart(props: Props) {
 							) +
 							" - " +
 							format(new Date(payload[0].value[1]), "dd/MM/yyyy")}
-					</p>
-					<p className="text-accent text-xs">
+					</article>
+					<article className="text-accent text-xs">
 						{"Cursor Position: " +
 							format(new Date(cursorPos), "dd/MM/yyyy")}
-					</p>
+					</article>
+					<article className="text-accent text-xs">
+						{"Overlap Count: " + overlapCount}
+					</article>
 				</div>
 			)
 		}
@@ -142,75 +220,95 @@ function GanttChart(props: Props) {
 	const domain = [ticks[0], ticks[ticks.length - 1]]
 
 	return data.length > 0 ? (
-		<ResponsiveContainer
-			width="100%"
-			height={data.length * 60 + 200}
-			ref={graphContainer}
-		>
-			<BarChart
-				data={data}
-				layout="vertical"
-				margin={{
-					left: 9,
-					right: 40,
-				}}
-				onMouseMove={(event: any) => {
-					if (event.isTooltipActive) {
-						let graphRange =
-							graphContainer.current.current.clientWidth -
-							40 -
-							159
-						let percentage = event.activeCoordinate.x - 159
-						setCursorPos(
-							Math.floor(
-								domain[0] +
-									((domain[1] - domain[0]) * percentage) /
-										graphRange
-							)
-						)
-					}
-				}}
-				onMouseLeave={() => setCursorPos(0)}
+		<div className="flex flex-col">
+			<div className="absolute right-[6%]">
+				<div className="flex flex-col">
+					<div className="flex">
+						<button
+							className="btn btn-sm btn-neutral"
+							onClick={handleZoomButton}
+							ref={zoomButton}
+						>
+							Zoom
+						</button>
+						<button
+							className="btn btn-sm btn-neutral ml-3"
+							onClick={handleFilterButton}
+							ref={filterButton}
+						>
+							Filter
+						</button>
+					</div>
+					{data.length < originalData.current.length ? (
+						<button
+							className="btn btn-sm btn-secondary mt-3"
+							onClick={() => {
+								setData([...originalData.current])
+							}}
+						>
+							Reset Filter
+						</button>
+					) : null}
+				</div>
+			</div>
+			<ResponsiveContainer
+				width="100%"
+				height={data.length * 60 + 200}
+				ref={graphContainer}
 			>
-				<CartesianGrid stroke="oklch(var(--s))" strokeDasharray="3 5" />
-				<XAxis
-					type="number"
-					scale="time"
-					tickFormatter={dateFormatter}
-					ticks={ticks}
-					domain={domain}
-					dataKey={dateToData}
-					stroke="oklch(var(--bc))"
-				/>
-				<YAxis
-					type="category"
-					dataKey="patientId"
-					width={150}
-					tickFormatter={patientFormatter}
-					stroke="oklch(var(--bc))"
-				/>
-				<Tooltip
-					content={CustomTooltip}
-					animationDuration={400}
-					cursor={{ fill: "rgba(53, 108, 176, .4)" }}
-				/>
-				<Bar barSize={60} dataKey={dateToData}>
-					{data.map((entry, index) => (
-						<Cell
-							key={index}
-							fill={colourGenerator(entry.patientId)}
-						/>
-					))}
-				</Bar>
-				<ReferenceLine
-					isFront={true}
-					strokeWidth={2}
-					strokeDasharray="5 3"
-					x={cursorPos}
-					stroke="oklch(var(--a))"
-				/>
-			</BarChart>
-		</ResponsiveContainer>
+				<BarChart
+					data={data}
+					layout="vertical"
+					margin={{
+						left: 9,
+						right: 40,
+					}}
+					onMouseMove={handleHover}
+					onMouseDown={handleGraphClick}
+				>
+					<CartesianGrid
+						stroke="oklch(var(--s))"
+						strokeDasharray="3 5"
+					/>
+					<XAxis
+						type="number"
+						scale="time"
+						tickFormatter={dateFormatter}
+						ticks={ticks}
+						domain={domain}
+						dataKey={dateToData}
+						stroke="oklch(var(--bc))"
+					/>
+					<YAxis
+						type="category"
+						dataKey="patientId"
+						width={150}
+						tickFormatter={patientFormatter}
+						stroke="oklch(var(--bc))"
+					/>
+					<Tooltip
+						content={CustomTooltip}
+						animationDuration={400}
+						cursor={{ fill: "rgba(53, 108, 176, .2)" }}
+					/>
+					<Bar barSize={60} dataKey={dateToData}>
+						{data.map((entry, index) => (
+							<Cell
+								key={index}
+								fill={colourGenerator(entry.patientId)}
+							/>
+						))}
+					</Bar>
+					<ReferenceLine
+						isFront={true}
+						strokeWidth={2}
+						strokeDasharray="5 3"
+						x={cursorPos}
+						stroke="oklch(var(--a))"
+					/>
+				</BarChart>
+			</ResponsiveContainer>
+		</div>
 	) : (
 		<div className="flex flex-col justify-center items-center h-full">
 			<article className="text-xl mb-8">Data is Processing</article>
