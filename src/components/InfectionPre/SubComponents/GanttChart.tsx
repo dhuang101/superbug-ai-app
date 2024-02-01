@@ -1,5 +1,6 @@
 import { add, format, differenceInCalendarDays } from "date-fns"
 import { CircularProgress } from "@mui/material"
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import { useEffect, useState, useRef } from "react"
 import {
 	BarChart,
@@ -12,7 +13,8 @@ import {
 	Cell,
 	ReferenceLine,
 } from "recharts"
-import { filter } from "d3"
+import React from "react"
+import { start } from "repl"
 
 interface Props {
 	data: any
@@ -55,7 +57,15 @@ function GanttChart(props: Props) {
 							let formattedEntry = {
 								patientId: obj.patientId,
 								encounterId: obj.encounterId,
-								dateRange: [elementStart, elementEnd],
+								dateRange: [
+									[elementStart, startDate].reduce((a, b) => {
+										return a < b ? b : a
+									}),
+									[elementEnd, endDate].reduce((a, b) => {
+										return a > b ? b : a
+									}),
+								],
+								originalRange: [elementStart, elementEnd],
 							}
 							cleanData.push(formattedEntry)
 						}
@@ -187,18 +197,19 @@ function GanttChart(props: Props) {
 
 	// custom component for the tooltip that appears on hover
 	function CustomTooltip({ payload, label, active }) {
-		if (active) {
+		if (active && payload !== null) {
+			let originalDates = payload[0].payload.originalRange.map((date) => {
+				return date.getTime()
+			})
+
 			return (
 				<div className="p-2 rounded outline outline-2 outline-slate-300 bg-slate-50">
 					<article className="text-primary text-xs">{`Patient ID: ${label}`}</article>
 					<article className="text-neutral text-xs">
 						{"Dates of Stay: " +
-							format(
-								new Date(payload[0].value[0]),
-								"dd/MM/yyyy"
-							) +
+							format(new Date(originalDates[0]), "dd/MM/yyyy") +
 							" - " +
-							format(new Date(payload[0].value[1]), "dd/MM/yyyy")}
+							format(new Date(originalDates[1]), "dd/MM/yyyy")}
 					</article>
 					<article className="text-accent text-xs">
 						{"Cursor Position: " +
@@ -221,7 +232,7 @@ function GanttChart(props: Props) {
 
 	return data.length > 0 ? (
 		<div className="flex flex-col">
-			<div className="absolute right-[6%]">
+			<div className="absolute right-[6%] top-[30%]">
 				<div className="flex flex-col">
 					<div className="flex">
 						<button
@@ -239,9 +250,36 @@ function GanttChart(props: Props) {
 							Filter
 						</button>
 					</div>
+					<div className="flex w-full justify-center align-middle mt-2 h-7">
+						{mode === "filter" ? (
+							<React.Fragment>
+								<article className="text-lg font-semibold text-success">
+									Filter Active
+								</article>
+								<div
+									className="tooltip tooltip-left tooltip-primary ml-2 flex"
+									data-tip="Click on any row to remove it from view"
+								>
+									<InfoOutlinedIcon className="my-auto" />
+								</div>
+							</React.Fragment>
+						) : mode === "zoom" ? (
+							<React.Fragment>
+								<article className="text-lg font-semibold text-success">
+									Zoom Active
+								</article>
+								<div
+									className="tooltip tooltip-left tooltip-primary ml-2 flex"
+									data-tip="Inactive Feature"
+								>
+									<InfoOutlinedIcon className="my-auto" />
+								</div>
+							</React.Fragment>
+						) : null}
+					</div>
 					{data.length < originalData.current.length ? (
 						<button
-							className="btn btn-sm btn-secondary mt-3"
+							className="btn btn-sm btn-error mt-2"
 							onClick={() => {
 								setData([...originalData.current])
 							}}
