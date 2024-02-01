@@ -34,6 +34,12 @@ function GanttChart(props: Props) {
 	const zoomButton = useRef(null)
 	const filterButton = useRef(null)
 
+	// const value for allocating ticks
+	const ticks = getTicks(startDate, endDate, 6)
+
+	// calculates and creates graph domain
+	const domain = [ticks[0], ticks[ticks.length - 1]]
+
 	// runs on component mount
 	useEffect(() => {
 		// cleans the data from the api call to be usable by the gantt chart
@@ -192,6 +198,7 @@ function GanttChart(props: Props) {
 	function handleGraphClick(event) {
 		if (mode === "filter") {
 			data.splice(event.activeTooltipIndex, 1)
+		} else if (mode === "zoom") {
 		}
 	}
 
@@ -224,17 +231,11 @@ function GanttChart(props: Props) {
 		return null
 	}
 
-	// const value for allocating ticks
-	const ticks = getTicks(startDate, endDate, 6)
-
-	// calculates and creates graph domain
-	const domain = [ticks[0], ticks[ticks.length - 1]]
-
 	return data.length > 0 ? (
 		<div className="flex flex-col">
-			<div className="absolute right-[6%] top-[30%]">
+			<div className="absolute right-[6%] top-[30%] w-36">
 				<div className="flex flex-col">
-					<div className="flex">
+					<div className="flex justify-between">
 						<button
 							className="btn btn-sm btn-neutral"
 							onClick={handleZoomButton}
