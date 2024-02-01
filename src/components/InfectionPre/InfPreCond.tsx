@@ -14,7 +14,6 @@ function InfPreCond() {
 	const [groupedConds, setGroupedConds] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
-	const currentSearchRange = useRef({ start: undefined, end: undefined })
 
 	function executeSearch() {
 		// error checking
@@ -35,7 +34,6 @@ function InfPreCond() {
 			setErrorMessage("Error: The end date is greater than today's date!")
 			return
 		} else {
-			currentSearchRange.current = { start: startDate, end: endDate }
 			setErrorMessage("")
 			setLoading(true)
 			// grab list of encounters

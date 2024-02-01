@@ -50,7 +50,7 @@ function InfectionPrevention() {
 			<div role="tablist" className="mt-2 tabs tabs-bordered w-1/4">
 				<button
 					role="tab"
-					className="tab tab-active"
+					className="tab tab-active pointer-events-none"
 					id="button0"
 					value={0}
 					onClick={handleTabClick}

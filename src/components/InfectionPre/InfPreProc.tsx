@@ -14,7 +14,6 @@ function InfPreProc() {
 	const [groupedProcs, setGroupedProcs] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
-	const currentSearchRange = useRef({ start: undefined, end: undefined })
 
 	function executeSearch() {
 		// error checking
