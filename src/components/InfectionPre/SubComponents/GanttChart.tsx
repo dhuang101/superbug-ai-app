@@ -204,7 +204,7 @@ function GanttChart(props: Props) {
 
 	// custom component for the tooltip that appears on hover
 	function CustomTooltip({ payload, label, active }) {
-		if (active && payload !== null) {
+		if (active && payload.length > 0) {
 			let originalDates = payload[0].payload.originalRange.map((date) => {
 				return date.getTime()
 			})
