@@ -14,7 +14,6 @@ import {
 	ReferenceLine,
 } from "recharts"
 import React from "react"
-import { start } from "repl"
 
 interface Props {
 	data: any
@@ -135,7 +134,7 @@ function GanttChart(props: Props) {
 	}
 
 	// function that handles the cursor hoving over the gantt chart
-	function handleHover(event) {
+	function handleGraphHover(event) {
 		if (event.isTooltipActive) {
 			// calculates the floating line
 			let graphRange =
@@ -159,6 +158,13 @@ function GanttChart(props: Props) {
 			setOverlapCount(overlapCount)
 		} else {
 			setCursorPos(0)
+		}
+	}
+
+	function handleGraphClick(event) {
+		if (mode === "filter") {
+			data.splice(event.activeTooltipIndex, 1)
+		} else if (mode === "zoom") {
 		}
 	}
 
@@ -192,13 +198,6 @@ function GanttChart(props: Props) {
 			filterButton.current.classList.add("btn-success")
 			filterButton.current.classList.remove("btn-neutral")
 			setMode("filter")
-		}
-	}
-
-	function handleGraphClick(event) {
-		if (mode === "filter") {
-			data.splice(event.activeTooltipIndex, 1)
-		} else if (mode === "zoom") {
 		}
 	}
 
@@ -302,7 +301,7 @@ function GanttChart(props: Props) {
 						left: 9,
 						right: 40,
 					}}
-					onMouseMove={handleHover}
+					onMouseMove={handleGraphHover}
 					onMouseDown={handleGraphClick}
 				>
 					<CartesianGrid
