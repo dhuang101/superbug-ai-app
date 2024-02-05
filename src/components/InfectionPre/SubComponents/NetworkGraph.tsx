@@ -119,65 +119,10 @@ function NetworkGraph(props: Props) {
 
 	// generate edges and node from data
 	useEffect(() => {
-		// parse data from query
-		let rawData = props.data
-
-		// temp variables
-		let nodes = []
-		let edges = []
-		let edgeMap = {}
-
-		// generate the nodes and an edge map
-		rawData.forEach((procedure, i) => {
-			// checks if the current procedure's patient does not have a node
-			if (!nodes.some((node) => node.id === procedure.patientId)) {
-				// creates a node for that patient
-				nodes.push({
-					id: procedure.patientId,
-					position: { x: 0, y: 200 * i },
-					data: { label: procedure.patientId },
-				})
-			}
-
-			// adds the procedure and the corresponding patient to the edge map
-			// first check if the procedure exists in the map
-			if (procedure.procedureName in edgeMap) {
-				// if it does we then check if the patient already exists in the procedure's value
-				if (
-					!edgeMap[procedure.procedureName].includes(
-						procedure.patientId
-					)
-				) {
-					edgeMap[procedure.procedureName].push(procedure.patientId)
-				}
-			} else {
-				// otherwise we create both the key and the value for the procedure
-				edgeMap[procedure.procedureName] = [procedure.patientId]
-			}
-		})
-
-		// use the edge map to create the edges
-		for (const [procedure, patients] of Object.entries(edgeMap)) {
-			// assign a type to the patients
-			let patientsList = patients as [string]
-			// parse through the patients generating the edges
-			patientsList.forEach((patient, i) => {
-				let targetNodes = patientsList.slice(i + 1)
-				targetNodes.forEach((node) => {
-					edges.push({
-						id: edges.length,
-						source: patient,
-						target: node,
-						data: { label: procedure },
-					})
-				})
-			})
-		}
-
 		// set data to state
-		setNodes(nodes)
-		setEdges(edges)
-	}, [])
+		setNodes(props.data.nodes)
+		setEdges(props.data.edges)
+	}, [props.data])
 
 	useEffect(() => {
 		if (initialised) {

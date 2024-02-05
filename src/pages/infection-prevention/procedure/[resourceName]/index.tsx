@@ -11,13 +11,18 @@ function InfProcSummary() {
 	const router = useRouter()
 	// global state access
 	const [globalState, dispatch] = useContext(GlobalContext)
-	const [data, setData] = useState()
+	const [data, setData] = useState({})
 
 	useEffect(() => {
 		fetchData()
 	}, [router.query])
 
 	async function fetchData() {
+		// temp variables
+		let nodes = []
+		let edges = []
+		let edgeMap = {}
+
 		if (Object.keys(router.query).length !== 0) {
 			// grab data
 			await axios
@@ -31,24 +36,96 @@ function InfProcSummary() {
 				})
 				.then((result) => {
 					// clean and return the data
-					setData(
-						result.data.entry.map((obj) => {
-							return {
-								patientId:
-									obj.resource.subject.reference.split(
+					result.data.entry.map((obj, i) => {
+						// checks if the current procedure's patient does not have a node
+						if (
+							!nodes.some(
+								(node) =>
+									node.id ===
+									obj.resource.subject.reference.split("/")[1]
+							)
+						) {
+							// creates a node for that patient
+							nodes.push({
+								id: obj.resource.subject.reference.split(
+									"/"
+								)[1],
+								position: { x: 0, y: 200 * i },
+								data: {
+									label: obj.resource.subject.reference.split(
 										"/"
 									)[1],
-								procedureName: obj.resource.code.text,
-								performedDate: new Date(
-									obj.resource.occurrenceDateTime
-								)
-									.toISOString()
-									.split("T")[0],
-							}
-						})
-					)
+								},
+							})
+						}
+					})
+
+					nodes.forEach(async (node) => {
+						await axios
+							.get("/api/diagnosticReport/searchByPatient", {
+								params: {
+									apiUrl: globalState.apiUrl,
+									patientId: node.id,
+									start: router.query.startDate,
+									end: router.query.endDate,
+								},
+							})
+							.then((res) => {
+								if (res.data.hasOwnProperty("entry")) {
+									// console.log(res.data.entry)
+									res.data.entry.forEach((organism) => {
+										if (
+											organism.resource.conclusionCode[0]
+												.coding[0].code in edgeMap
+										) {
+											if (
+												!edgeMap[
+													organism.resource
+														.conclusionCode[0]
+														.coding[0].code
+												].includes(node.id)
+											) {
+												edgeMap[
+													organism.resource
+														.conclusionCode[0]
+														.coding[0].code
+												].push(node.id)
+											}
+										} else {
+											// otherwise we create both the key and the value for the procedure
+											edgeMap[
+												organism.resource.conclusionCode[0].coding[0].code
+											] = [node.id]
+										}
+									})
+								}
+							})
+					})
+				})
+				.then(() => {
+					console.log(edgeMap)
+					setData({ nodes: nodes, edges: edges })
 				})
 		}
+		// // use the edge map to create the edges
+		// for (const [organism, patients] of Object.entries(
+		// 	edgeMap
+		// )) {
+		// 	// assign a type to the patients
+		// 	let patientsList = patients as [string]
+		// 	// parse through the patients generating the edges
+		// 	patientsList.forEach((patient, i) => {
+		// 		let targetNodes = patientsList.slice(i + 1)
+		// 		targetNodes.forEach((node) => {
+		// 			edges.push({
+		// 				id: edges.length,
+		// 				source: patient,
+		// 				target: node,
+		// 				data: { label: organism },
+		// 			})
+		// 		})
+		// 	})
+		// }
 	}
 
 	return (
