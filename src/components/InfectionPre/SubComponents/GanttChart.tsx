@@ -127,7 +127,7 @@ function GanttChart(props: Props) {
 		}
 		// uses that int as a seed to generate a random 6 digit int
 		let colour = Math.floor(
-			Math.abs(Math.sin(parseInt(seed)) * 16777215)
+			Math.abs(Math.sin(parseInt(seed)) * 16777005)
 		).toString(16)
 		// returns as a hex code
 		return "#" + colour
