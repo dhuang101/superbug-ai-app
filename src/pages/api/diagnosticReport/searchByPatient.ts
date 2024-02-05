@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 	try {
 		let result = await searchByPatient(
 			params.apiUrl,
-			params.code,
+			params.patientId,
 			params.start,
 			params.end
 		)
