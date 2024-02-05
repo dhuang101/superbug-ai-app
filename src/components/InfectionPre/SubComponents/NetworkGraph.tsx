@@ -31,8 +31,8 @@ interface Props {
 
 const simulation = forceSimulation()
 	.force("charge", forceManyBody().strength(-1000))
-	.force("x", forceX().x(0).strength(0.2))
-	.force("y", forceY().y(0).strength(0.2))
+	.force("x", forceX().x(0).strength(0.225))
+	.force("y", forceY().y(0).strength(0.225))
 	.force("collide", collide())
 	.alphaTarget(0.05)
 	.stop()
@@ -130,11 +130,7 @@ function NetworkGraph(props: Props) {
 		// generate the nodes and an edge map
 		rawData.forEach((procedure, i) => {
 			// checks if the current procedure's patient does not have a node
-			if (
-				!nodes.some((node) => {
-					node.id === procedure.patientId
-				})
-			) {
+			if (!nodes.some((node) => node.id === procedure.patientId)) {
 				// creates a node for that patient
 				nodes.push({
 					id: procedure.patientId,
@@ -183,6 +179,22 @@ function NetworkGraph(props: Props) {
 		setEdges(edges)
 	}, [])
 
+	useEffect(() => {
+		if (initialised) {
+			toggle()
+			setTimeout(() => {
+				toggle()
+			}, 3000)
+		}
+	}, [initialised])
+
+	function handleButton() {
+		toggle()
+		setTimeout(() => {
+			toggle()
+		}, 1000)
+	}
+
 	return (
 		<div className="w-full h-[80vh] bg-[oklch(var(--s))]">
 			<ReactFlow
@@ -193,15 +205,9 @@ function NetworkGraph(props: Props) {
 				fitView
 			>
 				<Panel position={"top-left"}>
-					{initialised && !isRunning() ? (
-						<button className="btn btn-sm" onClick={toggle}>
-							Activate Layout
-						</button>
-					) : (
-						<button className="btn btn-sm" onClick={toggle}>
-							Reset Layout
-						</button>
-					)}
+					<button className="btn btn-sm" onClick={handleButton}>
+						Reset Layout
+					</button>
 				</Panel>
 				<Background color="oklch(var(--sc))" />
 				<MiniMap />
