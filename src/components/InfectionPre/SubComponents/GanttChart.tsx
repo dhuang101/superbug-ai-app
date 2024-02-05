@@ -168,22 +168,6 @@ function GanttChart(props: Props) {
 		}
 	}
 
-	function handleZoomButton() {
-		if (mode === "zoom") {
-			zoomButton.current.classList.add("btn-neutral")
-			zoomButton.current.classList.remove("btn-success")
-			setMode("")
-		} else {
-			if (mode === "filter") {
-				filterButton.current.classList.add("btn-neutral")
-				filterButton.current.classList.remove("btn-success")
-			}
-			zoomButton.current.classList.add("btn-success")
-			zoomButton.current.classList.remove("btn-neutral")
-			setMode("zoom")
-		}
-	}
-
 	function handleFilterButton() {
 		if (mode === "filter") {
 			// alter CSS on clicked button
@@ -191,10 +175,6 @@ function GanttChart(props: Props) {
 			filterButton.current.classList.remove("btn-success")
 			setMode("")
 		} else {
-			if (mode === "zoom") {
-				zoomButton.current.classList.add("btn-neutral")
-				zoomButton.current.classList.remove("btn-success")
-			}
 			filterButton.current.classList.add("btn-success")
 			filterButton.current.classList.remove("btn-neutral")
 			setMode("filter")
@@ -233,23 +213,14 @@ function GanttChart(props: Props) {
 	return data.length > 0 ? (
 		<div className="flex flex-col">
 			<div className="absolute right-[6%] top-[30%] w-36">
-				<div className="flex flex-col">
-					<div className="flex justify-between">
-						<button
-							className="btn btn-sm btn-neutral"
-							onClick={handleZoomButton}
-							ref={zoomButton}
-						>
-							Zoom
-						</button>
-						<button
-							className="btn btn-sm btn-neutral ml-3"
-							onClick={handleFilterButton}
-							ref={filterButton}
-						>
-							Filter
-						</button>
-					</div>
+				<div className="flex flex-col items-center">
+					<button
+						className="btn btn-sm btn-neutral w-16"
+						onClick={handleFilterButton}
+						ref={filterButton}
+					>
+						Filter
+					</button>
 					<div className="flex w-full justify-center align-middle mt-2 h-7">
 						{mode === "filter" ? (
 							<React.Fragment>
@@ -259,18 +230,6 @@ function GanttChart(props: Props) {
 								<div
 									className="tooltip tooltip-left tooltip-primary ml-2 flex"
 									data-tip="Click on any row to remove it from view"
-								>
-									<InfoOutlinedIcon className="my-auto" />
-								</div>
-							</React.Fragment>
-						) : mode === "zoom" ? (
-							<React.Fragment>
-								<article className="text-lg font-semibold text-success">
-									Zoom Active
-								</article>
-								<div
-									className="tooltip tooltip-left tooltip-primary ml-2 flex"
-									data-tip="Inactive Feature"
 								>
 									<InfoOutlinedIcon className="my-auto" />
 								</div>
