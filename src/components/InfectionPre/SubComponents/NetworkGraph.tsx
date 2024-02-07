@@ -1,7 +1,7 @@
 // d3 contains untyped variables so we must disable ts
 // @ts-nocheck
 
-import React, { useEffect, useMemo } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import {
 	forceSimulation,
 	forceLink,
@@ -31,8 +31,8 @@ interface Props {
 
 const simulation = forceSimulation()
 	.force("charge", forceManyBody().strength(-1000))
-	.force("x", forceX().x(0).strength(0.225))
-	.force("y", forceY().y(0).strength(0.225))
+	.force("x", forceX().x(0).strength(0.1))
+	.force("y", forceY().y(0).strength(0.1))
 	.force("collide", collide())
 	.alphaTarget(0.05)
 	.stop()
@@ -116,6 +116,7 @@ function NetworkGraph(props: Props) {
 	const [initialised, { toggle, isRunning }] = useLayoutedElements()
 	const [nodes, setNodes, onNodesChange] = useNodesState([])
 	const [edges, setEdges, onEdgesChange] = useEdgesState([])
+	const [buttonDisabled, setButtonDisabled] = useState(true)
 
 	// generate edges and node from data
 	useEffect(() => {
@@ -129,7 +130,8 @@ function NetworkGraph(props: Props) {
 			toggle()
 			setTimeout(() => {
 				toggle()
-			}, 3000)
+				setButtonDisabled(false)
+			}, 5000)
 		}
 	}, [initialised])
 
@@ -150,7 +152,11 @@ function NetworkGraph(props: Props) {
 				fitView
 			>
 				<Panel position={"top-left"}>
-					<button className="btn btn-sm" onClick={handleButton}>
+					<button
+						className="btn btn-sm"
+						disabled={buttonDisabled}
+						onClick={handleButton}
+					>
 						Reset Layout
 					</button>
 				</Panel>
