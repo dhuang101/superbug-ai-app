@@ -30,7 +30,6 @@ function GanttChart(props: Props) {
 	const [overlapCount, setOverlapCount] = useState(0)
 	const originalData = useRef([])
 	const graphContainer = useRef(null)
-	const zoomButton = useRef(null)
 	const filterButton = useRef(null)
 
 	// const value for allocating ticks
