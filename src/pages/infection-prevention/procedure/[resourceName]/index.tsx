@@ -34,7 +34,7 @@ function InfProcSummary() {
 						end: router.query.startDate,
 					},
 				})
-				.then((result) => {
+				.then(async (result) => {
 					// clean and return the data
 					result.data.entry.map((obj, i) => {
 						// checks if the current procedure's patient does not have a node
@@ -59,8 +59,8 @@ function InfProcSummary() {
 							})
 						}
 					})
-
-					nodes.forEach(async (node) => {
+					// we then fetch all the organisms related to the patients/nodes
+					for (const node of nodes) {
 						await axios
 							.get("/api/diagnosticReport/searchByPatient", {
 								params: {
@@ -71,8 +71,8 @@ function InfProcSummary() {
 								},
 							})
 							.then((res) => {
+								// use the fetched data to create an edgemap
 								if (res.data.hasOwnProperty("entry")) {
-									// console.log(res.data.entry)
 									res.data.entry.forEach((organism) => {
 										if (
 											organism.resource.conclusionCode[0]
@@ -100,32 +100,31 @@ function InfProcSummary() {
 									})
 								}
 							})
-					})
+					}
 				})
 				.then(() => {
-					console.log(edgeMap)
+					// use the edge map to create the edges
+					for (const [organism, patients] of Object.entries(
+						edgeMap
+					)) {
+						// assign a type to the patients
+						let patientsList = patients as [string]
+						// parse through the patients generating the edges
+						patientsList.forEach((patient, i) => {
+							let targetNodes = patientsList.slice(i + 1)
+							targetNodes.forEach((node) => {
+								edges.push({
+									id: edges.length,
+									source: patient,
+									target: node,
+									data: { label: organism },
+								})
+							})
+						})
+					}
 					setData({ nodes: nodes, edges: edges })
 				})
 		}
-		// // use the edge map to create the edges
-		// for (const [organism, patients] of Object.entries(
-		// 	edgeMap
-		// )) {
-		// 	// assign a type to the patients
-		// 	let patientsList = patients as [string]
-		// 	// parse through the patients generating the edges
-		// 	patientsList.forEach((patient, i) => {
-		// 		let targetNodes = patientsList.slice(i + 1)
-		// 		targetNodes.forEach((node) => {
-		// 			edges.push({
-		// 				id: edges.length,
-		// 				source: patient,
-		// 				target: node,
-		// 				data: { label: organism },
-		// 			})
-		// 		})
-		// 	})
-		// }
 	}
 
 	return (
