@@ -50,12 +50,13 @@ function InfProcSummary() {
 								id: obj.resource.subject.reference.split(
 									"/"
 								)[1],
-								position: { x: 0, y: 200 * i },
+								position: { x: 0, y: 100 * i },
 								data: {
 									label: obj.resource.subject.reference.split(
 										"/"
 									)[1],
 								},
+								className: "text-wrap",
 							})
 						}
 					})
@@ -76,25 +77,25 @@ function InfProcSummary() {
 									res.data.entry.forEach((organism) => {
 										if (
 											organism.resource.conclusionCode[0]
-												.coding[0].code in edgeMap
+												.coding[0].display in edgeMap
 										) {
 											if (
 												!edgeMap[
 													organism.resource
 														.conclusionCode[0]
-														.coding[0].code
+														.coding[0].display
 												].includes(node.id)
 											) {
 												edgeMap[
 													organism.resource
 														.conclusionCode[0]
-														.coding[0].code
+														.coding[0].display
 												].push(node.id)
 											}
 										} else {
 											// otherwise we create both the key and the value for the procedure
 											edgeMap[
-												organism.resource.conclusionCode[0].coding[0].code
+												organism.resource.conclusionCode[0].coding[0].display
 											] = [node.id]
 										}
 									})
@@ -117,7 +118,7 @@ function InfProcSummary() {
 									id: edges.length,
 									source: patient,
 									target: node,
-									data: { label: organism },
+									label: organism,
 								})
 							})
 						})

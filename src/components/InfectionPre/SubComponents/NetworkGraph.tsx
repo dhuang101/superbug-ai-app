@@ -118,7 +118,7 @@ function NetworkGraph(props: Props) {
 	const [edges, setEdges, onEdgesChange] = useEdgesState([])
 	const [buttonDisabled, setButtonDisabled] = useState(true)
 
-	// generate edges and node from data
+	// grab edges and node from passed data
 	useEffect(() => {
 		// set data to state
 		setNodes(props.data.nodes)
