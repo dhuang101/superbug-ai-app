@@ -30,7 +30,7 @@ interface Props {
 }
 
 const simulation = forceSimulation()
-	.force("charge", forceManyBody().strength(-1000))
+	.force("charge", forceManyBody().strength(-5000))
 	.force("x", forceX().x(0).strength(0.1))
 	.force("y", forceY().y(0).strength(0.1))
 	.force("collide", collide())
@@ -62,8 +62,8 @@ const useLayoutedElements = () => {
 			"link",
 			forceLink(edges)
 				.id((d) => d.id)
-				.strength(0.05)
-				.distance(750)
+				.strength(0.25)
+				.distance(500)
 		)
 
 		// The tick function is called every animation frame while the simulation is
