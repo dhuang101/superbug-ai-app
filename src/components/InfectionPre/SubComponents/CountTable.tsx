@@ -6,7 +6,6 @@ interface Props {
 	searchData: any
 	startDate?: any
 	endDate?: any
-	OpenSummary: any
 }
 
 function CountTable(props: Props) {
@@ -29,33 +28,21 @@ function CountTable(props: Props) {
 									event.target as HTMLButtonElement
 								let parentElement =
 									clickedElement.parentNode as HTMLTableRowElement
-								// running passed open summary function
-								let summaryData = await props.OpenSummary(
-									parentElement.id
-								)
 								// push next page
-								router.push(
-									{
-										pathname:
-											`/infection-prevention/${props.name}/` +
-											encodeURIComponent(
-												parentElement.id
-											),
-										query: {
-											summaryData: encodeURIComponent(
-												JSON.stringify(summaryData)
-											),
-											startDate: encodeURIComponent(
-												JSON.stringify(props.startDate)
-											),
-											endDate: encodeURIComponent(
-												JSON.stringify(props.endDate)
-											),
-										},
+								router.push({
+									pathname:
+										`/infection-prevention/${props.name}/` +
+										encodeURIComponent(parentElement.id),
+									query: {
+										code: encodeURIComponent(obj.code),
+										startDate: encodeURIComponent(
+											props.startDate
+										),
+										endDate: encodeURIComponent(
+											props.endDate
+										),
 									},
-									`/infection-prevention/${props.name}/` +
-										encodeURIComponent(parentElement.id)
-								)
+								})
 							}}
 						>
 							<td>{obj.name}</td>

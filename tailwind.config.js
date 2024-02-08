@@ -3,9 +3,9 @@
 function WithOpacityValue(variable) {
 	return ({ opacityValue }) => {
 		if (opacityValue === undefined) {
-			return `hsl(var(${variable}))`
+			return `oklch(var(${variable}))`
 		}
-		return `hsl(var(${variable}) / ${opacityValue})`
+		return `oklch(var(${variable}) / ${opacityValue})`
 	}
 }
 
@@ -15,7 +15,7 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				disabled: WithOpacityValue("--disabled"),
+				disabled: WithOpacityValue("disabled"),
 			},
 		},
 	},
@@ -41,13 +41,13 @@ module.exports = {
 					"base-content": "#181A2A",
 					info: "#3abff8",
 					"info-content": "#002B3D",
-					success: "#36d399",
+					success: "#36d372",
 					"success-content": "#003320",
 					warning: "#fbbd23",
 					"warning-content": "#382800",
 					error: "#f87272",
 					"error-content": "#470000",
-					"--disabled": "0 0% 69%",
+					disabled: "0 0% 69%",
 				},
 				darkMode: {
 					primary: "#1c4f82",
@@ -74,7 +74,7 @@ module.exports = {
 					"warning-content": "#2B2317",
 					error: "#ab3d30",
 					"error-content": "#F3D8D2",
-					"--disabled": "0 0% 28%",
+					disabled: "0 0% 28%",
 				},
 			},
 		],

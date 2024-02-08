@@ -2,7 +2,6 @@
 // @ts-nocheck
 
 import React from "react"
-import Popper from "@mui/material"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 
@@ -13,9 +12,9 @@ function StyledDatePicker(props) {
 			MuiSvgIcon: {
 				styleOverrides: {
 					root: {
-						color: "hsl(var(--bc))",
+						color: "oklch(var(--bc))",
 						"&:hover": {
-							color: "hsl(var(--s))",
+							color: "oklch(var(--s))",
 						},
 					},
 				},
@@ -24,12 +23,12 @@ function StyledDatePicker(props) {
 			MuiFormLabel: {
 				styleOverrides: {
 					root: {
-						color: "hsl(var(--bc))",
+						color: "oklch(var(--bc))",
 						"&.Mui-focused": {
-							color: "hsl(var(--pf))",
+							color: "oklch(var(--pf))",
 						},
 						"&.Mui-error": {
-							color: "hsl(var(--er))",
+							color: "oklch(var(--er))",
 						},
 					},
 				},
@@ -38,7 +37,7 @@ function StyledDatePicker(props) {
 			MuiInputBase: {
 				styleOverrides: {
 					root: {
-						color: "hsl(var(--bc))",
+						color: "oklch(var(--bc))",
 					},
 				},
 			},
@@ -47,7 +46,7 @@ function StyledDatePicker(props) {
 				styleOverrides: {
 					root: {
 						"& fieldset": {
-							borderColor: "hsl(var(--p))",
+							borderColor: "oklch(var(--p))",
 						},
 					},
 				},
@@ -56,8 +55,8 @@ function StyledDatePicker(props) {
 			MuiPaper: {
 				styleOverrides: {
 					root: {
-						backgroundColor: "hsl(var(--b2))",
-						color: "hsl(var(--bc))",
+						backgroundColor: "oklch(var(--b2))",
+						color: "oklch(var(--bc))",
 					},
 				},
 			},
@@ -66,20 +65,20 @@ function StyledDatePicker(props) {
 				styleOverrides: {
 					yearButton: {
 						"&:hover": {
-							backgroundColor: "hsl(var(--n))",
-							color: "hsl(var(--nc))",
+							backgroundColor: "oklch(var(--n))",
+							color: "oklch(var(--nc))",
 						},
 						"&.Mui-selected": {
-							backgroundColor: "hsl(var(--s))",
-							color: "hsl(var(--sc))",
+							backgroundColor: "oklch(var(--s))",
+							color: "oklch(var(--sc))",
 						},
 						"&.Mui-selected:hover": {
-							backgroundColor: "hsl(var(--sf))",
-							color: "hsl(var(--sc))",
+							backgroundColor: "oklch(var(--sf))",
+							color: "oklch(var(--sc))",
 						},
 						"&.Mui-selected:focus": {
-							backgroundColor: "hsl(var(--s))",
-							color: "hsl(var(--sc))",
+							backgroundColor: "oklch(var(--s))",
+							color: "oklch(var(--sc))",
 						},
 					},
 				},
@@ -88,25 +87,25 @@ function StyledDatePicker(props) {
 			MuiPickersDay: {
 				styleOverrides: {
 					root: {
-						color: "hsl(var(--bc))",
+						color: "oklch(var(--bc))",
 						"&:hover": {
-							backgroundColor: "hsl(var(--n))",
-							color: "hsl(var(--nc))",
+							backgroundColor: "oklch(var(--n))",
+							color: "oklch(var(--nc))",
 						},
 						"&.Mui-selected": {
-							backgroundColor: "hsl(var(--s))",
-							color: "hsl(var(--sc))",
+							backgroundColor: "oklch(var(--s))",
+							color: "oklch(var(--sc))",
 						},
 						"&.Mui-selected:hover": {
-							backgroundColor: "hsl(var(--sf))",
-							color: "hsl(var(--sc))",
+							backgroundColor: "oklch(var(--sf))",
+							color: "oklch(var(--sc))",
 						},
 						"&.Mui-selected:focus": {
-							backgroundColor: "hsl(var(--s))",
-							color: "hsl(var(--sc))",
+							backgroundColor: "oklch(var(--s))",
+							color: "oklch(var(--sc))",
 						},
 						"&:not(.Mui-selected)": {
-							borderColor: "hsl(var(--nc))",
+							borderColor: "oklch(var(--nc))",
 						},
 					},
 				},
@@ -114,14 +113,14 @@ function StyledDatePicker(props) {
 			// day
 			MuiDayCalendar: {
 				styleOverrides: {
-					weekDayLabel: { color: "hsl(var(--bc))" },
+					weekDayLabel: { color: "oklch(var(--bc))" },
 				},
 			},
 		},
 	})
 
 	// function that correctly places the popper in order to theme it
-	function PopperWrap() {
+	function popperWrap() {
 		if (typeof document !== "undefined") {
 			return document.getElementById("themeWrapper")
 		} else {
@@ -132,10 +131,11 @@ function StyledDatePicker(props) {
 	return (
 		<ThemeProvider theme={theme}>
 			<DatePicker
+				className="w-full"
 				slotProps={{
 					textField: { size: "small" },
 					popper: {
-						container: PopperWrap,
+						container: popperWrap,
 					},
 				}}
 				onChange={props.onChange}
@@ -145,13 +145,13 @@ function StyledDatePicker(props) {
 				sx={{
 					"& .MuiOutlinedInput-root": {
 						"&:hover fieldset": {
-							borderColor: "hsl(var(--s))",
+							borderColor: "oklch(var(--s))",
 						},
 						"&.Mui-error fieldset": {
-							borderColor: "hsl(var(--er))",
+							borderColor: "oklch(var(--er))",
 						},
 						"&.Mui-focused fieldset": {
-							borderColor: "hsl(var(--pf))",
+							borderColor: "oklch(var(--pf))",
 						},
 					},
 				}}

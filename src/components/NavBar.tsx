@@ -5,22 +5,27 @@ import LoginIcon from "@mui/icons-material/Login"
 import LogoutIcon from "@mui/icons-material/Logout"
 import LightModeIcon from "@mui/icons-material/LightMode"
 import DarkModeIcon from "@mui/icons-material/DarkMode"
+import { useContext } from "react"
+import { ACTION, GlobalContext } from "../contexts/GlobalStore"
 
-function NavBar(props: { theme: string; setTheme: (arg0: string) => void }) {
+function NavBar() {
+	// auth session
 	const { data: session, status } = useSession()
+	// global store access
+	const [globalState, dispatch] = useContext(GlobalContext)
 
-	function ToggleTheme() {
-		if (props.theme === "darkMode") {
-			props.setTheme("lightMode")
+	function toggleTheme() {
+		if (globalState.theme === "darkMode") {
+			dispatch({ type: ACTION.UPDATE_THEME, payload: "lightMode" })
 			window.localStorage.setItem("theme", "lightMode")
 		} else {
-			props.setTheme("darkMode")
+			dispatch({ type: ACTION.UPDATE_THEME, payload: "darkMode" })
 			window.localStorage.setItem("theme", "darkMode")
 		}
 	}
 
 	return (
-		<div className="navbar h-[7%] bg-primary">
+		<div className="navbar h-[7%] max-h-[64px] bg-primary">
 			<div className="flex-1">
 				<Link href={"/"}>
 					<div className="btn btn-ghost normal-case rounded-xl text-xl text-primary-content">
@@ -28,8 +33,8 @@ function NavBar(props: { theme: string; setTheme: (arg0: string) => void }) {
 					</div>
 				</Link>
 			</div>
-			<div className="btn btn-ghost rounded-xl" onClick={ToggleTheme}>
-				{props.theme === "lightMode" ? (
+			<div className="btn btn-ghost rounded-xl" onClick={toggleTheme}>
+				{globalState.theme === "lightMode" ? (
 					<LightModeIcon className="text-2xl text-primary-content" />
 				) : (
 					<DarkModeIcon className="text-2xl text-primary-content" />

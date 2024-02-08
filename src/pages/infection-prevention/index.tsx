@@ -47,9 +47,10 @@ function InfectionPrevention() {
 					Infection Prevention
 				</article>
 			</div>
-			<div className="mt-2 tabs w-full">
+			<div role="tablist" className="mt-2 tabs tabs-bordered w-1/4">
 				<button
-					className="tab tab-bordered tab-active"
+					role="tab"
+					className="tab tab-active pointer-events-none"
 					id="button0"
 					value={0}
 					onClick={handleTabClick}
@@ -57,7 +58,8 @@ function InfectionPrevention() {
 					Organisms
 				</button>
 				<button
-					className="tab tab-bordered"
+					role="tab"
+					className="tab"
 					id="button1"
 					value={1}
 					onClick={handleTabClick}
@@ -65,7 +67,8 @@ function InfectionPrevention() {
 					Conditions
 				</button>
 				<button
-					className="tab tab-bordered"
+					role="tab"
+					className="tab"
 					id="button2"
 					value={2}
 					onClick={handleTabClick}
@@ -73,7 +76,8 @@ function InfectionPrevention() {
 					Procedures
 				</button>
 				<button
-					className="tab tab-bordered"
+					role="tab"
+					className="tab"
 					id="button3"
 					value={3}
 					onClick={handleTabClick}

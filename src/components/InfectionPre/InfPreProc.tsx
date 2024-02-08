@@ -1,20 +1,19 @@
 import axios from "axios"
 import React, { useState, useEffect, useContext, useRef } from "react"
-import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
+import { GlobalContext } from "../../contexts/GlobalStore"
 
 function InfPreProc() {
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	const [loading, setLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
 	const [groupedProcs, setGroupedProcs] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
-	const currentSearchRange = useRef({ start: undefined, end: undefined })
 
 	function executeSearch() {
 		// error checking
@@ -41,7 +40,7 @@ function InfPreProc() {
 			axios
 				.get("/api/procedure/groupedCount", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						start: startDate,
 						end: endDate,
 					},
@@ -55,46 +54,6 @@ function InfPreProc() {
 					}
 				})
 		}
-	}
-
-	async function OpenSummary(name: string) {
-		// local function to sort the dates
-		function Compare(a, b) {
-			if (a.issuedDate < b.issuedDate) {
-				return 1
-			}
-			if (a.issuedDate > b.issuedDate) {
-				return -1
-			}
-			return 0
-		}
-
-		// grab data
-		let returnValue
-		let code = groupedProcs.find((obj) => obj.name === name).code
-		const result = await axios.get("/api/procedure/searchByCode", {
-			params: {
-				apiUrl: apiContext.value,
-				code: code,
-				start: currentSearchRange.current.start,
-				end: currentSearchRange.current.end,
-			},
-		})
-		// clean the data
-		returnValue = result.data.entry.map((obj) => {
-			return {
-				patientId: obj.resource.subject.reference.split("/")[1],
-				reason: obj.resource.statusReason.text,
-				performedDate: new Date(obj.resource.occurrenceDateTime)
-					.toISOString()
-					.split("T")[0],
-			}
-		})
-
-		return [
-			returnValue.sort(Compare),
-			["Patient ID", "Reason", "Performed Date"],
-		]
 	}
 
 	// side effect only renders the table once the results are set
@@ -171,7 +130,8 @@ function InfPreProc() {
 					<CountTable
 						name="procedure"
 						searchData={groupedProcs}
-						OpenSummary={OpenSummary}
+						startDate={startDate}
+						endDate={endDate}
 					/>
 				</div>
 			) : (

@@ -1,7 +1,6 @@
 import axios from "axios"
 import React, { useState, useEffect, useContext, useRef } from "react"
 import { useRouter } from "next/router"
-import ApiContext from "../../../contexts/ApiContext"
 import SummaryComponent from "../../../components/PatientSummary/SummaryComponent"
 import LengthOfStay from "../../../components/AiModel/LengthOfStay"
 import UnplannedAd from "../../../components/AiModel/UnplannedAd"
@@ -13,6 +12,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import LoopIcon from "@mui/icons-material/Loop"
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety"
 import Breadcrumbs from "../../../components/Breadcrumbs"
+import { GlobalContext } from "../../../contexts/GlobalStore"
 
 // 6f7acde5-db81-4361-82cf-886893a3280c
 // gregg
@@ -21,7 +21,7 @@ function PatientSummary() {
 	// const for path param
 	const router = useRouter()
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	const [encounters, setEncounters] = useState([])
 	const [naviValue, setNaviValue] = useState(0)
@@ -35,7 +35,7 @@ function PatientSummary() {
 		axios
 			.get("/api/patient/summary/encounters", {
 				params: {
-					apiUrl: apiContext.value,
+					apiUrl: globalState.apiUrl,
 					patientId: id,
 					className: "IMP",
 				},

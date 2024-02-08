@@ -1,13 +1,13 @@
 import axios from "axios"
 import React, { useState, useEffect, useContext } from "react"
-import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
+import { GlobalContext } from "../../contexts/GlobalStore"
 
 function InfPreLoca() {
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	const [loading, setLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
@@ -40,7 +40,7 @@ function InfPreLoca() {
 			axios
 				.get("/api/location/groupedCount", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						start: startDate,
 						end: endDate,
 					},
@@ -54,19 +54,6 @@ function InfPreLoca() {
 					}
 				})
 		}
-	}
-
-	function OpenSummary(name: string) {
-		return groupedLocas
-			.find((obj) => obj.name === name)
-			.encounters.map((obj) => {
-				let resource = obj.resource
-				return {
-					encounterId: resource.id,
-					locations: resource.location,
-					patientId: resource.subject.reference.split("/")[1],
-				}
-			})
 	}
 
 	// side effect only renders the table once the results are set
@@ -145,7 +132,6 @@ function InfPreLoca() {
 						searchData={groupedLocas}
 						startDate={startDate}
 						endDate={endDate}
-						OpenSummary={OpenSummary}
 					/>
 				</div>
 			) : (

@@ -1,20 +1,19 @@
 import axios from "axios"
 import React, { useState, useEffect, useContext, useRef } from "react"
-import ApiContext from "../../contexts/ApiContext"
 import { CircularProgress } from "@mui/material"
 import CountTable from "./SubComponents/CountTable"
 import StyledDatePicker from "./SubComponents/StyledDatePicker"
+import { GlobalContext } from "../../contexts/GlobalStore"
 
 function InfPreOrga() {
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	const [loading, setLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
 	const [groupedOrgas, setGroupedOrgas] = useState(null)
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
-	const currentSearchRange = useRef({ start: undefined, end: undefined })
 
 	function executeSearch() {
 		// error checking
@@ -35,14 +34,13 @@ function InfPreOrga() {
 			setErrorMessage("Error: The end date is greater than today's date!")
 			return
 		} else {
-			currentSearchRange.current = { start: startDate, end: endDate }
 			setErrorMessage("")
 			setLoading(true)
 			// grab list of encounters
 			axios
 				.get("/api/diagnosticReport/groupedCount", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						start: startDate,
 						end: endDate,
 					},
@@ -56,48 +54,6 @@ function InfPreOrga() {
 					}
 				})
 		}
-	}
-
-	// function to pass to count table that runs when a row is clicked
-	async function OpenSummary(name: string) {
-		// local function to sort the dates
-		function Compare(a, b) {
-			if (a.issuedDate < b.issuedDate) {
-				return 1
-			}
-			if (a.issuedDate > b.issuedDate) {
-				return -1
-			}
-			return 0
-		}
-
-		let returnValue
-		let code = groupedOrgas.find((obj) => obj.name === name).code
-		// grab the data
-		const result = await axios.get("/api/diagnosticReport/searchByCode", {
-			params: {
-				apiUrl: apiContext.value,
-				code: code,
-				start: currentSearchRange.current.start,
-				end: currentSearchRange.current.end,
-			},
-		})
-		// clean the data
-		// note that the order of ids matters for the summary table
-		returnValue = result.data.entry.map((obj) => {
-			return {
-				patientId: obj.resource.subject.reference.split("/")[1],
-				diagnosticCode: obj.resource.code.coding[0].display,
-				issuedDate: new Date(obj.resource.issued)
-					.toISOString()
-					.split("T")[0],
-			}
-		})
-		// return the data
-		return [
-			returnValue.sort(Compare),
-			["Patient ID", "Diagnostic Code", "Date Issued"],
-		]
 	}
 
 	// side effect only renders the table once the results are set
@@ -174,7 +130,8 @@ function InfPreOrga() {
 					<CountTable
 						name="organism"
 						searchData={groupedOrgas}
-						OpenSummary={OpenSummary}
+						startDate={startDate}
+						endDate={endDate}
 					/>
 				</div>
 			) : (

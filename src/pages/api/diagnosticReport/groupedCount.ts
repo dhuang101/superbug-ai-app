@@ -1,4 +1,5 @@
 import axios from "axios"
+
 async function getGroupedDiagCount(apiUrl: string, start: Date, end: Date) {
 	// parsing arguments
 	let urlExtension: string

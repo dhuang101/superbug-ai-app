@@ -113,6 +113,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 		if (encounters.length > 0) {
 			returnValue.push({
 				name: location.resource.name,
+				code: location.resource.id,
 				count: encounters.length,
 				encounters: encounters,
 			})

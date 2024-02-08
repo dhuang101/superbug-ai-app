@@ -1,15 +1,15 @@
 import axios from "axios"
 import React, { useEffect, useState, useContext } from "react"
-import ApiContext from "../../contexts/ApiContext"
 import LineGraph from "./SubComponents/LineGraph"
 import EncSelect from "./SubComponents/EncSelect"
+import { GlobalContext } from "../../contexts/GlobalStore"
 
 function IcuAd(props: {
 	encounters: any[]
 	lastEncounter: { current: React.SetStateAction<string> }
 }) {
 	// global state container
-	const apiContext = useContext(ApiContext)
+	const [globalState, dispatch] = useContext(GlobalContext)
 
 	// state variables
 	const [selectedEnc, setSelectedEnc] = useState("")
@@ -22,7 +22,7 @@ function IcuAd(props: {
 			axios
 				.get("/api/observation/byEncounter", {
 					params: {
-						apiUrl: apiContext.value,
+						apiUrl: globalState.apiUrl,
 						encId: props.encounters[selectedEnc].resource.id,
 						code: "ICU Admission",
 					},
