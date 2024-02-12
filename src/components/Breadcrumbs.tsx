@@ -10,9 +10,11 @@ function capitalizeEachWord(str) {
 }
 
 const _defaultGetTextGenerator = (param, query) => null
-const _defaultGetDefaultTextGenerator = (path, idx) => {
+const _defaultGetDefaultTextGenerator = (path, idx, idFlag) => {
 	path = path.split("/").slice(1)[idx]
-	path = path.replace(/-/g, " ")
+	if (!idFlag) {
+		path = path.replace(/-/g, " ")
+	}
 	path = capitalizeEachWord(path)
 	path = decodeURIComponent(path)
 	return path
@@ -35,6 +37,10 @@ function Breadcrumbs({
 			const pathnameNestedRoutes = generatePathParts(router.pathname)
 
 			const crumblist = asPathNestedRoutes.map((subpath, idx) => {
+				let idFlag = false
+				if (pathnameNestedRoutes[idx] === "[id]") {
+					idFlag = true
+				}
 				// Pull out and convert "[post_id]" into "post_id"
 				const param = pathnameNestedRoutes[idx]
 					.replace("[", "")
@@ -45,7 +51,7 @@ function Breadcrumbs({
 				return {
 					href,
 					textGenerator: getTextGenerator(param, router.query),
-					text: getDefaultTextGenerator(href, idx),
+					text: getDefaultTextGenerator(href, idx, idFlag),
 				}
 			})
 
