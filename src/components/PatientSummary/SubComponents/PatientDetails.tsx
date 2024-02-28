@@ -7,7 +7,7 @@ interface Props {
 function PatientDetails(props: Props) {
 	return (
 		<div className="w-full h-full">
-			<div className="flex min-h-[30%] h-fit items-stretch">
+			<div className="flex min-h-[35%] h-fit items-stretch">
 				<article className="flex w-2/12 px-4 items-center rounded-tl-lg border-solid border-2 border-secondary-focus bg-base-200">
 					Name
 				</article>
@@ -35,7 +35,7 @@ function PatientDetails(props: Props) {
 					{props.patientData.phoneNum}
 				</article>
 			</div>
-			<div className="flex h-fit items-stretch">
+			<div className="flex min-h-[35%] h-fit items-stretch">
 				<article className="flex w-2/12 px-4 items-center rounded-bl-lg border-solid border-2 border-secondary-focus bg-base-200">
 					Last Updated
 				</article>
