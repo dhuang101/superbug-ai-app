@@ -2,7 +2,9 @@ import axios from "axios"
 
 function getResourceCount(apiUrl: string) {
 	const apiCall: Promise<any> = axios
-		.get(`${apiUrl}$get-resource-counts`)
+		.get(`${apiUrl}$get-resource-counts`, {
+			headers: { authentication: "someuser:thepassword" },
+		})
 		.then((res) => {
 			return res.data.parameter
 		})

@@ -15,6 +15,7 @@ function getPatientsByName(
 				_count: rowCount,
 				name: name,
 			},
+			headers: { authentication: "someuser:thepassword" },
 		})
 		.then((res) => {
 			if (res.data.hasOwnProperty("entry")) {
