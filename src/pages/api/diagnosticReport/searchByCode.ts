@@ -16,6 +16,7 @@ async function searchByCode(
 	await axios
 		.get(`${apiUrl}DiagnosticReport${urlExtension}`, {
 			params: { conclusion: code, _count: 100 },
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
 		})
 		.then((res) => {
 			if (res.hasOwnProperty("data")) {
@@ -37,10 +38,14 @@ async function searchByCode(
 		})
 	) {
 		// gets the next page and concats the results
-		await axios.get(nextLink).then((result) => {
-			result.data.entry = result.data.entry.concat(returnValue.entry)
-			returnValue = result.data
-		})
+		await axios
+			.get(nextLink, {
+				headers: { authentication: process.env.HAPI_FHIR_AUTH },
+			})
+			.then((result) => {
+				result.data.entry = result.data.entry.concat(returnValue.entry)
+				returnValue = result.data
+			})
 	}
 
 	return returnValue

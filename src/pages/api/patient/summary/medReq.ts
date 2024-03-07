@@ -2,7 +2,10 @@ import axios from "axios"
 
 function getMedReqById(apiUrl: string, id: string) {
 	const apiCall: Promise<any> = axios
-		.get(`${apiUrl}MedicationRequest`, { params: { patient: id } })
+		.get(`${apiUrl}MedicationRequest`, {
+			params: { patient: id },
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
+		})
 		.then((res) => {
 			return res.data
 		})

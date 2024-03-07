@@ -14,6 +14,7 @@ function getPatientById(
 				_count: rowCount,
 				_id: id,
 			},
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
 		})
 		.then((res) => {
 			if (res.data.hasOwnProperty("entry")) {

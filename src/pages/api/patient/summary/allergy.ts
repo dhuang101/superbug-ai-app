@@ -3,9 +3,8 @@ import axios from "axios"
 function getAllergyById(apiUrl: string, id: any) {
 	const apiCall: Promise<any> = axios
 		.get(`${apiUrl}AllergyIntolerance`, {
-			params: {
-				patient: id,
-			},
+			params: { patient: id },
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
 		})
 		.then((res) => {
 			return []
