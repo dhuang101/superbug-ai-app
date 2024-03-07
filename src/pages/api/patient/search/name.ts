@@ -15,7 +15,7 @@ function getPatientsByName(
 				_count: rowCount,
 				name: name,
 			},
-			headers: { authentication: "someuser:thepassword" },
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
 		})
 		.then((res) => {
 			if (res.data.hasOwnProperty("entry")) {
