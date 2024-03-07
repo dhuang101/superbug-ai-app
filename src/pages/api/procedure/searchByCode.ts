@@ -16,6 +16,7 @@ async function searchByCode(
 	await axios
 		.get(`${apiUrl}Procedure`, {
 			params: { code: code, _count: 100 },
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
 		})
 		.then((res) => {
 			if (res.hasOwnProperty("data")) {

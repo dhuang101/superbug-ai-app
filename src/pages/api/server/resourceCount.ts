@@ -2,7 +2,9 @@ import axios from "axios"
 
 function getResourceCount(apiUrl: string) {
 	const apiCall: Promise<any> = axios
-		.get(`${apiUrl}$get-resource-counts`)
+		.get(`${apiUrl}$get-resource-counts`, {
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
+		})
 		.then((res) => {
 			return res.data.parameter
 		})

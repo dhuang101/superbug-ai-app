@@ -118,6 +118,7 @@ function InfProcSummary() {
 									id: edges.length,
 									source: patient,
 									target: node,
+									type: "custom-edge",
 									label: organism,
 								})
 							})

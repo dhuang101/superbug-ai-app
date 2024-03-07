@@ -2,6 +2,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 
+// function that parses a string a capitalises each word
 function capitalizeEachWord(str) {
 	str = decodeURIComponent(str)
 	return str.replace(/\w\S*/g, function (txt) {
@@ -9,23 +10,31 @@ function capitalizeEachWord(str) {
 	})
 }
 
-const _defaultGetTextGenerator = (param, query) => null
-const _defaultGetDefaultTextGenerator = (path, idx) => {
+// no default text at the moment
+const defaultTextGenerator = (param, query) => null
+// function that formats each portion of the breadcrumbs
+const textFormatter = (path, idx, idFlag) => {
+	// grab the current crumb
 	path = path.split("/").slice(1)[idx]
-	path = path.replace(/-/g, " ")
+	// do not remove "-" when it is an id
+	if (!idFlag) {
+		path = path.replace(/-/g, " ")
+	}
+	// capitalise words
 	path = capitalizeEachWord(path)
 	path = decodeURIComponent(path)
 	return path
 }
 
+// grabs the parts
 const generatePathParts = (pathStr) => {
 	const pathWithoutQuery = pathStr.split("?")[0]
 	return pathWithoutQuery.split("/").filter((v) => v.length > 0)
 }
 
 function Breadcrumbs({
-	getTextGenerator = _defaultGetTextGenerator,
-	getDefaultTextGenerator = _defaultGetDefaultTextGenerator,
+	getDefaultText = defaultTextGenerator,
+	getFormattedText = textFormatter,
 }) {
 	const router = useRouter()
 
@@ -35,6 +44,10 @@ function Breadcrumbs({
 			const pathnameNestedRoutes = generatePathParts(router.pathname)
 
 			const crumblist = asPathNestedRoutes.map((subpath, idx) => {
+				let idFlag = false
+				if (pathnameNestedRoutes[idx] === "[id]") {
+					idFlag = true
+				}
 				// Pull out and convert "[post_id]" into "post_id"
 				const param = pathnameNestedRoutes[idx]
 					.replace("[", "")
@@ -44,19 +57,19 @@ function Breadcrumbs({
 
 				return {
 					href,
-					textGenerator: getTextGenerator(param, router.query),
-					text: getDefaultTextGenerator(href, idx),
+					textGenerator: getDefaultText(param, router.query),
+					text: getFormattedText(href, idx, idFlag),
 				}
 			})
-
+			// returns with a pregenerated crumb for home
 			return [{ href: "/", text: "Home" }, ...crumblist]
 		},
 		[
 			router.asPath,
 			router.pathname,
 			router.query,
-			getTextGenerator,
-			getDefaultTextGenerator,
+			getDefaultText,
+			getFormattedText,
 		]
 	)
 

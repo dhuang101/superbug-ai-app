@@ -1,7 +1,7 @@
 // d3 contains untyped variables so we must disable ts
 // @ts-nocheck
 
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import {
 	forceSimulation,
 	forceLink,
@@ -15,10 +15,13 @@ import ReactFlow, {
 	MiniMap,
 	ReactFlowProvider,
 	Panel,
+	BaseEdge,
+	EdgeLabelRenderer,
 	useNodesState,
 	useEdgesState,
 	useReactFlow,
 	useStore,
+	getBezierPath,
 } from "reactflow"
 import collide from "../../../functions/Collide"
 import "reactflow/dist/style.css"
@@ -112,11 +115,39 @@ const useLayoutedElements = () => {
 	}, [initialised])
 }
 
+function CustomEdge({ id, sourceX, sourceY, targetX, targetY, label }) {
+	const [edgePath, labelX, labelY] = getBezierPath({
+		sourceX,
+		sourceY,
+		targetX,
+		targetY,
+	})
+
+	return (
+		<>
+			<BaseEdge id={id} path={edgePath} />
+			<EdgeLabelRenderer>
+				<div
+					className="absolute bg-primary text-primary-content text-sm p-1 rounded border"
+					style={{
+						transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
+					}}
+				>
+					{label}
+				</div>
+			</EdgeLabelRenderer>
+		</>
+	)
+}
+
 function NetworkGraph(props: Props) {
 	const [initialised, { toggle, isRunning }] = useLayoutedElements()
 	const [nodes, setNodes, onNodesChange] = useNodesState([])
 	const [edges, setEdges, onEdgesChange] = useEdgesState([])
 	const [buttonDisabled, setButtonDisabled] = useState(true)
+	const edgeTypes = useRef({
+		"custom-edge": CustomEdge,
+	})
 
 	// grab edges and node from passed data
 	useEffect(() => {
@@ -149,6 +180,7 @@ function NetworkGraph(props: Props) {
 				edges={edges}
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
+				edgeTypes={edgeTypes.current}
 				fitView
 			>
 				<Panel position={"top-left"}>

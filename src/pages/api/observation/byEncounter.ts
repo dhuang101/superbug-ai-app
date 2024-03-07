@@ -4,6 +4,7 @@ function getObsForEnc(apiUrl: string, encId: string, code: string) {
 	const apiCall: any = axios
 		.get(`${apiUrl}Observation`, {
 			params: { encounter: encId, "code:text": code, _sort: "date" },
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
 		})
 		.then((res) => {
 			if (res.data.hasOwnProperty("entry")) {

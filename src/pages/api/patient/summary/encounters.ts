@@ -8,6 +8,7 @@ function getEncForPatient(
 	const apiCall: any = axios
 		.get(`${apiUrl}Encounter`, {
 			params: { subject: patientId, class: className },
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
 		})
 		.then((res) => {
 			if (res.data.hasOwnProperty("entry")) {

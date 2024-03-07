@@ -11,13 +11,17 @@ async function getGroupedDiagCount(apiUrl: string, start: Date, end: Date) {
 	// first call
 	let allReports: { link: any[]; entry: any[] }
 	let exitFlag = false
-	await axios.get(`${apiUrl}DiagnosticReport${urlExtension}`).then((res) => {
-		if (res.data.hasOwnProperty("entry")) {
-			allReports = res.data
-		} else {
-			exitFlag = true
-		}
-	})
+	await axios
+		.get(`${apiUrl}DiagnosticReport${urlExtension}`, {
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
+		})
+		.then((res) => {
+			if (res.data.hasOwnProperty("entry")) {
+				allReports = res.data
+			} else {
+				exitFlag = true
+			}
+		})
 
 	// early exit for no data returned
 	if (exitFlag) {
@@ -37,10 +41,14 @@ async function getGroupedDiagCount(apiUrl: string, start: Date, end: Date) {
 		})
 	) {
 		// gets the next page and concats the results
-		await axios.get(nextLink).then((result) => {
-			result.data.entry = result.data.entry.concat(allReports.entry)
-			allReports = result.data
-		})
+		await axios
+			.get(nextLink, {
+				headers: { authentication: process.env.HAPI_FHIR_AUTH },
+			})
+			.then((result) => {
+				result.data.entry = result.data.entry.concat(allReports.entry)
+				allReports = result.data
+			})
 	}
 	// aggregated count
 	let countMap = {}

@@ -12,13 +12,17 @@ async function getGroupedProcCount(apiUrl: string, start: Date, end: Date) {
 	// first call
 	let allProcedures: { link: any[]; entry: any[] }
 	let exitFlag = false
-	await axios.get(`${apiUrl}Procedure${urlExtension}`).then((res) => {
-		if (res.data.hasOwnProperty("entry")) {
-			allProcedures = res.data
-		} else {
-			exitFlag = true
-		}
-	})
+	await axios
+		.get(`${apiUrl}Procedure${urlExtension}`, {
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
+		})
+		.then((res) => {
+			if (res.data.hasOwnProperty("entry")) {
+				allProcedures = res.data
+			} else {
+				exitFlag = true
+			}
+		})
 
 	// early exit for no data returned
 	if (exitFlag) {

@@ -7,13 +7,17 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 
 	// grab all locations in database
 	let locations: any
-	await axios.get(`${apiUrl}Location`).then((res) => {
-		if (res.hasOwnProperty("data")) {
-			locations = res.data
-		} else {
-			return []
-		}
-	})
+	await axios
+		.get(`${apiUrl}Location`, {
+			headers: { authentication: process.env.HAPI_FHIR_AUTH },
+		})
+		.then((res) => {
+			if (res.hasOwnProperty("data")) {
+				locations = res.data
+			} else {
+				return []
+			}
+		})
 	// recursive call
 	let nextLink: string
 	while (
@@ -27,10 +31,14 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 		})
 	) {
 		// gets the next page and concats the results
-		await axios.get(nextLink).then((result) => {
-			result.data.entry = result.data.entry.concat(locations.entry)
-			locations = result.data
-		})
+		await axios
+			.get(nextLink, {
+				headers: { authentication: process.env.HAPI_FHIR_AUTH },
+			})
+			.then((result) => {
+				result.data.entry = result.data.entry.concat(locations.entry)
+				locations = result.data
+			})
 	}
 	// filters for given physical type
 	locations = locations.entry.filter((location) => {
@@ -47,6 +55,7 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 		await axios
 			.get(`${apiUrl}Encounter`, {
 				params: { location: location.resource.id },
+				headers: { authentication: process.env.HAPI_FHIR_AUTH },
 			})
 			.then((res) => {
 				currentResponse = res.data
@@ -66,12 +75,16 @@ async function getGroupedLocaCount(apiUrl: string, start: Date, end: Date) {
 			)
 		) {
 			// gets the next page and concats the results
-			await axios.get(nextLink).then((result) => {
-				result.data.entry = result.data.entry.concat(
-					currentResponse.entry
-				)
-				currentResponse = result.data
-			})
+			await axios
+				.get(nextLink, {
+					headers: { authentication: process.env.HAPI_FHIR_AUTH },
+				})
+				.then((result) => {
+					result.data.entry = result.data.entry.concat(
+						currentResponse.entry
+					)
+					currentResponse = result.data
+				})
 		}
 
 		// filtering encounters with finer granularity
