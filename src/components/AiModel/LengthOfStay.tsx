@@ -1,7 +1,7 @@
 import axios from "axios"
 import React, { useEffect, useState, useContext } from "react"
 import LineGraph from "./SubComponents/LineGraph"
-import EncSelect from "./SubComponents/EncSelect"
+import DateSelect from "./SubComponents/DateSelect"
 import { GlobalContext } from "../../contexts/GlobalStore"
 
 function LengthOfStay(props: {
@@ -64,10 +64,10 @@ function LengthOfStay(props: {
 						<article className="mb-6 text-xl font-semibold text-center">
 							Length of Stay
 						</article>
-						<EncSelect
+						<DateSelect
 							encounters={props.encounters}
-							selectedEnc={selectedEnc}
-							setSelectedEnc={setSelectedEnc}
+							selectedDate={selectedEnc}
+							setSelectedDate={setSelectedEnc}
 						/>
 						<div className="h-3/4 mt-4">
 							<LineGraph data={data} tooltip="Length of Stay" />

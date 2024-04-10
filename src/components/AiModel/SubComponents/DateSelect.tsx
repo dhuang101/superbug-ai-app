@@ -1,12 +1,12 @@
 import React, { ChangeEvent } from "react"
 
-function EncSelect(props: {
+function DateSelect(props: {
 	encounters: any[]
-	selectedEnc: string | number | readonly string[]
-	setSelectedEnc: (arg0: string) => void
+	selectedDate: string | number | readonly string[]
+	setSelectedDate: (arg0: string) => void
 }) {
 	function handleSelect(event: ChangeEvent<HTMLSelectElement>): void {
-		props.setSelectedEnc(event.target.value)
+		props.setSelectedDate(event.target.value)
 	}
 
 	// generates the options for the select
@@ -14,7 +14,7 @@ function EncSelect(props: {
 		return (
 			<React.Fragment>
 				<option disabled value={""}>
-					Encounter Selection
+					Prediction Selection
 				</option>
 				{props.encounters.map((obj: any, i: number) => {
 					let display =
@@ -49,10 +49,10 @@ function EncSelect(props: {
 		<select
 			className="select select-bordered max-w-sm ml-20"
 			onChange={handleSelect}
-			value={props.selectedEnc}
+			value={props.selectedDate}
 		>
 			<SelectOptions />
 		</select>
 	)
 }
-export default EncSelect
+export default DateSelect
