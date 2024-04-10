@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react"
 
 function DateSelect(props: {
-	encounters: any[]
+	dates: any[]
 	selectedDate: string | number | readonly string[]
 	setSelectedDate: (arg0: string) => void
 }) {
@@ -16,27 +16,13 @@ function DateSelect(props: {
 				<option disabled value={""}>
 					Prediction Selection
 				</option>
-				{props.encounters.map((obj: any, i: number) => {
-					let display =
-						new Date(obj.resource.plannedStartDate).toLocaleString(
-							"en-AU",
-							{
-								timeZone:
-									Intl.DateTimeFormat().resolvedOptions()
-										.timeZone,
-							}
-						) +
-						" - " +
-						new Date(obj.resource.plannedEndDate).toLocaleString(
-							"en-AU",
-							{
-								timeZone:
-									Intl.DateTimeFormat().resolvedOptions()
-										.timeZone,
-							}
-						)
+				{props.dates.map((string: any, i: number) => {
+					let display = new Date(string).toLocaleString("en-AU", {
+						timeZone:
+							Intl.DateTimeFormat().resolvedOptions().timeZone,
+					})
 					return (
-						<option value={i} key={i}>
+						<option value={string} key={i}>
 							{display}
 						</option>
 					)

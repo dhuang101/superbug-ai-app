@@ -3,78 +3,73 @@ import React, { useEffect, useState, useContext } from "react"
 import LineGraph from "./SubComponents/LineGraph"
 import DateSelect from "./SubComponents/DateSelect"
 import { GlobalContext } from "../../contexts/GlobalStore"
+import { useRouter } from "next/router"
 
-function Mortality(props: {
-	encounters: any[]
-	lastEncounter: { current: React.SetStateAction<string> }
-}) {
+function Mortality() {
 	// global state container
 	const [globalState, dispatch] = useContext(GlobalContext)
+	const router = useRouter()
 
 	// state variables
-	const [selectedEnc, setSelectedEnc] = useState("")
-	const [data, setData] = useState([])
+	const [data, setData] = useState({})
+	const [selectedDate, setSelectedDate] = useState("")
 
-	// once a valid encounter is selected grabs the
-	// corresponding observations
+	// grabs the riskAssessments related to the patient
+	// creates a map based on the unique dates
 	useEffect(() => {
-		if (selectedEnc !== "") {
-			axios
-				.get("/api/observation/byEncounter", {
-					params: {
-						apiUrl: globalState.apiUrl,
-						encId: props.encounters[selectedEnc].resource.id,
-						code: "Patient Mortality Rate",
-					},
+		axios
+			.get("/api/riskAssessment/byPatient", {
+				params: {
+					apiUrl: globalState.apiUrl,
+					patient: router.query.id,
+				},
+			})
+			.then((result: any) => {
+				let dateMap = {}
+				result.data.forEach((element) => {
+					// ensures only mortality prediction resources are grabbed
+					if (
+						JSON.parse(
+							element.resource.note[0].text.replace(/'/g, '"')
+						).Target === "Mortality"
+					) {
+						// generates map
+						if (
+							dateMap.hasOwnProperty(
+								element.resource.occurrenceDateTime
+							)
+						) {
+							dateMap[element.resource.occurrenceDateTime].push(
+								element.resource
+							)
+						} else {
+							dateMap[element.resource.occurrenceDateTime] = [
+								element.resource,
+							]
+						}
+					}
 				})
-				.then((result: any) => {
-					setData(marshallData(result.data))
-				})
-		}
-
-		return () => {
-			props.lastEncounter.current = selectedEnc
-		}
-	}, [selectedEnc])
-
-	useEffect(() => {
-		setSelectedEnc(props.lastEncounter.current)
+				setData(dateMap)
+			})
 	}, [])
 
-	// organises data from the fetched observations
-	function marshallData(data: any) {
-		return data.map((obj: any) => {
-			return {
-				issued: obj.resource.issued,
-				value: obj.resource.valueQuantity.value,
-				unit: obj.resource.valueQuantity.unit,
-			}
-		})
-	}
+	console.log(data[selectedDate])
 
 	return (
 		<React.Fragment>
-			{props.encounters.length === 0 ? (
-				<div className="flex items-center justify-center h-[78vh] text-3xl">
-					No Recorded Encounters
+			<div className="flex flex-col min-h-[78vh]">
+				<article className="mb-6 text-xl font-semibold text-center">
+					Predicted Mortality Rate
+				</article>
+				<DateSelect
+					dates={Object.keys(data)}
+					selectedDate={selectedDate}
+					setSelectedDate={setSelectedDate}
+				/>
+				<div className="h-3/4 mt-4">
+					{/* <LineGraph data={data} tooltip="Mortality Rate" /> */}
 				</div>
-			) : (
-				<React.Fragment>
-					<div className="flex flex-col min-h-[78vh]">
-						<article className="mb-6 text-xl font-semibold text-center">
-							Predicted Mortality Rate
-						</article>
-						<DateSelect
-							encounters={props.encounters}
-							selectedDate={selectedEnc}
-							setSelectedDate={setSelectedEnc}
-						/>
-						<div className="h-3/4 mt-4">
-							<LineGraph data={data} tooltip="Mortality Rate" />
-						</div>
-					</div>
-				</React.Fragment>
-			)}
+			</div>
 		</React.Fragment>
 	)
 }
