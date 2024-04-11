@@ -3,19 +3,15 @@ import {
 	CartesianGrid,
 	Bar,
 	BarChart,
-	ReferenceArea,
 	ResponsiveContainer,
-	Tooltip,
 	XAxis,
 	YAxis,
-	Legend,
 	Label,
 	Cell,
 } from "recharts"
 
 interface Props {
 	data: any
-	tooltip: string
 }
 
 const colors = ["oklch(var(--p))", "oklch(var(--s))", "oklch(var(--a))"]
@@ -28,7 +24,7 @@ function BarGraph(props: Props) {
 		setData(
 			props.data.map((obj) => {
 				return {
-					targetTime: obj.note[0]["Target Time"],
+					targetTime: obj.note[0].targetTime,
 					value: obj.prediction[0].probabilityDecimal * 100,
 				}
 			})

@@ -1,6 +1,5 @@
 import axios from "axios"
 import React, { useEffect, useState, useContext } from "react"
-import LineGraph from "./SubComponents/LineGraph"
 import DateSelect from "./SubComponents/DateSelect"
 import { GlobalContext } from "../../contexts/GlobalStore"
 import { useRouter } from "next/router"
@@ -32,7 +31,7 @@ function Mortality() {
 						element.resource.note[0].text.replace(/'/g, '"')
 					)
 					// ensures only mortality prediction resources are grabbed
-					if (element.resource.note[0].Target === "Mortality") {
+					if (element.resource.note[0].target === "Mortality") {
 						// generates map
 						if (
 							dateMap.hasOwnProperty(
@@ -70,10 +69,7 @@ function Mortality() {
 							Select a Prediction Date
 						</div>
 					) : (
-						<BarGraph
-							data={data[selectedDate]}
-							tooltip={"Mortality"}
-						/>
+						<BarGraph data={data[selectedDate]} />
 					)}
 				</div>
 			</div>
