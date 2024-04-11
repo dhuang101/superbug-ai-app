@@ -72,6 +72,22 @@ function LengthOfStay() {
 						<BarGraph data={data[selectedDate]} />
 					)}
 				</div>
+				<div className="ml-8 mt-4">
+					<article className="text-lg">Prediction Details</article>
+					<div className="flex justify-between">
+						<article>
+							Model: {data[selectedDate][0].note[0].model}
+						</article>
+						<article>
+							Window Before:{" "}
+							{data[selectedDate][0].note[0].windowBefore}
+						</article>
+						<article>
+							Window After:{" "}
+							{data[selectedDate][0].note[0].windowAfter}
+						</article>
+					</div>
+				</div>
 			</div>
 		</React.Fragment>
 	)
