@@ -14,7 +14,7 @@ function DateSelect(props: {
 		return (
 			<React.Fragment>
 				<option disabled value={""}>
-					Prediction Selection
+					Prediction Date
 				</option>
 				{props.dates.map((string: any, i: number) => {
 					let display = new Date(string).toLocaleString("en-AU", {

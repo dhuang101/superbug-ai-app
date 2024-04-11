@@ -4,6 +4,7 @@ import LineGraph from "./SubComponents/LineGraph"
 import DateSelect from "./SubComponents/DateSelect"
 import { GlobalContext } from "../../contexts/GlobalStore"
 import { useRouter } from "next/router"
+import BarGraph from "./SubComponents/BarGraph"
 
 function Mortality() {
 	// global state container
@@ -27,12 +28,11 @@ function Mortality() {
 			.then((result: any) => {
 				let dateMap = {}
 				result.data.forEach((element) => {
+					element.resource.note[0] = JSON.parse(
+						element.resource.note[0].text.replace(/'/g, '"')
+					)
 					// ensures only mortality prediction resources are grabbed
-					if (
-						JSON.parse(
-							element.resource.note[0].text.replace(/'/g, '"')
-						).Target === "Mortality"
-					) {
+					if (element.resource.note[0].Target === "Mortality") {
 						// generates map
 						if (
 							dateMap.hasOwnProperty(
@@ -53,8 +53,6 @@ function Mortality() {
 			})
 	}, [])
 
-	console.log(data[selectedDate])
-
 	return (
 		<React.Fragment>
 			<div className="flex flex-col min-h-[78vh]">
@@ -67,7 +65,16 @@ function Mortality() {
 					setSelectedDate={setSelectedDate}
 				/>
 				<div className="h-3/4 mt-4">
-					{/* <LineGraph data={data} tooltip="Mortality Rate" /> */}
+					{selectedDate === "" ? (
+						<div className="flex items-center justify-center h-[60vh] text-3xl">
+							Select a Prediction Date
+						</div>
+					) : (
+						<BarGraph
+							data={data[selectedDate]}
+							tooltip={"Mortality"}
+						/>
+					)}
 				</div>
 			</div>
 		</React.Fragment>
