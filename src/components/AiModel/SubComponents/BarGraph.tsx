@@ -22,18 +22,26 @@ function BarGraph(props: Props) {
 	// marshalls data on component attach
 	useEffect(() => {
 		setData(
-			props.data.map((obj) => {
-				return {
-					targetTime: obj.note[0].targetTime,
-					value: obj.prediction[0].probabilityDecimal * 100,
-				}
-			})
+			props.data
+				.map((obj) => {
+					return {
+						targetTime: obj.note[0].targetTime,
+						value: obj.prediction[0].probabilityDecimal * 100,
+					}
+				})
+				// sorts it to ensure columns are in order
+				.sort((a, b) =>
+					parseInt(a.targetTime.split(" ")[0]) >
+					parseInt(b.targetTime.split(" ")[0])
+						? 1
+						: parseInt(b.targetTime.split(" ")[0]) >
+						  parseInt(a.targetTime.split(" ")[0])
+						? -1
+						: 0
+				)
 		)
+		console.log(data)
 	}, [props.data])
-
-	function CustomLabel() {
-		return <Label></Label>
-	}
 
 	return (
 		<ResponsiveContainer width={"100%"} height={"100%"}>
