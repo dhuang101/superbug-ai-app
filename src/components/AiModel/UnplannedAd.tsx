@@ -89,12 +89,58 @@ function UnplannedAd() {
 											data[selectedDate][0].note[0]
 												.windowBefore
 										}
+										<br />
+										{
+											new Date(
+												new Date(
+													data[
+														selectedDate
+													][0].occurrenceDateTime
+												).getTime() -
+													parseInt(
+														data[
+															selectedDate
+														][0].note[0].windowBefore.split(
+															" "
+														)[0]
+													)
+											)
+												.toLocaleString("en-AU", {
+													timeZone:
+														Intl.DateTimeFormat().resolvedOptions()
+															.timeZone,
+												})
+												.split(",")[0]
+										}
 									</article>
 									<article>
 										Window After:{" "}
 										{
 											data[selectedDate][0].note[0]
 												.windowAfter
+										}
+										<br />
+										{
+											new Date(
+												new Date(
+													data[
+														selectedDate
+													][0].occurrenceDateTime
+												).getTime() -
+													parseInt(
+														data[
+															selectedDate
+														][0].note[0].windowAfter.split(
+															" "
+														)[0]
+													)
+											)
+												.toLocaleString("en-AU", {
+													timeZone:
+														Intl.DateTimeFormat().resolvedOptions()
+															.timeZone,
+												})
+												.split(",")[0]
 										}
 									</article>
 								</div>
