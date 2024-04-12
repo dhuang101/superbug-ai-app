@@ -40,7 +40,6 @@ function BarGraph(props: Props) {
 						: 0
 				)
 		)
-		console.log(data)
 	}, [props.data])
 
 	return (
