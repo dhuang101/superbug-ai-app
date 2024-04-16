@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react"
 import DateSelect from "./SubComponents/DateSelect"
 import { GlobalContext } from "../../contexts/GlobalStore"
 import { useRouter } from "next/router"
+import { sub } from "date-fns"
 import BarGraph from "./SubComponents/BarGraph"
 
 function IcuAd() {
@@ -70,7 +71,7 @@ function IcuAd() {
 						</div>
 					) : (
 						<React.Fragment>
-							<BarGraph data={data[selectedDate]} />
+							<BarGraph data={data[selectedDate]} units="%" />
 							<div className="ml-8 mt-4">
 								<article className="text-lg">
 									Prediction Details
@@ -88,19 +89,21 @@ function IcuAd() {
 										}
 										<br />
 										{
-											new Date(
+											sub(
 												new Date(
 													data[
 														selectedDate
 													][0].occurrenceDateTime
-												).getTime() -
-													parseInt(
+												),
+												{
+													days: parseInt(
 														data[
 															selectedDate
 														][0].note[0].windowBefore.split(
 															" "
 														)[0]
-													)
+													),
+												}
 											)
 												.toLocaleString("en-AU", {
 													timeZone:
@@ -118,19 +121,21 @@ function IcuAd() {
 										}
 										<br />
 										{
-											new Date(
+											sub(
 												new Date(
 													data[
 														selectedDate
 													][0].occurrenceDateTime
-												).getTime() -
-													parseInt(
+												),
+												{
+													days: parseInt(
 														data[
 															selectedDate
 														][0].note[0].windowAfter.split(
 															" "
 														)[0]
-													)
+													),
+												}
 											)
 												.toLocaleString("en-AU", {
 													timeZone:
