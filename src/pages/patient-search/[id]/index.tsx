@@ -1,6 +1,4 @@
-import axios from "axios"
-import React, { useState, useEffect, useContext, useRef } from "react"
-import { useRouter } from "next/router"
+import React, { useState, useEffect, useRef } from "react"
 import SummaryComponent from "../../../components/PatientSummary/SummaryComponent"
 import LengthOfStay from "../../../components/AiModel/LengthOfStay"
 import UnplannedAd from "../../../components/AiModel/UnplannedAd"
@@ -12,38 +10,12 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import LoopIcon from "@mui/icons-material/Loop"
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety"
 import Breadcrumbs from "../../../components/Breadcrumbs"
-import { GlobalContext } from "../../../contexts/GlobalStore"
-
-// 6f7acde5-db81-4361-82cf-886893a3280c
-// gregg
 
 function PatientSummary() {
-	// const for path param
-	const router = useRouter()
-	// global state container
-	const [globalState, dispatch] = useContext(GlobalContext)
-
-	const [encounters, setEncounters] = useState([])
 	const [naviValue, setNaviValue] = useState(0)
 	const lastButton = useRef<HTMLButtonElement>()
-	const lastEncounter = useRef("")
 
 	useEffect(() => {
-		// splits the path to grab to id
-		let id = router.query.id as string
-		// grab list of encounters
-		axios
-			.get("/api/patient/summary/encounters", {
-				params: {
-					apiUrl: globalState.apiUrl,
-					patientId: id,
-					className: "IMP",
-				},
-			})
-			.then((result: any) => {
-				setEncounters(result.data)
-			})
-
 		// set button element for side menu
 		let buttonElement = document.getElementById(
 			"button0"
@@ -75,16 +47,10 @@ function PatientSummary() {
 	function DisplayHandler() {
 		let componentList = [
 			<SummaryComponent />,
-			<Mortality encounters={encounters} lastEncounter={lastEncounter} />,
-			<LengthOfStay
-				encounters={encounters}
-				lastEncounter={lastEncounter}
-			/>,
-			<UnplannedAd
-				encounters={encounters}
-				lastEncounter={lastEncounter}
-			/>,
-			<IcuAd encounters={encounters} lastEncounter={lastEncounter} />,
+			<Mortality />,
+			<LengthOfStay />,
+			<UnplannedAd />,
+			<IcuAd />,
 		]
 		return componentList[naviValue]
 	}
