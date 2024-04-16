@@ -53,33 +53,6 @@ function Mortality() {
 			})
 	}, [])
 
-	console.log(
-		sub(new Date(data[selectedDate][0].occurrenceDateTime), {
-			days: parseInt(
-				data[selectedDate][0].note[0].windowBefore.split(" ")[0]
-			),
-		})
-			.toLocaleString("en-AU", {
-				timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-			})
-			.split(",")[0]
-	)
-
-	// console.log(
-	// 	new Date(
-	// 		new Date().setDate(
-	// 			new Date(data[selectedDate][0].occurrenceDateTime).getDate() -
-	// 				parseInt(
-	// 					data[selectedDate][0].note[0].windowBefore.split(" ")[0]
-	// 				)
-	// 		)
-	// 	)
-	// 		.toLocaleString("en-AU", {
-	// 			timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-	// 		})
-	// 		.split(",")[0]
-	// )
-
 	return (
 		<React.Fragment>
 			<div className="flex flex-col min-h-[78vh]">
