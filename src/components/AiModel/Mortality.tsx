@@ -70,7 +70,7 @@ function Mortality() {
 						</div>
 					) : (
 						<React.Fragment>
-							<BarGraph data={data[selectedDate]} />
+							<BarGraph data={data[selectedDate]} units={"%"} />
 							<div className="mx-8 mt-4">
 								<article className="text-lg font-semibold">
 									Prediction Details

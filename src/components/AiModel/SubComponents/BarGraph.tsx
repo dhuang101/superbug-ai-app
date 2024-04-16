@@ -12,6 +12,7 @@ import {
 
 interface Props {
 	data: any
+	units: string
 }
 
 const colors = ["oklch(var(--p))", "oklch(var(--s))", "oklch(var(--a))"]
@@ -52,7 +53,11 @@ function BarGraph(props: Props) {
 				>
 					<Label value="Target Time" position="insideBottom" />
 				</XAxis>
-				<YAxis unit={"%"} tick={{ fill: "oklch(var(--bc))" }} />
+				<YAxis
+					unit={props.units}
+					width={76}
+					tick={{ fill: "oklch(var(--bc))" }}
+				/>
 				<CartesianGrid strokeDasharray="3 3" vertical={false} />
 				<Bar
 					dataKey={"value"}
