@@ -53,7 +53,7 @@ function BarGraph(props: Props) {
 					<Label value="Target Time" position="insideBottom" />
 				</XAxis>
 				<YAxis unit={"%"} tick={{ fill: "oklch(var(--bc))" }} />
-				<CartesianGrid strokeDasharray="3 3" />
+				<CartesianGrid strokeDasharray="3 3" vertical={false} />
 				<Bar
 					dataKey={"value"}
 					barSize={150}
