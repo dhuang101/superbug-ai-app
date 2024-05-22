@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react"
 import { ACTION, GlobalContext } from "../contexts/GlobalStore"
 
-function ThemeWrapper({ children }: React.PropsWithChildren): JSX.Element {
+function StateLoader({ children }: React.PropsWithChildren): JSX.Element {
 	// global state access
 	const [globalState, dispatch] = useContext(GlobalContext)
 
@@ -32,4 +32,4 @@ function ThemeWrapper({ children }: React.PropsWithChildren): JSX.Element {
 	)
 }
 
-export default ThemeWrapper
+export default StateLoader

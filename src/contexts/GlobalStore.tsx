@@ -12,12 +12,12 @@ export interface Action {
 
 export interface State {
 	apiUrl: String
-	theme?: String
-	countData?: {
+	theme: String | null
+	countData: {
 		summaryData: any
 		startDate?: string
 		endDate?: string
-	}
+	} | null
 }
 
 // https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/ for web server vm
