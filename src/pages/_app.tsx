@@ -18,7 +18,7 @@ export default function App({
 					<StateLoader>
 						<div className="flex flex-col h-screen min-w-screen">
 							<NavBar />
-							<div className="flex flex-col h-[93%] overflow-auto w-full items-center bg-base-200">
+							<div className="flex flex-col flex-1 overflow-auto w-full items-center bg-base-200">
 								<Component {...pageProps} />
 							</div>
 						</div>
