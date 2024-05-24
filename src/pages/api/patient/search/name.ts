@@ -21,7 +21,7 @@ function getPatientsByName(
 			if (res.data.hasOwnProperty("entry")) {
 				return res.data.entry
 			} else {
-				return []
+				return res
 			}
 		})
 
