@@ -53,11 +53,7 @@ function PatientSearch() {
 				headers: { authentication: process.env.HAPI_FHIR_AUTH },
 			})
 			.then((res) => {
-				if (res.data.hasOwnProperty("entry")) {
-					return res.data.entry
-				} else {
-					return []
-				}
+				console.log(res)
 			})
 	}, [])
 
