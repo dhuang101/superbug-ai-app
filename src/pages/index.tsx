@@ -57,7 +57,7 @@ function Home() {
 				</Link>
 			</div>
 			<article className="absolute bottom-1 right-1">
-				v0.10 debug 2
+				v0.10 debug 3
 			</article>
 		</div>
 	)

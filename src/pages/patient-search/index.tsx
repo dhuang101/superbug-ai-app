@@ -41,6 +41,24 @@ function PatientSearch() {
 					})
 				}
 			})
+
+		axios
+			.get(`${globalState.apiUrl}Patient`, {
+				params: {
+					_sort: "name",
+					_getpagesoffset: currentPage * rowsPerPage,
+					_count: rowsPerPage,
+					name: searchInput,
+				},
+				headers: { authentication: process.env.HAPI_FHIR_AUTH },
+			})
+			.then((res) => {
+				if (res.data.hasOwnProperty("entry")) {
+					return res.data.entry
+				} else {
+					return []
+				}
+			})
 	}, [])
 
 	// use effect controls which service is run based on the last search run
