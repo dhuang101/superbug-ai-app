@@ -52,9 +52,10 @@ function FhirApi() {
 					onChange={handleInput}
 				/>
 				<datalist id="apiUrl">
+					<option value="http://10.172.235.4:8080/fhir/" />
 					<option value="https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/" />
 					<option value="https://fhirdb-monash-secondary.fhir-web-apps.cloud.edu.au/fhir/" />
-					<option value="http://superbugai.erc.monash.edu:8082/fhir/" />
+					<option value="http://localhost:8080/fhir/" />
 				</datalist>
 				<button
 					className="ml-2 btn rounded btn-primary"

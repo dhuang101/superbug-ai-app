@@ -20,9 +20,10 @@ export interface State {
 	} | null
 }
 
-// https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/ for web server vm
+// https://fhirdb-monash.fhir-web-apps.cloud.edu.au/fhir/ for Nectar server vm
+// http://10.172.235.4:8080/fhir/ for Alfred infra
 const initialState: State = {
-	apiUrl: "http://localhost:8080/fhir/",
+	apiUrl: "http://10.172.235.4:8080/fhir/",
 	theme: null,
 	countData: null,
 }
