@@ -5,7 +5,7 @@ import "../styles/globals.css"
 import React from "react"
 import NavBar from "../components/NavBar"
 import GlobalStore from "../contexts/GlobalStore"
-import ThemeWrapper from "../components/ThemeWrapper"
+import StateLoader from "../components/StateLoader"
 
 export default function App({
 	Component,
@@ -15,14 +15,14 @@ export default function App({
 		<SessionProvider session={session}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<GlobalStore>
-					<ThemeWrapper>
+					<StateLoader>
 						<div className="flex flex-col h-screen min-w-screen">
 							<NavBar />
-							<div className="flex flex-col h-[93%] overflow-auto w-full items-center bg-base-200">
+							<div className="flex flex-col flex-1 overflow-auto w-full items-center bg-base-200">
 								<Component {...pageProps} />
 							</div>
 						</div>
-					</ThemeWrapper>
+					</StateLoader>
 				</GlobalStore>
 			</LocalizationProvider>
 		</SessionProvider>

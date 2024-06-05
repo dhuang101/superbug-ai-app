@@ -14,11 +14,6 @@ export const authOptions = {
 			clientId: process.env.AZURE_AD_CLIENT_ID,
 			clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
 			tenantId: process.env.AZURE_AD_TENANT_ID,
-			authorization: {
-				params: {
-					scope: "openid offline_access https://graph.microsoft.com/mail.read user.read",
-				},
-			},
 		}),
 	],
 }
