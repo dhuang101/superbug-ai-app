@@ -78,7 +78,6 @@ function PatientSearch() {
 					},
 				})
 				.then((result: any) => {
-					console.log(result)
 					setPatientData(result.data)
 				})
 				.then(() => {
