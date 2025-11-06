@@ -3,7 +3,7 @@
 A web application that servers as the frontend for the SuperBug AI App. Which will present the outputs from artificial intelligence predicting the existence of antibiotic resistant infectous bacterium using EMR (Electronic Medical Record) data in the FHIR (Fast Healthcare Interoperability Resources) format.
 
 ## Main Documentation
-[Google Docs](https://docs.google.com/document/d/1f8zLlsFvWbIlqeKyX8SoypB2A__mPakyHVGCj2CsHKU/edit?usp=sharing)
+[Google Docs](https://docs.google.com/document/d/1UyBMpHdM3QX23dxKdgPOiHFnuKBjgF2EyFMKZQRJqaE/edit?usp=sharing)
 
 ## Dependencies 
 
