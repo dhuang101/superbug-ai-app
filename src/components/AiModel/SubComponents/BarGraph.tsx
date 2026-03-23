@@ -22,7 +22,6 @@ function BarGraph(props: Props) {
 
 	// marshalls data on component attach
 	useEffect(() => {
-		console.log(props.data)
 		setData(
 			props.data
 				.map((obj) => {

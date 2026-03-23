@@ -18,7 +18,6 @@ function getPatientsByName(
 			headers: { authentication: process.env.HAPI_FHIR_AUTH },
 		})
 		.then((res) => {
-			console.log(res)
 			if (res.data.hasOwnProperty("entry")) {
 				return res.data.entry
 			} else {
